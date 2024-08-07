@@ -8,6 +8,7 @@ group = 'fr.traqueur.factions'
 version = property('version')
 
 project.ext {
+    testFolder = property("test-folder")
     archiveFolder = file("archive/")
     targetFolder = file("target/")
 }
@@ -123,6 +124,13 @@ build {
     dependsOn shadowJar
     dependsOn clean
 }
+
+tasks.register('copyFiles', Copy) {
+    from "${rootProject.targetFolder}"
+    into rootProject.testFolder
+}
+
+build.finalizedBy(copyFiles)
 
 publish.shouldRunAfter shadowJar
 shadowJar.shouldRunAfter build
