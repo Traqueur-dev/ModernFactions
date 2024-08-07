@@ -1,3 +1,6 @@
 rootProject.name = 'ModernFactions'
 include 'FactionsAPI'
+include 'FactionsPlatforms'
+include 'FactionsPlatforms:paper'
+include 'FactionsPlatforms:spigot'
 

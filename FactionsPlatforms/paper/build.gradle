@@ -1,0 +1,16 @@
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
+    }
+}
+
+group 'FactionsPlatforms:paper'
+
+dependencies {
+    compileOnly "io.papermc.paper:paper-api:1.21-R0.1-SNAPSHOT"
+    compileOnly project(":FactionsAPI")
+}
+
+shadowJar {
+    archiveFileName = "${project.name}-exclude.jar"
+}

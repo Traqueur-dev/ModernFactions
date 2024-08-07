@@ -3,8 +3,8 @@ package fr.traqueur.factions.api;
 import com.tcoded.folialib.FoliaLib;
 import com.tcoded.folialib.impl.ServerImplementation;
 import fr.traqueur.factions.api.managers.Manager;
-import fr.traqueur.factions.api.storage.Configuration;
 import fr.traqueur.factions.api.utils.FactionsLogger;
+import fr.traqueur.factions.api.utils.MessageUtils;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -14,6 +14,18 @@ import java.util.NoSuchElementException;
 public abstract class FactionsPlugin extends JavaPlugin implements FactionsAPI {
 
     private ServerImplementation scheduler;
+
+    public abstract MessageUtils getMessageUtils();
+
+    @Override
+    public boolean isPaperVersion() {
+        try {
+            Class.forName("io.papermc.paper.event.player.AsyncChatEvent");
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
+    }
 
     @Override
     public ServerImplementation getScheduler() {

@@ -8,6 +8,8 @@ public interface FactionsAPI {
 
     ServerImplementation getScheduler();
 
+    boolean isPaperVersion();
+
     <I extends Configuration, T extends I> void registerConfiguration(T instance, Class<I> clazz);
 
     <T extends Configuration> T getConfiguration(Class<T> clazz);

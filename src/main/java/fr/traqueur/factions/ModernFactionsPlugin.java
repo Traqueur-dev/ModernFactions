@@ -2,16 +2,19 @@ package fr.traqueur.factions;
 
 import fr.traqueur.factions.api.FactionsPlugin;
 import fr.traqueur.factions.api.managers.Manager;
+import fr.traqueur.factions.api.platform.paper.PaperMessageUtils;
+import fr.traqueur.factions.api.platform.spigot.SpigotMessageUtils;
 import fr.traqueur.factions.api.storage.Configuration;
 import fr.traqueur.factions.api.utils.FactionsLogger;
+import fr.traqueur.factions.api.utils.MessageUtils;
 import fr.traqueur.factions.configurations.GlobalConfiguration;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ModernFactionsPlugin extends FactionsPlugin {
+
+    private MessageUtils messageUtils;
 
     private Map<Class<? extends Configuration>, Configuration> configurations;
 
@@ -25,9 +28,13 @@ public class ModernFactionsPlugin extends FactionsPlugin {
 
         this.registerConfiguration(new GlobalConfiguration(this), GlobalConfiguration.class);
 
+        this.messageUtils = this.isPaperVersion() ? new PaperMessageUtils() : new SpigotMessageUtils(this);
+
         for (Configuration configuration : this.configurations.values()) {
             configuration.loadData();
         }
+
+        this.getServer().getPluginManager().registerEvents(new JoinListener(this), this);
 
         FactionsLogger.success("ModernFactionsPlugin enabled");
     }
@@ -37,7 +44,17 @@ public class ModernFactionsPlugin extends FactionsPlugin {
         for (Configuration configuration : this.configurations.values()) {
             configuration.saveData();
         }
+
+        if(messageUtils instanceof SpigotMessageUtils spigotMessageUtils) {
+            spigotMessageUtils.close();
+        }
+
         FactionsLogger.success("ModernFactionsPlugin disabled");
+    }
+
+    @Override
+    public MessageUtils getMessageUtils() {
+        return messageUtils;
     }
 
     @Override
