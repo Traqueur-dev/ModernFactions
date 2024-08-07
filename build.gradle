@@ -90,7 +90,8 @@ jar {
 
 processResources {
     outputs.upToDateWhen { false }
-    def props = [version: version]
+    def props = [version: version,
+    global_config_version: global_config_version]
     inputs.properties props
     filesMatching('**/*.yml') {
         expand props

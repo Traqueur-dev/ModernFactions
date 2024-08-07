@@ -2,6 +2,8 @@ package fr.traqueur.factions.api;
 
 import com.tcoded.folialib.FoliaLib;
 import com.tcoded.folialib.impl.ServerImplementation;
+import fr.traqueur.factions.api.managers.Manager;
+import fr.traqueur.factions.api.storage.Configuration;
 import fr.traqueur.factions.api.utils.FactionsLogger;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
@@ -9,7 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.NoSuchElementException;
 
-public class FactionsPlugin extends JavaPlugin implements FactionsAPI {
+public abstract class FactionsPlugin extends JavaPlugin implements FactionsAPI {
 
     private ServerImplementation scheduler;
 
@@ -22,7 +24,7 @@ public class FactionsPlugin extends JavaPlugin implements FactionsAPI {
     }
 
     @Override
-    public <T> T getManager(Class<T> clazz) {
+    public <T extends Manager> T getManager(Class<T> clazz) {
         RegisteredServiceProvider<T> provider = getServer().getServicesManager().getRegistration(clazz);
         if (provider == null) {
             throw new NoSuchElementException("No provider found for " + clazz.getSimpleName() + " class.");
@@ -31,7 +33,7 @@ public class FactionsPlugin extends JavaPlugin implements FactionsAPI {
     }
 
     @Override
-    public <I, T extends I> void registerManager(T instance, Class<I> clazz) {
+    public <I extends Manager, T extends I> void registerManager(T instance, Class<I> clazz) {
         this.getServer().getServicesManager().register(clazz, instance, this, ServicePriority.Normal);
         FactionsLogger.info("&eManager registered: " + clazz.getSimpleName());
     }
