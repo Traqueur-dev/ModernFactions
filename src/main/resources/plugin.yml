@@ -1,0 +1,4 @@
+name: ModernFactions
+version: '${version}'
+main: fr.traqueur.factions.ModernFactionsPlugin
+api-version: '1.20'

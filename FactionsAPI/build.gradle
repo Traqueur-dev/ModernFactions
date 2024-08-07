@@ -1,0 +1,18 @@
+java {
+    withSourcesJar()
+}
+
+repositories {
+    maven {
+        name = "devmart-other"
+        url = "https://nexuslite.gcnt.net/repos/other/"
+    }
+}
+
+dependencies {
+    implementation "com.tcoded:FoliaLib:0.3.4"
+    implementation "dev.dejvokep:boosted-yaml:1.3.6"
+    compileOnly 'org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT'
+}
+
+group 'FactionsAPI'
