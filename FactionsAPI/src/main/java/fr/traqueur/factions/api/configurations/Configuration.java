@@ -1,4 +1,4 @@
-package fr.traqueur.factions.api.storage;
+package fr.traqueur.factions.api.configurations;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.dvs.versioning.BasicVersioning;
@@ -24,8 +24,6 @@ public interface Configuration {
         }
     };
 
-    void loadData();
-
-    void saveData();
+    void loadConfig();
 
 }

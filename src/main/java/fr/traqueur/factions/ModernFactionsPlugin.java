@@ -4,10 +4,13 @@ import fr.traqueur.factions.api.FactionsPlugin;
 import fr.traqueur.factions.api.managers.Manager;
 import fr.traqueur.factions.api.platform.paper.PaperMessageUtils;
 import fr.traqueur.factions.api.platform.spigot.SpigotMessageUtils;
-import fr.traqueur.factions.api.storage.Configuration;
+import fr.traqueur.factions.api.configurations.Configuration;
+import fr.traqueur.factions.api.storage.Storage;
 import fr.traqueur.factions.api.utils.FactionsLogger;
 import fr.traqueur.factions.api.utils.MessageUtils;
-import fr.traqueur.factions.configurations.GlobalConfiguration;
+import fr.traqueur.factions.configurations.MainConfiguration;
+import fr.traqueur.factions.storages.MongoDBStorage;
+import fr.traqueur.factions.storages.SQLStorage;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +18,8 @@ import java.util.Map;
 public class ModernFactionsPlugin extends FactionsPlugin {
 
     private MessageUtils messageUtils;
+
+    private Storage storage;
 
     private Map<Class<? extends Configuration>, Configuration> configurations;
 
@@ -26,13 +31,15 @@ public class ModernFactionsPlugin extends FactionsPlugin {
     @Override
     public void onEnable() {
 
-        this.registerConfiguration(new GlobalConfiguration(this), GlobalConfiguration.class);
+        this.registerConfiguration(new MainConfiguration(this), MainConfiguration.class);
 
         this.messageUtils = this.isPaperVersion() ? new PaperMessageUtils() : new SpigotMessageUtils(this);
 
         for (Configuration configuration : this.configurations.values()) {
-            configuration.loadData();
+            configuration.loadConfig();
         }
+
+        this.storage = this.registerStorage();
 
         this.getServer().getPluginManager().registerEvents(new JoinListener(this), this);
 
@@ -41,15 +48,24 @@ public class ModernFactionsPlugin extends FactionsPlugin {
 
     @Override
     public void onDisable() {
-        for (Configuration configuration : this.configurations.values()) {
-            configuration.saveData();
-        }
-
         if(messageUtils instanceof SpigotMessageUtils spigotMessageUtils) {
             spigotMessageUtils.close();
         }
 
         FactionsLogger.success("ModernFactionsPlugin disabled");
+    }
+
+    private Storage registerStorage() {
+        return switch (this.getConfiguration(MainConfiguration.class).getStorageType()) {
+            case SQL -> new SQLStorage(this);
+            case MANGODB -> new MongoDBStorage(this);
+            default -> throw new IllegalStateException("Unexpected value: " + this.getConfiguration(MainConfiguration.class).getStorageType());
+        };
+    }
+
+    @Override
+    public Storage getStorage() {
+        return storage;
     }
 
     @Override

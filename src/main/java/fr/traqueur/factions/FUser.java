@@ -1,10 +1,10 @@
 package fr.traqueur.factions;
 
-import fr.traqueur.factions.api.FPlayer;
+import fr.traqueur.factions.api.users.User;
 import fr.traqueur.factions.api.FactionsPlugin;
 import org.bukkit.entity.Player;
 
-public record MFPlayer(FactionsPlugin plugin, Player player) implements FPlayer {
+public record FUser(FactionsPlugin plugin, Player player) implements User {
 
     @Override
     public void sendMessage(String message) {

@@ -2,9 +2,12 @@ package fr.traqueur.factions.api;
 
 import com.tcoded.folialib.impl.ServerImplementation;
 import fr.traqueur.factions.api.managers.Manager;
-import fr.traqueur.factions.api.storage.Configuration;
+import fr.traqueur.factions.api.configurations.Configuration;
+import fr.traqueur.factions.api.storage.Storage;
 
 public interface FactionsAPI {
+
+    Storage getStorage();
 
     ServerImplementation getScheduler();
 

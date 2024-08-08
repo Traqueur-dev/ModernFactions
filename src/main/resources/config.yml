@@ -1,1 +1,14 @@
 config-version: ${global_config_version}
+
+storage-type: MANGODB
+storage-config:
+  host: "127.0.0.1"
+  port: 27017
+  database: "modernfactions_dev"
+  username: "root"
+  password: "your-password"
+  debug: true
+  # If you want to use MangoDB, please change the storage-type to MONGODB and fill this configuration
+  auth-database: admin
+  # If you want to use MySQL, please change the storage-type to MYSQL and fill this configuration
+  table-prefix: "modernfactions_"

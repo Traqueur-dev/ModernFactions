@@ -84,6 +84,7 @@ dependencies {
         implementation project(subproject.path)
     }
 
+    implementation 'org.mongodb:mongodb-driver-sync:5.1.2'
     implementation 'com.github.Maxlego08:Sarah:1.9'
     implementation "com.tcoded:FoliaLib:0.3.4"
     implementation "dev.dejvokep:boosted-yaml:1.3.6"

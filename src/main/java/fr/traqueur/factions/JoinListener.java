@@ -1,6 +1,7 @@
 package fr.traqueur.factions;
 
 import fr.traqueur.factions.api.FactionsPlugin;
+import fr.traqueur.factions.api.users.User;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -16,8 +17,8 @@ public class JoinListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         org.bukkit.entity.Player player = event.getPlayer();
-        fr.traqueur.factions.api.FPlayer fPlayer = new MFPlayer(this.plugin, player);
-        fPlayer.sendMessage("<rainbow>Bienvenue sur le serveur!");
+        User user = new FUser(this.plugin, player);
+        user.sendMessage("<rainbow>Bienvenue sur le serveur!");
     }
 
 }
