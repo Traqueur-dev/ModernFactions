@@ -14,15 +14,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public interface Configuration {
+public interface Config {
 
-    Map<Class<?>, Configuration> REGISTERY = new HashMap<>();
+    Map<Class<?>, Config> REGISTERY = new HashMap<>();
 
-    static <T extends Configuration> void registerConfiguration(Class<T> clazz, T configuration) {
+    static <T extends Config> void registerConfiguration(Class<T> clazz, T configuration) {
         REGISTERY.put(clazz, configuration);
     }
 
-    static <T extends Configuration> T getConfiguration(Class<T> clazz) {
+    static <T extends Config> T getConfiguration(Class<T> clazz) {
         return (T) REGISTERY.get(clazz);
     }
 

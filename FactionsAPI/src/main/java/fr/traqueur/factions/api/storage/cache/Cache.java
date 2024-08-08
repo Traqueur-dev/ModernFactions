@@ -1,13 +1,11 @@
-package fr.traqueur.factions.api.storage;
+package fr.traqueur.factions.api.storage.cache;
 
-import fr.traqueur.factions.api.FactionsPlugin;
-import fr.traqueur.factions.api.users.User;
-import org.bukkit.plugin.java.JavaPlugin;
+import fr.traqueur.factions.api.storage.Data;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
+import java.util.Optional;
+import java.util.UUID;
 
 public interface Cache<T extends Data> {
 
@@ -23,19 +21,15 @@ public interface Cache<T extends Data> {
 
     void addData(T object);
 
-    void remove(int id);
+    void remove(UUID id);
 
-    T get(int id);
+    Optional<T> get(UUID id);
+
+    void scheduleCacheEviction(UUID id, T object);
 
     default void add(T object) {
         this.addData(object);
         this.scheduleCacheEviction(object.getId(), object);
-    }
-
-    default void scheduleCacheEviction(int id, T object) {
-        JavaPlugin.getPlugin(FactionsPlugin.class).getScheduler().runLaterAsync(() -> {
-           this.remove(id);
-        }, 15, TimeUnit.MINUTES);
     }
 
 }

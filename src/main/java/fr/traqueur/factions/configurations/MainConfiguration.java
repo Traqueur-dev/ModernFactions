@@ -4,11 +4,11 @@ import dev.dejvokep.boostedyaml.YamlDocument;
 import fr.maxlego08.sarah.DatabaseConfiguration;
 import fr.maxlego08.sarah.database.DatabaseType;
 import fr.traqueur.factions.api.FactionsPlugin;
-import fr.traqueur.factions.api.configurations.Configuration;
+import fr.traqueur.factions.api.configurations.Config;
 import fr.traqueur.factions.storages.StorageType;
 import fr.traqueur.factions.storages.mangodb.MongoDBConfiguration;
 
-public class MainConfiguration implements Configuration {
+public class MainConfiguration implements Config {
 
     private final FactionsPlugin plugin;
 
@@ -41,7 +41,7 @@ public class MainConfiguration implements Configuration {
                     config.getBoolean("storage-config.debug"),
                     DatabaseType.MYSQL
             );
-        } else if (this.storageType == StorageType.MANGODB) {
+        } else if (this.storageType == StorageType.MONGODB) {
             this.mongoDBConfiguration = new MongoDBConfiguration(
                     config.getString("storage-config.host"),
                     config.getInt("storage-config.port"),
@@ -60,7 +60,7 @@ public class MainConfiguration implements Configuration {
     }
 
     public MongoDBConfiguration getMangoDBConfiguration() {
-        if (this.storageType != StorageType.MANGODB) {
+        if (this.storageType != StorageType.MONGODB) {
             throw new UnsupportedOperationException("The storage type is not MANGODB");
         }
         return mongoDBConfiguration;
