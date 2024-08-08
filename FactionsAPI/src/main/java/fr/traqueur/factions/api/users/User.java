@@ -1,6 +1,8 @@
 package fr.traqueur.factions.api.users;
 
-public interface User {
+import fr.traqueur.factions.api.storage.Data;
+
+public interface User extends Data {
 
     void sendMessage(String message);
 

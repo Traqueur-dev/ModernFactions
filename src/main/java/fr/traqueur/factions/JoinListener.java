@@ -2,6 +2,7 @@ package fr.traqueur.factions;
 
 import fr.traqueur.factions.api.FactionsPlugin;
 import fr.traqueur.factions.api.users.User;
+import fr.traqueur.factions.users.FUser;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;

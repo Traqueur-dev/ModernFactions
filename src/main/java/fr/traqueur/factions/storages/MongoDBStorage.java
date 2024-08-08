@@ -7,6 +7,7 @@ import com.mongodb.ServerApiVersion;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import fr.traqueur.factions.api.FactionsPlugin;
+import fr.traqueur.factions.api.configurations.Configuration;
 import fr.traqueur.factions.api.storage.Storage;
 import fr.traqueur.factions.api.utils.FactionsLogger;
 import fr.traqueur.factions.configurations.MainConfiguration;
@@ -23,7 +24,7 @@ public class MongoDBStorage implements Storage {
     private final MongoClient mongoClient;
 
     public MongoDBStorage(FactionsPlugin plugin) {
-        MongoDBConfiguration mongoConfiguration = plugin.getConfiguration(MainConfiguration.class).getMangoDBConfiguration();
+        MongoDBConfiguration mongoConfiguration = Configuration.getConfiguration(MainConfiguration.class).getMangoDBConfiguration();
         String urlConfig = "mongodb://" + mongoConfiguration.username() + ":" + mongoConfiguration.password() +
                 "@" + mongoConfiguration.host() + ":" + mongoConfiguration.port() +
                 "/" + mongoConfiguration.database() + "?authSource=" + mongoConfiguration.authDatabase();
@@ -49,7 +50,13 @@ public class MongoDBStorage implements Storage {
                 .retryWrites(false)
                 .build();
 
-        this.mongoClient = MongoClients.create(settings);
+        try {
+            this.mongoClient = MongoClients.create(settings);
+        } catch (Exception exception) {
+            FactionsLogger.severe("Unable to connect to the MongoDB server.");
+            plugin.getServer().getPluginManager().disablePlugin(plugin);
+            throw new RuntimeException(exception);
+        }
         FactionsLogger.success("Successfully connected to the MongoDB server.");
 
     }
@@ -61,6 +68,6 @@ public class MongoDBStorage implements Storage {
 
     @Override
     public void onDisable() {
-
+        this.mongoClient.close();
     }
 }

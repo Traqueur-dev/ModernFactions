@@ -4,6 +4,7 @@ import fr.maxlego08.sarah.DatabaseConfiguration;
 import fr.maxlego08.sarah.DatabaseConnection;
 import fr.maxlego08.sarah.HikariDatabaseConnection;
 import fr.traqueur.factions.api.FactionsPlugin;
+import fr.traqueur.factions.api.configurations.Configuration;
 import fr.traqueur.factions.api.storage.Storage;
 import fr.traqueur.factions.api.utils.FactionsLogger;
 import fr.traqueur.factions.configurations.MainConfiguration;
@@ -13,7 +14,7 @@ public class SQLStorage implements Storage {
     private final DatabaseConnection connection;
 
     public SQLStorage(FactionsPlugin plugin) {
-        DatabaseConfiguration databaseConfiguration = plugin.getConfiguration(MainConfiguration.class).getDatabaseConfiguration();
+        DatabaseConfiguration databaseConfiguration = Configuration.getConfiguration(MainConfiguration.class).getDatabaseConfiguration();
         this.connection = new HikariDatabaseConnection(databaseConfiguration);
 
         if (!this.connection.isValid()) {

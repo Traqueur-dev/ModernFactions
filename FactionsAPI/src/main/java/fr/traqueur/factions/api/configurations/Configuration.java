@@ -10,9 +10,21 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public interface Configuration {
+
+    Map<Class<?>, Configuration> REGISTERY = new HashMap<>();
+
+    static <T extends Configuration> void registerConfiguration(Class<T> clazz, T configuration) {
+        REGISTERY.put(clazz, configuration);
+    }
+
+    static <T extends Configuration> T getConfiguration(Class<T> clazz) {
+        return (T) REGISTERY.get(clazz);
+    }
 
     String getFile();
 

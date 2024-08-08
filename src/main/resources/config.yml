@@ -1,5 +1,7 @@
 config-version: ${global_config_version}
 
+# The storage type of the plugin
+# Available types: MYSQL, MONGODB, JSON
 storage-type: MANGODB
 storage-config:
   host: "127.0.0.1"
