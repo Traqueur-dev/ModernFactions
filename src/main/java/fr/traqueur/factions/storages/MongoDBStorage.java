@@ -94,7 +94,7 @@ public class MongoDBStorage implements Storage {
         MongoCollection<Document> collection = this.mongoDatabase.getCollection(table);
         Document doc = collection.find(Filters.eq("_id", id)).first();
         if (doc != null) {
-            return new Gson().fromJson(doc.toJson(), new TypeToken<Map<String, Object>>() {}.getType());
+            return this.gson.fromJson(doc.toJson(), new TypeToken<Map<String, Object>>() {}.getType());
         }
         return null;
     }

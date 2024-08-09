@@ -51,9 +51,7 @@ public class SQLStorage implements Storage {
 
     @Override
     public Map<String, Object> get(String tableName, UUID id) {
-        TypeToken<Map<String, Object>> typeToken = new TypeToken<>() {};
-        Class<Map<String, Object>> clazz = (Class<Map<String, Object>>) typeToken.getRawType();
-        List<Map<String,Object>> result = this.requester.select(this.prefix+tableName, clazz, table -> {
+        List<Map<String,Object>> result = this.requester.select(this.prefix+tableName, table -> {
             table.where("unique_id", id);
         });
         return result.isEmpty() ? null : result.getFirst();

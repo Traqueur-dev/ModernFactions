@@ -5,6 +5,7 @@ import fr.traqueur.factions.api.platform.paper.PaperMessageUtils;
 import fr.traqueur.factions.api.platform.spigot.SpigotMessageUtils;
 import fr.traqueur.factions.api.configurations.Config;
 import fr.traqueur.factions.api.storage.Storage;
+import fr.traqueur.factions.api.storage.service.Service;
 import fr.traqueur.factions.api.users.UsersManager;
 import fr.traqueur.factions.api.utils.FactionsLogger;
 import fr.traqueur.factions.api.utils.MessageUtils;
@@ -22,8 +23,7 @@ public class ModernFactionsPlugin extends FactionsPlugin {
     private Storage storage;
 
     @Override
-    public void onEnable() {
-
+    public void onLoad() {
         Config.registerConfiguration(MainConfiguration.class, new MainConfiguration(this));
 
         this.messageUtils = this.isPaperVersion() ? new PaperMessageUtils() : new SpigotMessageUtils(this);
@@ -34,11 +34,12 @@ public class ModernFactionsPlugin extends FactionsPlugin {
 
         this.storage = this.registerStorage();
         this.storage.onEnable();
+    }
 
+    @Override
+    public void onEnable() {
         this.registerManager(new FUsersManager(this), UsersManager.class);
-
         this.getServer().getPluginManager().registerEvents(new JoinListener(this), this);
-
         FactionsLogger.success("ModernFactionsPlugin enabled");
     }
 
@@ -46,6 +47,9 @@ public class ModernFactionsPlugin extends FactionsPlugin {
     public void onDisable() {
         if(messageUtils instanceof SpigotMessageUtils spigotMessageUtils) {
             spigotMessageUtils.close();
+        }
+        for (Service<?> service : Service.REGISTERY) {
+            service.saveAll();
         }
         this.storage.onDisable();
         FactionsLogger.success("ModernFactionsPlugin disabled");

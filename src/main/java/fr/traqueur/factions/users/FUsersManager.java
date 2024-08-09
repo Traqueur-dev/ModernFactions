@@ -25,13 +25,13 @@ public class FUsersManager implements UsersManager {
         if(optional.isPresent()) {
             return optional.get();
         }
-        User user = new FUser(plugin, player);
+        User user = new FUser(plugin, player.getUniqueId());
         this.service.save(user);
         return user;
     }
 
     @Override
     public FactionsPlugin getPlugin() {
-        return null;
+        return this.plugin;
     }
 }
