@@ -2,12 +2,12 @@ config-version: ${global_config_version}
 
 # The storage type of the plugin
 # Available types: MYSQL, MONGODB, JSON
-storage-type: MANGODB
+storage-type: JSON
 storage-config:
   host: "127.0.0.1"
-  port: 27017
-  database: "modernfactions_dev"
-  username: "root"
+  port: 3306
+  database: "your-database"
+  username: "your-username"
   password: "your-password"
   debug: true
   # If you want to use MangoDB, please change the storage-type to MONGODB and fill this configuration
