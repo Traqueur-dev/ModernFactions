@@ -1,7 +1,7 @@
 package fr.traqueur.factions.users;
 
-import fr.traqueur.factions.api.users.User;
 import fr.traqueur.factions.api.FactionsPlugin;
+import fr.traqueur.factions.api.users.User;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 

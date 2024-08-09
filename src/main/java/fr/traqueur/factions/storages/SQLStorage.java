@@ -1,6 +1,5 @@
 package fr.traqueur.factions.storages;
 
-import com.google.gson.reflect.TypeToken;
 import fr.maxlego08.sarah.*;
 import fr.traqueur.factions.api.FactionsPlugin;
 import fr.traqueur.factions.api.configurations.Config;

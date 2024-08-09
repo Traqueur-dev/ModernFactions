@@ -10,8 +10,6 @@ import java.util.Optional;
 
 public class FUsersManager implements UsersManager {
 
-    public static final String TABLE_NAME = "users";
-
     private final FactionsPlugin plugin;
     private final Service<User> service;
 

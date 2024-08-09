@@ -2,8 +2,6 @@ package fr.traqueur.factions.storages;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.TypeAdapter;
-import com.google.gson.internal.bind.MapTypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 import fr.traqueur.factions.api.FactionsPlugin;
 import fr.traqueur.factions.api.storage.Storage;

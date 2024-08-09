@@ -2,14 +2,11 @@ package fr.traqueur.factions.api.storage.cache;
 
 import fr.traqueur.factions.api.FactionsPlugin;
 import fr.traqueur.factions.api.storage.Data;
-
 import fr.traqueur.factions.api.storage.service.Service;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 public class ConcurrentCache<T extends Data> implements Cache<T> {
 

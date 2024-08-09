@@ -5,7 +5,6 @@ import fr.traqueur.factions.api.storage.Data;
 import fr.traqueur.factions.api.storage.Storage;
 import fr.traqueur.factions.api.storage.cache.Cache;
 import fr.traqueur.factions.api.storage.cache.ConcurrentCache;
-import fr.traqueur.factions.api.utils.FactionsLogger;
 
 import java.util.*;
 
@@ -30,13 +29,11 @@ public abstract class Service<T extends Data> {
     public Optional<T> get(UUID id) {
         Optional<T> optional = this.cache.get(id);
         if (optional.isPresent()) {
-            FactionsLogger.success("Cached value");
             return optional;
         }
 
         T value = this.deserialize(this.storage.get(table,id));
         if(value != null) {
-            FactionsLogger.success("Cached added");
             this.cache.add(value);
         }
         return  Optional.ofNullable(value);
