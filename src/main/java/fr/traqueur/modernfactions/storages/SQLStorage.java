@@ -1,7 +1,6 @@
 package fr.traqueur.modernfactions.storages;
 
 import fr.maxlego08.sarah.*;
-import fr.maxlego08.sarah.database.Schema;
 import fr.traqueur.modernfactions.api.FactionsPlugin;
 import fr.traqueur.modernfactions.api.configurations.Config;
 import fr.traqueur.modernfactions.api.factions.FactionsManager;
@@ -9,14 +8,11 @@ import fr.traqueur.modernfactions.api.storage.Storage;
 import fr.traqueur.modernfactions.api.users.UsersManager;
 import fr.traqueur.modernfactions.api.utils.FactionsLogger;
 import fr.traqueur.modernfactions.configurations.MainConfiguration;
-import fr.traqueur.modernfactions.storages.migrations.CreateFactionsTableMigration;
-import fr.traqueur.modernfactions.storages.migrations.CreateUsersTableMigration;
-import fr.traqueur.modernfactions.users.FUsersManager;
+import fr.traqueur.modernfactions.migrations.CreateFactionsTableMigration;
+import fr.traqueur.modernfactions.migrations.CreateUsersTableMigration;
 
 import java.lang.reflect.Field;
-import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 public class SQLStorage implements Storage {
@@ -45,7 +41,7 @@ public class SQLStorage implements Storage {
     public void createTable(String table) {}
 
     @Override
-    public <T> void save(String tableName, UUID id, T data) {
+    public <DTO> void save(String tableName, UUID id, DTO data) {
         this.requester.upsert(this.prefix+tableName, table -> {
             for (Field declaredField : data.getClass().getDeclaredFields()) {
                 try {
@@ -63,15 +59,15 @@ public class SQLStorage implements Storage {
     }
 
     @Override
-    public <T> T get(String tableName, UUID id, Class<T> clazz) {
-        List<T> result = this.requester.select(this.prefix+tableName, clazz, table -> {
+    public <DTO> DTO get(String tableName, UUID id, Class<DTO> clazz) {
+        List<DTO> result = this.requester.select(this.prefix+tableName, clazz, table -> {
             table.where("unique_id", id);
         });
         return result.isEmpty() ? null : result.getFirst();
     }
 
     @Override
-    public <T> List<T> values(String table, Class<T> clazz) {
+    public <DTO> List<DTO> values(String table, Class<DTO> clazz) {
        return this.requester.selectAll(this.prefix+table, clazz);
     }
 
@@ -79,6 +75,13 @@ public class SQLStorage implements Storage {
     public void delete(String tableName, UUID id) {
         this.requester.delete(this.prefix+tableName, table -> {
             table.where("unique_id", id);
+        });
+    }
+
+    @Override
+    public <DTO> List<DTO> where(String tableName, Class<DTO> clazz, String key, String content) {
+        return this.requester.select(this.prefix+tableName, clazz, table -> {
+            table.where(key, content);
         });
     }
 

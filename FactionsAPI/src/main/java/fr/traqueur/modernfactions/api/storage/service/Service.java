@@ -1,28 +1,28 @@
 package fr.traqueur.modernfactions.api.storage.service;
 
-import fr.maxlego08.sarah.Column;
 import fr.traqueur.modernfactions.api.FactionsPlugin;
 import fr.traqueur.modernfactions.api.storage.Data;
-import fr.traqueur.modernfactions.api.storage.NotLoadable;
 import fr.traqueur.modernfactions.api.storage.Storage;
 import fr.traqueur.modernfactions.api.storage.cache.Cache;
 import fr.traqueur.modernfactions.api.storage.cache.ConcurrentCache;
-import fr.traqueur.modernfactions.api.users.User;
 
 import java.lang.reflect.Field;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public abstract class Service<T extends Data<DTO>, DTO> {
 
     public static final Set<Service<?,?>> REGISTERY = new HashSet<>();
 
+    private final Class<DTO> dtoClass;
     protected final FactionsPlugin plugin;
     protected final Cache<T> cache;
     protected final Storage storage;
     protected final String table;
 
-    public Service(FactionsPlugin plugin, String table) {
+    public Service(FactionsPlugin plugin, Class<DTO> dtoClass, String table) {
         this.plugin = plugin;
+        this.dtoClass = dtoClass;
         this.cache = new ConcurrentCache<>(plugin,this);
         this.storage = plugin.getStorage();
         this.table = table;
@@ -30,17 +30,43 @@ public abstract class Service<T extends Data<DTO>, DTO> {
         REGISTERY.add(this);
     }
 
-    public Optional<T> get(UUID id, Class<DTO> clazz) {
+    public Optional<T> get(UUID id) {
         Optional<T> optional = this.cache.get(id);
         if (optional.isPresent()) {
             return optional;
         }
 
-        T value = this.deserialize(this.storage.get(table, id, clazz));
+        T value = this.deserialize(this.storage.get(table, id, this.dtoClass));
         if(value != null) {
             this.cache.add(value);
         }
         return  Optional.ofNullable(value);
+    }
+
+    public List<T> where(String key, String content) {
+        List<T> values = this.cache.values().stream().filter(data -> {
+            try {
+                DTO dto = data.toDTO();
+                Field field = dto.getClass().getDeclaredField(key);
+                field.setAccessible(true);
+                return field.get(dto).toString().equals(content);
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }).collect(Collectors.toList());
+        if (!values.isEmpty()) {
+            return values;
+        }
+
+        this.storage.where(table, this.dtoClass, key, content)
+                .stream()
+                .map(this::deserialize)
+                .forEach(value -> {
+            this.cache.add(value);
+            values.add(value);
+        });
+
+        return values;
     }
 
     public void save(T data) {
@@ -59,8 +85,8 @@ public abstract class Service<T extends Data<DTO>, DTO> {
         this.storage.delete(table, data.getId());
     }
 
-    public List<T> values(Class<DTO> clazz) {
-        this.storage.values(table, clazz).forEach(dto -> {
+    public List<T> values() {
+        this.storage.values(table, this.dtoClass).forEach(dto -> {
             T value = this.deserialize(dto);
             this.cache.add(value);
         });

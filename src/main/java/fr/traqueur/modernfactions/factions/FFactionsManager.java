@@ -10,6 +10,7 @@ import fr.traqueur.modernfactions.api.users.User;
 import fr.traqueur.modernfactions.api.users.UsersManager;
 import org.bukkit.entity.Player;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -25,7 +26,7 @@ public class FFactionsManager implements FactionsManager {
 
     @Override
     public void loadFactions() {
-        if(this.service.values(FactionDTO.class).isEmpty()) {
+        if(this.service.values().isEmpty()) {
             this.service.save(new FFaction(FactionsManager.WILDERNESS_NAME));
             this.service.save(new FFaction(FactionsManager.SAFEZONE_NAME));
             this.service.save(new FFaction(FactionsManager.WARZONE_NAME));
@@ -34,16 +35,13 @@ public class FFactionsManager implements FactionsManager {
 
     @Override
     public Optional<Faction> getFaction(String name) {
-        Optional<Faction> opt = this.service.getCache().values().stream().filter(faction -> faction.getName().equalsIgnoreCase(name)).findFirst();
-        if(opt.isPresent()) {
-            return opt;
-        }
-        return this.service.values(FactionDTO.class).stream().filter(faction -> faction.getName().equalsIgnoreCase(name)).findFirst();
+        List<Faction> factions = this.service.where("name", name);
+        return factions.isEmpty() ? Optional.empty() : Optional.of(factions.getFirst());
     }
 
     @Override
     public Optional<Faction> getFactionById(UUID id) {
-        return this.service.get(id, FactionDTO.class);
+        return this.service.get(id);
     }
 
     @Override

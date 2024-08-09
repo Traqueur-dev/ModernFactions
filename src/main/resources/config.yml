@@ -6,11 +6,10 @@ storage-type: JSON
 storage-config:
   host: "127.0.0.1"
   port: 3306
+  table-prefix: "modernfactions_"
   database: "your-database"
   username: "your-username"
   password: "your-password"
   debug: true
   # If you want to use MangoDB, please change the storage-type to MONGODB and fill this configuration
   auth-database: admin
-  # If you want to use MySQL, please change the storage-type to MYSQL and fill this configuration
-  table-prefix: "modernfactions_"

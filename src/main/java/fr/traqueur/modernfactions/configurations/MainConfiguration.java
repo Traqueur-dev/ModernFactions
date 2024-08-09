@@ -48,7 +48,8 @@ public class MainConfiguration implements Config {
                     config.getString("storage-config.database"),
                     config.getString("storage-config.username"),
                     config.getString("storage-config.password"),
-                    config.getString("storage-config.auth-database")
+                    config.getString("storage-config.auth-database"),
+                    config.getString("storage-config.table-prefix")
             );
         }
 

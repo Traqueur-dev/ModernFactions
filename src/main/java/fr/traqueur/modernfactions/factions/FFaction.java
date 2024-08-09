@@ -10,9 +10,13 @@ public class FFaction implements Faction {
     private final String name;
     private final UUID id;
 
-    public FFaction(String name) {
+    public FFaction(UUID uuid, String name) {
         this.name = name;
-        this.id = UUID.randomUUID();
+        this.id = uuid;
+    }
+
+    public FFaction(String name) {
+        this(UUID.randomUUID(), name);
     }
 
     @Override

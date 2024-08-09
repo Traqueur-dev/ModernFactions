@@ -8,12 +8,12 @@ import fr.traqueur.modernfactions.api.dto.UserDTO;
 public class UserService extends Service<User, UserDTO> {
 
     public UserService(FactionsPlugin plugin, String table) {
-        super(plugin, table);
+        super(plugin, UserDTO.class, table);
     }
 
     @Override
     public User deserialize(UserDTO dto) {
-        return new FUser(this.plugin, dto.unique_id(), dto.faction());
+        return dto == null ? null : new FUser(this.plugin, dto.unique_id(), dto.faction());
     }
 
 

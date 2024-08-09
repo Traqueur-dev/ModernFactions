@@ -33,6 +33,7 @@ import java.util.concurrent.TimeUnit;
 
 public class MongoDBStorage implements Storage {
 
+    private final String tablePrefix;
     private final MongoClient mongoClient;
     private final MongoDatabase mongoDatabase;
     private final Gson gson;
@@ -42,6 +43,7 @@ public class MongoDBStorage implements Storage {
         String urlConfig = "mongodb://" + mongoConfiguration.username() + ":" + mongoConfiguration.password() +
                 "@" + mongoConfiguration.host() + ":" + mongoConfiguration.port() +
                 "/" + mongoConfiguration.database() + "?authSource=" + mongoConfiguration.authDatabase();
+        this.tablePrefix = mongoConfiguration.prefix();
         ConnectionString connectionString = new ConnectionString(urlConfig);
 
         ServerApi serverApi = ServerApi.builder()
@@ -79,20 +81,20 @@ public class MongoDBStorage implements Storage {
 
     @Override
     public void createTable(String table) {
-        this.mongoDatabase.createCollection(table);
+        this.mongoDatabase.createCollection(this.tablePrefix+table);
     }
 
     @Override
-    public <T> void save(String table, UUID id, T data) {
-        MongoCollection<Document> collection = this.mongoDatabase.getCollection(table);
+    public <DTO> void save(String table, UUID id, DTO data) {
+        MongoCollection<Document> collection = this.mongoDatabase.getCollection(this.tablePrefix+table);
         Document doc = Document.parse(this.gson.toJson(data, data.getClass()));
         doc.put("_id", id);
         collection.replaceOne(Filters.eq("_id", id), doc, new ReplaceOptions().upsert(true));
     }
 
     @Override
-    public <T> T get(String table, UUID id, Class<T> clazz) {
-        MongoCollection<Document> collection = this.mongoDatabase.getCollection(table);
+    public <DTO> DTO get(String table, UUID id, Class<DTO> clazz) {
+        MongoCollection<Document> collection = this.mongoDatabase.getCollection(this.tablePrefix+table);
         Document doc = collection.find(Filters.eq("_id", id)).first();
         if (doc != null) {
             return this.gson.fromJson(doc.toJson(), clazz);
@@ -101,9 +103,9 @@ public class MongoDBStorage implements Storage {
     }
 
     @Override
-    public <T> List<T> values(String table, Class<T> clazz) {
-        MongoCollection<Document> collection = this.mongoDatabase.getCollection(table);
-        List<T> values = new ArrayList<>();
+    public <DTO> List<DTO> values(String table, Class<DTO> clazz) {
+        MongoCollection<Document> collection = this.mongoDatabase.getCollection(this.tablePrefix+table);
+        List<DTO> values = new ArrayList<>();
         for (Document document : collection.find()) {
             values.add(this.gson.fromJson(document.toJson(), clazz));
         }
@@ -112,8 +114,18 @@ public class MongoDBStorage implements Storage {
 
     @Override
     public void delete(String table, UUID id) {
-        MongoCollection<Document> collection = this.mongoDatabase.getCollection(table);
+        MongoCollection<Document> collection = this.mongoDatabase.getCollection(this.tablePrefix+table);
         collection.deleteOne(Filters.eq("_id", id));
+    }
+
+    @Override
+    public <DTO> List<DTO> where(String tableName, Class<DTO> clazz, String key, String content) {
+        MongoCollection<Document> collection = this.mongoDatabase.getCollection(this.tablePrefix+tableName);
+        List<DTO> values = new ArrayList<>();
+        for (Document document : collection.find(Filters.eq(key, content))) {
+            values.add(this.gson.fromJson(document.toJson(), clazz));
+        }
+        return values;
     }
 
     @Override

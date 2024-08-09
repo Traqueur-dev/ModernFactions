@@ -57,7 +57,7 @@ public class JSONStorage implements Storage {
     }
 
     @Override
-    public <T> void save(String table, UUID id, T data) {
+    public <DTO> void save(String table, UUID id, DTO data) {
         try {
             Files.write(Path.of(this.getFolder().getPath(), table + "/"+ id.toString() + ".json"), this.gson.toJson(data, data.getClass()).getBytes());
         } catch (IOException e) {
@@ -66,7 +66,7 @@ public class JSONStorage implements Storage {
     }
 
     @Override
-    public <T> T get(String table, UUID id, Class<T> clazz) {
+    public <DTO> DTO get(String table, UUID id, Class<DTO> clazz) {
         String content;
         try {
             content = new String(Files.readAllBytes(Path.of(this.getFolder().getPath(), table + "/"+ id.toString() + ".json")));
@@ -77,9 +77,9 @@ public class JSONStorage implements Storage {
     }
 
     @Override
-    public <T> List<T> values(String table, Class<T> clazz) {
+    public <DTO> List<DTO> values(String table, Class<DTO> clazz) {
         File tableFolder = new File(this.getFolder(), table);
-        List<T> values = new ArrayList<>();
+        List<DTO> values = new ArrayList<>();
         if (tableFolder.exists()) {
             File[] files = tableFolder.listFiles();
             if (files != null) {
@@ -103,6 +103,29 @@ public class JSONStorage implements Storage {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public <DTO> List<DTO> where(String tableName, Class<DTO> clazz, String key, String content) {
+        File tableFolder = new File(this.getFolder(), tableName);
+        List<DTO> values = new ArrayList<>();
+        if (tableFolder.exists()) {
+            File[] files = tableFolder.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    try {
+                        String fileContent = new String(Files.readAllBytes(file.toPath()));
+                        Map<String, Object> map = this.gson.fromJson(fileContent, new TypeToken<Map<String, Object>>(){}.getType());
+                        if (map.containsKey(key) && map.get(key).equals(content)) {
+                            values.add(this.gson.fromJson(fileContent, clazz));
+                        }
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        }
+        return values;
     }
 
     @Override

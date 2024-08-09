@@ -16,6 +16,8 @@ public interface Storage {
 
     void delete(String table, UUID id);
 
+    <DTO> List<DTO> where(String tableName, Class<DTO> clazz, String key, String content);
+
     void onEnable();
 
     void onDisable();
