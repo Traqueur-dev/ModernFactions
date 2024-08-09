@@ -8,11 +8,11 @@ public interface Storage {
 
     void createTable(String table);
 
-    void save(String table, UUID id, Map<String, Object> data);
+    <DTO> void save(String table, UUID id, DTO data);
 
-    Map<String, Object> get(String table, UUID id);
+    <DTO> DTO get(String table, UUID id, Class<DTO> clazz);
 
-    List<Map<String, Object>> values(String table);
+    <DTO> List<DTO> values(String table, Class<DTO> clazz);
 
     void delete(String table, UUID id);
 

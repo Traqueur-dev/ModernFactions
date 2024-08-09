@@ -12,9 +12,9 @@ import fr.traqueur.modernfactions.api.users.User;
 import java.lang.reflect.Field;
 import java.util.*;
 
-public abstract class Service<T extends Data> {
+public abstract class Service<T extends Data<DTO>, DTO> {
 
-    public static final Set<Service<?>> REGISTERY = new HashSet<>();
+    public static final Set<Service<?,?>> REGISTERY = new HashSet<>();
 
     protected final FactionsPlugin plugin;
     protected final Cache<T> cache;
@@ -30,13 +30,13 @@ public abstract class Service<T extends Data> {
         REGISTERY.add(this);
     }
 
-    public Optional<T> get(UUID id) {
+    public Optional<T> get(UUID id, Class<DTO> clazz) {
         Optional<T> optional = this.cache.get(id);
         if (optional.isPresent()) {
             return optional;
         }
 
-        T value = this.deserialize(this.storage.get(table,id));
+        T value = this.deserialize(this.storage.get(table, id, clazz));
         if(value != null) {
             this.cache.add(value);
         }
@@ -45,7 +45,7 @@ public abstract class Service<T extends Data> {
 
     public void save(T data) {
         this.cache.add(data);
-        this.storage.save(table, data.getId(), this.serialize(data));
+        this.storage.save(table, data.getId(), data.toDTO());
     }
 
     public void saveAll() {
@@ -59,9 +59,9 @@ public abstract class Service<T extends Data> {
         this.storage.delete(table, data.getId());
     }
 
-    public List<T> values() {
-        this.storage.values(table).forEach(map -> {
-            T value = this.deserialize(map);
+    public List<T> values(Class<DTO> clazz) {
+        this.storage.values(table, clazz).forEach(dto -> {
+            T value = this.deserialize(dto);
             this.cache.add(value);
         });
         return new ArrayList<>(this.cache.values());
@@ -75,28 +75,8 @@ public abstract class Service<T extends Data> {
         return this.table;
     }
 
-    public Map<String, Object> serialize(T data) {
-        Map<String, Object> map = new HashMap<>();
-        for (Field field : data.getClass().getDeclaredFields()) {
-            field.setAccessible(true);
-            if(field.isAnnotationPresent(NotLoadable.class)) {
-                continue;
-            }
-            try {
-                String name = field.getName();
-                if(field.isAnnotationPresent(Column.class)) {
-                    Column column = field.getAnnotation(Column.class);
-                    name = column.value();
-                }
-                map.put(name, field.get(data));
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException("Cannot serialize field " + field.getName() + " in class " + data.getClass().getSimpleName());
-            }
-        }
-        return map;
-    }
 
-    public abstract T deserialize(Map<String, Object> map);
+    public abstract T deserialize(DTO dto);
 
 
 }

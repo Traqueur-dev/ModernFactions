@@ -1,6 +1,7 @@
 package fr.traqueur.modernfactions.factions;
 
 import fr.traqueur.modernfactions.api.FactionsPlugin;
+import fr.traqueur.modernfactions.api.dto.FactionDTO;
 import fr.traqueur.modernfactions.api.factions.Faction;
 import fr.traqueur.modernfactions.api.factions.FactionsManager;
 import fr.traqueur.modernfactions.api.factions.exceptions.FactionAlreadyExistsException;
@@ -15,7 +16,7 @@ import java.util.UUID;
 public class FFactionsManager implements FactionsManager {
 
     private final FactionsPlugin plugin;
-    private final Service<Faction> service;
+    private final Service<Faction, FactionDTO> service;
 
     public FFactionsManager(FactionsPlugin plugin) {
        this.plugin = plugin;
@@ -24,7 +25,7 @@ public class FFactionsManager implements FactionsManager {
 
     @Override
     public void loadFactions() {
-        if(this.service.values().isEmpty()) {
+        if(this.service.values(FactionDTO.class).isEmpty()) {
             this.service.save(new FFaction(FactionsManager.WILDERNESS_NAME));
             this.service.save(new FFaction(FactionsManager.SAFEZONE_NAME));
             this.service.save(new FFaction(FactionsManager.WARZONE_NAME));
@@ -37,12 +38,12 @@ public class FFactionsManager implements FactionsManager {
         if(opt.isPresent()) {
             return opt;
         }
-        return this.service.values().stream().filter(faction -> faction.getName().equalsIgnoreCase(name)).findFirst();
+        return this.service.values(FactionDTO.class).stream().filter(faction -> faction.getName().equalsIgnoreCase(name)).findFirst();
     }
 
     @Override
     public Optional<Faction> getFactionById(UUID id) {
-        return this.service.get(id);
+        return this.service.get(id, FactionDTO.class);
     }
 
     @Override

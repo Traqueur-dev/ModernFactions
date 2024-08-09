@@ -83,29 +83,29 @@ public class MongoDBStorage implements Storage {
     }
 
     @Override
-    public void save(String table, UUID id, Map<String, Object> data) {
+    public <T> void save(String table, UUID id, T data) {
         MongoCollection<Document> collection = this.mongoDatabase.getCollection(table);
-        Document doc = Document.parse(this.gson.toJson(data));
+        Document doc = Document.parse(this.gson.toJson(data, data.getClass()));
         doc.put("_id", id);
         collection.replaceOne(Filters.eq("_id", id), doc, new ReplaceOptions().upsert(true));
     }
 
     @Override
-    public Map<String, Object> get(String table, UUID id) {
+    public <T> T get(String table, UUID id, Class<T> clazz) {
         MongoCollection<Document> collection = this.mongoDatabase.getCollection(table);
         Document doc = collection.find(Filters.eq("_id", id)).first();
         if (doc != null) {
-            return this.gson.fromJson(doc.toJson(), new TypeToken<Map<String, Object>>() {}.getType());
+            return this.gson.fromJson(doc.toJson(), clazz);
         }
         return null;
     }
 
     @Override
-    public List<Map<String, Object>> values(String table) {
+    public <T> List<T> values(String table, Class<T> clazz) {
         MongoCollection<Document> collection = this.mongoDatabase.getCollection(table);
-        List<Map<String, Object>> values = new ArrayList<>();
+        List<T> values = new ArrayList<>();
         for (Document document : collection.find()) {
-            values.add(this.gson.fromJson(document.toJson(), new TypeToken<Map<String, Object>>() {}.getType()));
+            values.add(this.gson.fromJson(document.toJson(), clazz));
         }
         return values;
     }

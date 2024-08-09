@@ -57,36 +57,36 @@ public class JSONStorage implements Storage {
     }
 
     @Override
-    public void save(String table, UUID id, Map<String, Object> data) {
+    public <T> void save(String table, UUID id, T data) {
         try {
-            Files.write(Path.of(this.getFolder().getPath(), table + "/"+ id.toString() + ".json"), this.gson.toJson(data).getBytes());
+            Files.write(Path.of(this.getFolder().getPath(), table + "/"+ id.toString() + ".json"), this.gson.toJson(data, data.getClass()).getBytes());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public Map<String, Object> get(String table, UUID id) {
+    public <T> T get(String table, UUID id, Class<T> clazz) {
         String content;
         try {
             content = new String(Files.readAllBytes(Path.of(this.getFolder().getPath(), table + "/"+ id.toString() + ".json")));
         } catch (IOException e) {
             return null;
         }
-        return this.gson.fromJson(content, new TypeToken<Map<String, Object>>() {}.getType());
+        return this.gson.fromJson(content, clazz);
     }
 
     @Override
-    public List<Map<String, Object>> values(String table) {
+    public <T> List<T> values(String table, Class<T> clazz) {
         File tableFolder = new File(this.getFolder(), table);
-        List<Map<String, Object>> values = new ArrayList<>();
+        List<T> values = new ArrayList<>();
         if (tableFolder.exists()) {
             File[] files = tableFolder.listFiles();
             if (files != null) {
                 for (File file : files) {
                     try {
                         String content = new String(Files.readAllBytes(file.toPath()));
-                        values.add(this.gson.fromJson(content, new TypeToken<Map<String, Object>>() {}.getType()));
+                        values.add(this.gson.fromJson(content, clazz));
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }

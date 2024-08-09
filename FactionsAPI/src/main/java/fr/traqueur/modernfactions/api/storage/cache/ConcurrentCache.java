@@ -8,13 +8,13 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
-public class ConcurrentCache<T extends Data> implements Cache<T> {
+public class ConcurrentCache<T extends Data<?>> implements Cache<T> {
 
     private final FactionsPlugin plugin;
     private final Map<UUID, T> elements;
-    private final Service<T> service;
+    private final Service<T, ?> service;
 
-    public ConcurrentCache(FactionsPlugin plugin, Service<T> service) {
+    public ConcurrentCache(FactionsPlugin plugin, Service<T, ?> service) {
         this.plugin = plugin;
         this.service = service;
         this.elements = new ConcurrentHashMap<>();
@@ -46,7 +46,7 @@ public class ConcurrentCache<T extends Data> implements Cache<T> {
             return;
         }
         this.plugin.getScheduler().runLaterAsync(() -> {
-            this.plugin.getStorage().save(this.service.getTable(), id, this.service.serialize(object));
+            this.plugin.getStorage().save(this.service.getTable(), id, object.toDTO());
             this.remove(id);
         }, 15, TimeUnit.MINUTES);
     }

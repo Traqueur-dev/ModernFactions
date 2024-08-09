@@ -52,7 +52,7 @@ public class ModernFactionsPlugin extends FactionsPlugin {
         if(messageUtils instanceof SpigotMessageUtils spigotMessageUtils) {
             spigotMessageUtils.close();
         }
-        for (Service<?> service : Service.REGISTERY) {
+        for (Service<?, ?> service : Service.REGISTERY) {
             service.saveAll();
         }
         this.storage.onDisable();

@@ -1,6 +1,7 @@
 package fr.traqueur.modernfactions.users;
 
 import fr.traqueur.modernfactions.api.FactionsPlugin;
+import fr.traqueur.modernfactions.api.dto.UserDTO;
 import fr.traqueur.modernfactions.api.factions.FactionsManager;
 import fr.traqueur.modernfactions.api.storage.service.Service;
 import fr.traqueur.modernfactions.api.users.User;
@@ -12,7 +13,7 @@ import java.util.Optional;
 public class FUsersManager implements UsersManager {
 
     private final FactionsPlugin plugin;
-    private final Service<User> service;
+    private final Service<User, UserDTO> service;
 
     public FUsersManager(FactionsPlugin plugin) {
         this.plugin = plugin;
@@ -21,7 +22,7 @@ public class FUsersManager implements UsersManager {
 
     public User loadOrCreateUser(Player player) {
         FactionsManager factionsManager = this.plugin.getManager(FactionsManager.class);
-        Optional<User> optional = this.service.get(player.getUniqueId());
+        Optional<User> optional = this.service.get(player.getUniqueId(), UserDTO.class);
         if(optional.isPresent()) {
             return optional.get();
         }
@@ -32,7 +33,7 @@ public class FUsersManager implements UsersManager {
 
     @Override
     public Optional<User> getUser(Player player) {
-        return this.service.get(player.getUniqueId());
+        return this.service.get(player.getUniqueId(), UserDTO.class);
     }
 
     @Override

@@ -13,6 +13,7 @@ import fr.traqueur.modernfactions.storages.migrations.CreateFactionsTableMigrati
 import fr.traqueur.modernfactions.storages.migrations.CreateUsersTableMigration;
 import fr.traqueur.modernfactions.users.FUsersManager;
 
+import java.lang.reflect.Field;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -41,35 +42,37 @@ public class SQLStorage implements Storage {
     }
 
     @Override
-    public void createTable(String table) {
-
-    }
+    public void createTable(String table) {}
 
     @Override
-    public void save(String tableName, UUID id, Map<String, Object> data) {
+    public <T> void save(String tableName, UUID id, T data) {
         this.requester.upsert(this.prefix+tableName, table -> {
-            data.forEach((key, value) -> {
-                table.object(key, value.toString());
-            });
+            for (Field declaredField : data.getClass().getDeclaredFields()) {
+                try {
+                    declaredField.setAccessible(true);
+                    if(declaredField.get(data) instanceof UUID uuid) {
+                        table.uuid(declaredField.getName(), uuid);
+                        continue;
+                    }
+                    table.object(declaredField.getName(), declaredField.get(data));
+                } catch (IllegalAccessException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         });
     }
 
     @Override
-    public Map<String, Object> get(String tableName, UUID id) {
-        List<Map<String,Object>> result = this.requester.select(this.prefix+tableName, table -> {
+    public <T> T get(String tableName, UUID id, Class<T> clazz) {
+        List<T> result = this.requester.select(this.prefix+tableName, clazz, table -> {
             table.where("unique_id", id);
         });
         return result.isEmpty() ? null : result.getFirst();
     }
 
     @Override
-    public List<Map<String, Object>> values(String table) {
-        Schema schema = SchemaBuilder.select(this.prefix + table);
-        try {
-            return schema.executeSelect(connection, FactionsLogger::info);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public <T> List<T> values(String table, Class<T> clazz) {
+       return this.requester.selectAll(this.prefix+table, clazz);
     }
 
     @Override
