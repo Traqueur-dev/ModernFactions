@@ -1,9 +1,9 @@
 package fr.traqueur.modernfactions.users;
 
 import fr.traqueur.modernfactions.api.FactionsPlugin;
+import fr.traqueur.modernfactions.api.dto.UserDTO;
 import fr.traqueur.modernfactions.api.storage.service.Service;
 import fr.traqueur.modernfactions.api.users.User;
-import fr.traqueur.modernfactions.api.dto.UserDTO;
 
 public class UserService extends Service<User, UserDTO> {
 

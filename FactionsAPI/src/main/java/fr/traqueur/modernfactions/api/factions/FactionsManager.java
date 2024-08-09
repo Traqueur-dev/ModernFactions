@@ -22,7 +22,7 @@ public interface FactionsManager extends Manager {
 
         Optional<Faction> getFactionByPlayer(Player player);
 
-        void createFaction(String faction) throws FactionAlreadyExistsException;
+        Faction createFaction(String faction, UUID leader) throws FactionAlreadyExistsException;
 
         void removeFaction(Faction faction);
 

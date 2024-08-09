@@ -8,6 +8,7 @@ import fr.traqueur.modernfactions.api.factions.exceptions.FactionAlreadyExistsEx
 import fr.traqueur.modernfactions.api.storage.service.Service;
 import fr.traqueur.modernfactions.api.users.User;
 import fr.traqueur.modernfactions.api.users.UsersManager;
+import fr.traqueur.modernfactions.commands.FCreateCommand;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -27,9 +28,9 @@ public class FFactionsManager implements FactionsManager {
     @Override
     public void loadFactions() {
         if(this.service.values().isEmpty()) {
-            this.service.save(new FFaction(FactionsManager.WILDERNESS_NAME));
-            this.service.save(new FFaction(FactionsManager.SAFEZONE_NAME));
-            this.service.save(new FFaction(FactionsManager.WARZONE_NAME));
+            this.service.save(new FFaction(plugin, FactionsManager.WILDERNESS_NAME, "The wilderness is a place where you can build your base.", FactionsPlugin.CONSOLE_UUID));
+            this.service.save(new FFaction(plugin, FactionsManager.SAFEZONE_NAME, "The safezone is a place where you can't take damage.", FactionsPlugin.CONSOLE_UUID));
+            this.service.save(new FFaction(plugin, FactionsManager.WARZONE_NAME, "The warzone is a place where you can take damage.", FactionsPlugin.CONSOLE_UUID));
         }
     }
 
@@ -49,18 +50,20 @@ public class FFactionsManager implements FactionsManager {
         UsersManager usersManager = this.plugin.getManager(UsersManager.class);
         Optional<User> user = usersManager.getUser(player);
         if(user.isPresent()) {
-            return this.getFactionById(user.get().getFaction());
+            return this.getFactionById(user.get().getFaction().getId());
         } else {
             throw new IllegalStateException("User not found.");
         }
     }
 
     @Override
-    public void createFaction(String faction) throws FactionAlreadyExistsException {
+    public Faction createFaction(String faction, UUID leader) throws FactionAlreadyExistsException {
         if(this.getFaction(faction).isPresent()) {
             throw new FactionAlreadyExistsException();
         }
-        this.service.save(new FFaction(faction));
+        Faction created = new FFaction(plugin, faction, "The faction " + faction + " is a new faction.", leader);
+        this.service.save(created);
+        return created;
     }
 
     @Override

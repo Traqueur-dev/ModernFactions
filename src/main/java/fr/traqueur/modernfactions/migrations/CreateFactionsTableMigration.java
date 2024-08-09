@@ -15,6 +15,8 @@ public class CreateFactionsTableMigration extends Migration {
         create("%prefix%" + tableName, table -> {
             table.uuid("unique_id").primary();
             table.string("name", 16);
+            table.string("description", 128);
+            table.uuid("leader");
         });
     }
 }

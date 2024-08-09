@@ -1,9 +1,9 @@
 package fr.traqueur.modernfactions.factions;
 
 import fr.traqueur.modernfactions.api.FactionsPlugin;
+import fr.traqueur.modernfactions.api.dto.FactionDTO;
 import fr.traqueur.modernfactions.api.factions.Faction;
 import fr.traqueur.modernfactions.api.storage.service.Service;
-import fr.traqueur.modernfactions.api.dto.FactionDTO;
 
 public class FactionService extends Service<Faction, FactionDTO> {
 
@@ -13,7 +13,7 @@ public class FactionService extends Service<Faction, FactionDTO> {
 
     @Override
     public Faction deserialize(FactionDTO dto) {
-        return dto == null ? null : new FFaction(dto.unique_id(), dto.name());
+        return dto == null ? null : new FFaction(plugin, dto.unique_id(), dto.name(), dto.description(), dto.leader());
     }
 
 

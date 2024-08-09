@@ -10,8 +10,11 @@ import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.NoSuchElementException;
+import java.util.UUID;
 
 public abstract class FactionsPlugin extends JavaPlugin implements FactionsAPI {
+
+    public static UUID CONSOLE_UUID = UUID.fromString("00000000-0000-0000-0000-000000000000");
 
     private ServerImplementation scheduler;
 

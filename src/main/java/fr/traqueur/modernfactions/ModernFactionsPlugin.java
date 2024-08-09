@@ -1,5 +1,6 @@
 package fr.traqueur.modernfactions;
 
+import fr.traqueur.commands.api.CommandManager;
 import fr.traqueur.modernfactions.api.FactionsPlugin;
 import fr.traqueur.modernfactions.api.configurations.Config;
 import fr.traqueur.modernfactions.api.factions.FactionsManager;
@@ -10,6 +11,7 @@ import fr.traqueur.modernfactions.api.storage.service.Service;
 import fr.traqueur.modernfactions.api.users.UsersManager;
 import fr.traqueur.modernfactions.api.utils.FactionsLogger;
 import fr.traqueur.modernfactions.api.utils.MessageUtils;
+import fr.traqueur.modernfactions.commands.FCreateCommand;
 import fr.traqueur.modernfactions.configurations.MainConfiguration;
 import fr.traqueur.modernfactions.factions.FFactionsManager;
 import fr.traqueur.modernfactions.listeners.ServerListener;
@@ -22,7 +24,7 @@ import fr.traqueur.modernfactions.users.UsersListener;
 public class ModernFactionsPlugin extends FactionsPlugin {
 
     private MessageUtils messageUtils;
-
+    private CommandManager commandManager;
     private Storage storage;
 
     @Override
@@ -30,6 +32,7 @@ public class ModernFactionsPlugin extends FactionsPlugin {
         Config.registerConfiguration(MainConfiguration.class, new MainConfiguration(this));
 
         this.messageUtils = this.isPaperVersion() ? new PaperMessageUtils() : new SpigotMessageUtils(this);
+        this.commandManager = new CommandManager(this);
 
         for (Config configuration : Config.REGISTERY.values()) {
             configuration.loadConfig();
@@ -40,6 +43,8 @@ public class ModernFactionsPlugin extends FactionsPlugin {
 
         this.registerManager(new FUsersManager(this), UsersManager.class);
         this.registerManager(new FFactionsManager(this), FactionsManager.class);
+
+        this.commandManager.registerCommand(new FCreateCommand(this));
 
         this.getServer().getPluginManager().registerEvents(new UsersListener(this), this);
         this.getServer().getPluginManager().registerEvents(new ServerListener(this), this);
@@ -65,6 +70,11 @@ public class ModernFactionsPlugin extends FactionsPlugin {
             case SQL -> new SQLStorage(this);
             case JSON -> new JSONStorage(this, Config.getConfiguration(MainConfiguration.class).isDebug());
         };
+    }
+
+    @Override
+    public CommandManager getCommandManager() {
+        return commandManager;
     }
 
     @Override

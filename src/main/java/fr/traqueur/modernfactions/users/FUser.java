@@ -1,12 +1,14 @@
 package fr.traqueur.modernfactions.users;
 
 import fr.traqueur.modernfactions.api.FactionsPlugin;
-import fr.traqueur.modernfactions.api.users.User;
 import fr.traqueur.modernfactions.api.dto.UserDTO;
+import fr.traqueur.modernfactions.api.factions.Faction;
+import fr.traqueur.modernfactions.api.factions.FactionsManager;
+import fr.traqueur.modernfactions.api.users.User;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
-import java.util.Map;
 import java.util.UUID;
 
 public class FUser implements User {
@@ -27,23 +29,30 @@ public class FUser implements User {
     }
 
     @Override
-    public UserDTO toDTO() {
-        return new UserDTO(this.uuid, this.factionId);
-    }
-
-    @Override
     public void setFaction(UUID uuid) {
         this.factionId = uuid;
     }
 
     @Override
-    public UUID getFaction() {
-        return this.factionId;
+    public Faction getFaction() {
+        return this.plugin.getManager(FactionsManager.class).getFactionById(this.factionId)
+                .orElseThrow(() -> new IllegalStateException("Faction not found"));
+    }
+
+    @Override
+    public UserDTO toDTO() {
+        return new UserDTO(this.uuid, this.factionId);
     }
 
     @Override
     public void sendMessage(String message) {
         Player player = Bukkit.getPlayer(this.uuid);
         plugin.getMessageUtils().sendMessage(player, message);
+    }
+
+    @Override
+    public String getName() {
+        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(this.uuid);
+        return offlinePlayer.getName();
     }
 }

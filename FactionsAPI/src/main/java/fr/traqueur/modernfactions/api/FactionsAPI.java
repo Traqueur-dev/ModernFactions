@@ -1,6 +1,7 @@
 package fr.traqueur.modernfactions.api;
 
 import com.tcoded.folialib.impl.ServerImplementation;
+import fr.traqueur.commands.api.CommandManager;
 import fr.traqueur.modernfactions.api.managers.Manager;
 import fr.traqueur.modernfactions.api.storage.Storage;
 
@@ -15,5 +16,7 @@ public interface FactionsAPI {
     <T extends Manager> T getManager(Class<T> clazz);
 
     <I extends Manager, T extends I> void registerManager(T instance, Class<I> clazz);
+
+    CommandManager getCommandManager();
 
 }
