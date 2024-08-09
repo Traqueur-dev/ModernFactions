@@ -61,9 +61,9 @@ public class ModernFactionsPlugin extends FactionsPlugin {
 
     private Storage registerStorage() {
         return switch(Config.getConfiguration(MainConfiguration.class).getStorageType()) {
-            case MONGODB -> new MongoDBStorage(this);
+            case MONGODB -> new MongoDBStorage(this, Config.getConfiguration(MainConfiguration.class).isDebug());
             case SQL -> new SQLStorage(this);
-            case JSON -> new JSONStorage(this);
+            case JSON -> new JSONStorage(this, Config.getConfiguration(MainConfiguration.class).isDebug());
         };
     }
 

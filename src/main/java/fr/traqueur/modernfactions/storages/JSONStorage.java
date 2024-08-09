@@ -21,10 +21,11 @@ public class JSONStorage implements Storage {
     private final FactionsPlugin plugin;
     private final File folder;
     private final Gson gson;
+    private final boolean debug;
 
-
-    public JSONStorage(FactionsPlugin plugin) {
+    public JSONStorage(FactionsPlugin plugin, boolean debug) {
         this.plugin = plugin;
+        this.debug = debug;
         this.folder = new File(plugin.getDataFolder(), "storage");
         this.gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
         this.createFolder();
@@ -59,6 +60,9 @@ public class JSONStorage implements Storage {
     @Override
     public <DTO> void save(String table, UUID id, DTO data) {
         try {
+            if (this.isDebug()) {
+                FactionsLogger.info("Saving JSON data to: storage/" + table + "/" + id.toString() + ".json");
+            }
             Files.write(Path.of(this.getFolder().getPath(), table + "/"+ id.toString() + ".json"), this.gson.toJson(data, data.getClass()).getBytes());
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -68,6 +72,9 @@ public class JSONStorage implements Storage {
     @Override
     public <DTO> DTO get(String table, UUID id, Class<DTO> clazz) {
         String content;
+        if (this.isDebug()) {
+            FactionsLogger.info("Get JSON data to: storage/" + table + "/" + id.toString() + ".json");
+        }
         try {
             content = new String(Files.readAllBytes(Path.of(this.getFolder().getPath(), table + "/"+ id.toString() + ".json")));
         } catch (IOException e) {
@@ -93,12 +100,18 @@ public class JSONStorage implements Storage {
                 }
             }
         }
+        if (this.isDebug()) {
+            FactionsLogger.info("Get All JSON data to: storage/" + table + "/");
+        }
         return values;
     }
 
     @Override
     public void delete(String table, UUID id) {
         try {
+            if (this.isDebug()) {
+                FactionsLogger.info("Delete JSON data to: storage/" + table + "/" + id.toString() + ".json");
+            }
             Files.delete(Path.of(this.getFolder().getPath(), table + "/"+ id.toString() + ".json"));
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -125,7 +138,15 @@ public class JSONStorage implements Storage {
                 }
             }
         }
+        if (this.isDebug()) {
+            FactionsLogger.info("Get All JSON data to: storage/" + tableName + "/ where key " + key + " is " + content);
+        }
         return values;
+    }
+
+    @Override
+    public boolean isDebug() {
+        return this.debug;
     }
 
     @Override

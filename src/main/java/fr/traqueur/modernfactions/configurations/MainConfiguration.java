@@ -15,7 +15,7 @@ public class MainConfiguration implements Config {
     private StorageType storageType;
     private DatabaseConfiguration databaseConfiguration;
     private MongoDBConfiguration mongoDBConfiguration;
-
+    private boolean debug;
 
     public MainConfiguration(FactionsPlugin plugin) {
         this.plugin = plugin;
@@ -30,6 +30,7 @@ public class MainConfiguration implements Config {
     public void loadConfig() {
         YamlDocument config = this.getConfig(this.plugin);
         this.storageType = StorageType.valueOf(config.getString("storage-type").toUpperCase());
+        this.debug = config.getBoolean("storage-config.debug");
         if(this.storageType == StorageType.SQL) {
             this.databaseConfiguration = new DatabaseConfiguration(
                     config.getString("storage-config.table-prefix"),
@@ -38,7 +39,7 @@ public class MainConfiguration implements Config {
                     config.getInt("storage-config.port", 3306),
                     config.getString("storage-config.host"),
                     config.getString("storage-config.database"),
-                    config.getBoolean("storage-config.debug"),
+                    this.debug,
                     DatabaseType.MYSQL
             );
         } else if (this.storageType == StorageType.MONGODB) {
@@ -58,6 +59,10 @@ public class MainConfiguration implements Config {
 
     public StorageType getStorageType() {
         return storageType;
+    }
+
+    public boolean isDebug() {
+        return debug;
     }
 
     public MongoDBConfiguration getMangoDBConfiguration() {

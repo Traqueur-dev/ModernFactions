@@ -37,12 +37,14 @@ public class MongoDBStorage implements Storage {
     private final MongoClient mongoClient;
     private final MongoDatabase mongoDatabase;
     private final Gson gson;
+    private final boolean debug;
 
-    public MongoDBStorage(FactionsPlugin plugin) {
+    public MongoDBStorage(FactionsPlugin plugin, boolean debug) {
         MongoDBConfiguration mongoConfiguration = Config.getConfiguration(MainConfiguration.class).getMangoDBConfiguration();
         String urlConfig = "mongodb://" + mongoConfiguration.username() + ":" + mongoConfiguration.password() +
                 "@" + mongoConfiguration.host() + ":" + mongoConfiguration.port() +
                 "/" + mongoConfiguration.database() + "?authSource=" + mongoConfiguration.authDatabase();
+        this.debug = debug;
         this.tablePrefix = mongoConfiguration.prefix();
         ConnectionString connectionString = new ConnectionString(urlConfig);
 
@@ -86,6 +88,9 @@ public class MongoDBStorage implements Storage {
 
     @Override
     public <DTO> void save(String table, UUID id, DTO data) {
+        if (this.isDebug()) {
+            FactionsLogger.info("Saving data in MongoDB collection: " + table + " with uuid " + id.toString());
+        }
         MongoCollection<Document> collection = this.mongoDatabase.getCollection(this.tablePrefix+table);
         Document doc = Document.parse(this.gson.toJson(data, data.getClass()));
         doc.put("_id", id);
@@ -94,6 +99,9 @@ public class MongoDBStorage implements Storage {
 
     @Override
     public <DTO> DTO get(String table, UUID id, Class<DTO> clazz) {
+        if (this.isDebug()) {
+            FactionsLogger.info("Fetching MongoDB data from collection: " + table + " with uuid: " + id.toString());
+        }
         MongoCollection<Document> collection = this.mongoDatabase.getCollection(this.tablePrefix+table);
         Document doc = collection.find(Filters.eq("_id", id)).first();
         if (doc != null) {
@@ -104,6 +112,9 @@ public class MongoDBStorage implements Storage {
 
     @Override
     public <DTO> List<DTO> values(String table, Class<DTO> clazz) {
+        if (this.isDebug()) {
+            FactionsLogger.info("Fetching All MongoDB data from collection: " + table);
+        }
         MongoCollection<Document> collection = this.mongoDatabase.getCollection(this.tablePrefix+table);
         List<DTO> values = new ArrayList<>();
         for (Document document : collection.find()) {
@@ -114,18 +125,29 @@ public class MongoDBStorage implements Storage {
 
     @Override
     public void delete(String table, UUID id) {
+        if (this.isDebug()) {
+            FactionsLogger.info("Delete MongoDB data from collection: " + table + " with uuid " + id.toString());
+        }
         MongoCollection<Document> collection = this.mongoDatabase.getCollection(this.tablePrefix+table);
         collection.deleteOne(Filters.eq("_id", id));
     }
 
     @Override
     public <DTO> List<DTO> where(String tableName, Class<DTO> clazz, String key, String content) {
+        if (this.isDebug()) {
+            FactionsLogger.info("Fetching MongoDB data from collection: " + tableName + " with key " + key + "is " + content);
+        }
         MongoCollection<Document> collection = this.mongoDatabase.getCollection(this.tablePrefix+tableName);
         List<DTO> values = new ArrayList<>();
         for (Document document : collection.find(Filters.eq(key, content))) {
             values.add(this.gson.fromJson(document.toJson(), clazz));
         }
         return values;
+    }
+
+    @Override
+    public boolean isDebug() {
+        return this.debug;
     }
 
     @Override

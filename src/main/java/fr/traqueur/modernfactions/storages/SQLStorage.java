@@ -86,6 +86,11 @@ public class SQLStorage implements Storage {
     }
 
     @Override
+    public boolean isDebug() {
+        return Config.getConfiguration(MainConfiguration.class).isDebug();
+    }
+
+    @Override
     public void onEnable() {
         this.connection.connect();
         MigrationManager.execute(this.connection, FactionsLogger::info);
