@@ -17,6 +17,8 @@ public interface User extends Data<UserDTO> {
 
     Role getRole();
 
+    boolean isLeader();
+
     void sendMessage(String message);
 
     String getName();

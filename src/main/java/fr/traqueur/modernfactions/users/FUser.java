@@ -57,6 +57,11 @@ public class FUser implements User {
     }
 
     @Override
+    public boolean isLeader() {
+        return this.getRole().name().equals(Config.getConfiguration(RolesConfiguration.class).getMaxPriorityRole().name());
+    }
+
+    @Override
     public UserDTO toDTO() {
         return new UserDTO(this.uuid, this.name, this.factionId, this.role);
     }

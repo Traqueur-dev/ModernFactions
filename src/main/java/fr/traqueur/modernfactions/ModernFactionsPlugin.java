@@ -12,6 +12,7 @@ import fr.traqueur.modernfactions.api.users.UsersManager;
 import fr.traqueur.modernfactions.api.utils.FactionsLogger;
 import fr.traqueur.modernfactions.api.utils.MessageUtils;
 import fr.traqueur.modernfactions.commands.FCreateCommand;
+import fr.traqueur.modernfactions.commands.FDisbandCommand;
 import fr.traqueur.modernfactions.configurations.MainConfiguration;
 import fr.traqueur.modernfactions.factions.FFactionsManager;
 import fr.traqueur.modernfactions.listeners.ServerListener;
@@ -50,6 +51,7 @@ public class ModernFactionsPlugin extends FactionsPlugin {
         }
 
         this.commandManager.registerCommand(new FCreateCommand(this));
+        this.commandManager.registerCommand(new FDisbandCommand(this));
 
         this.getServer().getPluginManager().registerEvents(new UsersListener(this), this);
         this.getServer().getPluginManager().registerEvents(new ServerListener(this), this);
