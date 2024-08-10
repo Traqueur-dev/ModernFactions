@@ -20,10 +20,8 @@ public interface Message {
         registerMessage(() -> s);
     }
 
-    String getKey();
-
     static String translate(Message message) {
-        return JavaPlugin.getPlugin(FactionsPlugin.class).getMessageUtils().convertToLegacyFormat(message.translate());
+        return message.translate();
     }
 
     static String translate(String messageStr) {
@@ -31,8 +29,10 @@ public interface Message {
         return translate(message);
     }
 
+    String getKey();
+
     default String translate() {
-        return Config.getConfiguration(LangConfiguration.class).translate(this);
+        return JavaPlugin.getPlugin(FactionsPlugin.class).getMessageUtils().convertToLegacyFormat(Config.getConfiguration(LangConfiguration.class).translate(this));
     }
 
 }

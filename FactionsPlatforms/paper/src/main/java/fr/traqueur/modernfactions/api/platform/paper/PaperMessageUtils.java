@@ -7,19 +7,8 @@ import org.bukkit.entity.Player;
 
 public class PaperMessageUtils implements MessageUtils {
 
-    private final MiniMessage miniMessage;
-
-    public PaperMessageUtils() {
-        miniMessage = MiniMessage.miniMessage();
-    }
-
     @Override
     public void sendMessage(Player player, String message) {
-        player.sendMessage(miniMessage.deserialize(message));
-    }
-
-    @Override
-    public String convertToLegacyFormat(String message) {
-        return LegacyComponentSerializer.legacyAmpersand().serialize(miniMessage.deserialize(message));
+        player.sendMessage(MINI_MESSAGE.deserialize(message));
     }
 }
