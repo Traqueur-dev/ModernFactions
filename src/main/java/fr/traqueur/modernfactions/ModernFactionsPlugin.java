@@ -7,7 +7,9 @@ import fr.traqueur.modernfactions.api.configurations.Config;
 import fr.traqueur.modernfactions.api.factions.FactionsManager;
 import fr.traqueur.modernfactions.api.messages.LangConfiguration;
 import fr.traqueur.modernfactions.api.platform.paper.PaperMessageUtils;
+import fr.traqueur.modernfactions.api.platform.paper.listeners.PaperChatListener;
 import fr.traqueur.modernfactions.api.platform.spigot.SpigotMessageUtils;
+import fr.traqueur.modernfactions.api.platform.spigot.listeners.SpigotChatListener;
 import fr.traqueur.modernfactions.api.storage.Storage;
 import fr.traqueur.modernfactions.api.storage.service.Service;
 import fr.traqueur.modernfactions.api.users.UsersManager;
@@ -58,6 +60,12 @@ public class ModernFactionsPlugin extends FactionsPlugin {
 
         this.getServer().getPluginManager().registerEvents(new UsersListener(this), this);
         this.getServer().getPluginManager().registerEvents(new ServerListener(this), this);
+
+        if(this.isPaperVersion()) {
+            this.getServer().getPluginManager().registerEvents(new PaperChatListener(this), this);
+        } else {
+            this.getServer().getPluginManager().registerEvents(new SpigotChatListener(this), this);
+        }
 
         Config.getConfiguration(LangConfiguration.class).loadConfig();
 

@@ -11,3 +11,7 @@ create_faction_message: "<green>You have created the faction %faction%."
 broadcast_creation_message: "<green>%user% has created the faction %faction%."
 disband_faction_message: "<green>You have disbanded the faction %faction%."
 broadcast_disband_message: "<green>%user% has disbanded the faction %faction%."
+
+wilderness_description: "The wilderness is a place where you can build your base."
+safezone_description: "The safezone is a place where you can't be attacked."
+warzone_description: "The warzone is a place where you can attack other players."

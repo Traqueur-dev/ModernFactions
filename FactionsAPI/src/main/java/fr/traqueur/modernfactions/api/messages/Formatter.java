@@ -37,6 +37,18 @@ public class Formatter {
         return format("%user%", ressourcefulBeesLikeAPI -> user.getName());
     }
 
+    public static Formatter wildernessDescription() {
+        return format("%wilderness_description%", ressourcefulBeesLikeAPI -> Messages.WILDERNESS_DESCRIPTION.translate());
+    }
+
+    public static Formatter safezoneDescription() {
+        return format("%safezone_description%", ressourcefulBeesLikeAPI -> Messages.SAFEZONE_DESCRIPTION.translate());
+    }
+
+    public static Formatter warzoneDescription() {
+        return format("%warzone_description%", ressourcefulBeesLikeAPI -> Messages.WARZONE_DESCRIPTION.translate());
+    }
+
     public String handle(FactionsPlugin api, String message) {
         return message.replaceAll(this.pattern, String.valueOf(this.supplier.apply(api)));
     }

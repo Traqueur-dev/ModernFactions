@@ -30,9 +30,9 @@ public class FFactionsManager implements FactionsManager {
     @Override
     public void loadFactions() {
         if(this.service.values().isEmpty()) {
-            this.service.save(new FFaction(plugin, FactionsManager.WILDERNESS_NAME, "The wilderness is a place where you can build your base.", FactionsPlugin.CONSOLE_UUID));
-            this.service.save(new FFaction(plugin, FactionsManager.SAFEZONE_NAME, "The safezone is a place where you can't take damage.", FactionsPlugin.CONSOLE_UUID));
-            this.service.save(new FFaction(plugin, FactionsManager.WARZONE_NAME, "The warzone is a place where you can take damage.", FactionsPlugin.CONSOLE_UUID));
+            this.service.save(new FFaction(plugin, FactionsManager.WILDERNESS_NAME, "%wilderness_description%", FactionsPlugin.CONSOLE_UUID));
+            this.service.save(new FFaction(plugin, FactionsManager.SAFEZONE_NAME, "%safezone_description%", FactionsPlugin.CONSOLE_UUID));
+            this.service.save(new FFaction(plugin, FactionsManager.WARZONE_NAME, "%warzone_description%", FactionsPlugin.CONSOLE_UUID));
         }
     }
 
