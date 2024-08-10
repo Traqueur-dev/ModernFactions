@@ -20,19 +20,37 @@ public interface Message {
         registerMessage(() -> s);
     }
 
-    static String translate(Message message) {
-        return message.translate();
+    static String translate(Message message, Formatter... formatters) {
+        return translate(false, message, formatters);
     }
 
-    static String translate(String messageStr) {
+    static String translate(String messageStr, Formatter... formatters) {
         Message message = MESSAGES.stream().filter(messageInner -> messageInner.getKey().equalsIgnoreCase(messageStr)).findFirst().orElseThrow(() -> new IllegalStateException("Message not found"));
-        return translate(message);
+        return translate(false, message, formatters);
+    }
+
+    static String translate(boolean legacy, Message message, Formatter... formatters) {
+        return message.translate(legacy, formatters);
+    }
+
+    static String translate(boolean legacy, String messageStr, Formatter... formatters) {
+        Message message = MESSAGES.stream().filter(messageInner -> messageInner.getKey().equalsIgnoreCase(messageStr)).findFirst().orElseThrow(() -> new IllegalStateException("Message not found"));
+        return translate(legacy, message, formatters);
     }
 
     String getKey();
 
-    default String translate() {
-        return JavaPlugin.getPlugin(FactionsPlugin.class).getMessageUtils().convertToLegacyFormat(Config.getConfiguration(LangConfiguration.class).translate(this));
+    default String translate(Formatter... formatters) {
+        return translate(false, formatters);
+    }
+
+    default String translate(boolean legacy, Formatter... formatters) {
+        String message = Config.getConfiguration(LangConfiguration.class).translate(this);
+        for (Formatter formatter : formatters) {
+            message = formatter.handle(JavaPlugin.getPlugin(FactionsPlugin.class), message);
+        }
+        if(!legacy) return message;
+        return JavaPlugin.getPlugin(FactionsPlugin.class).getMessageUtils().convertToLegacyFormat(message);
     }
 
 }

@@ -60,8 +60,9 @@ public class FFactionsManager implements FactionsManager {
 
     @Override
     public Faction createFaction(String faction, UUID leader) throws FactionAlreadyExistsException {
-        if(this.getFaction(faction).isPresent()) {
-            throw new FactionAlreadyExistsException();
+        Optional<Faction> optionalFaction = this.getFaction(faction);
+        if(optionalFaction.isPresent()) {
+            throw new FactionAlreadyExistsException(optionalFaction.get());
         }
         Faction created = new FFaction(plugin, faction, "The faction " + faction + " is a new faction.", leader);
         this.service.save(created);

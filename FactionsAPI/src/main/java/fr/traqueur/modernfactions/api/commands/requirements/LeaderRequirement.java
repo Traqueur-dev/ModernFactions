@@ -2,6 +2,7 @@ package fr.traqueur.modernfactions.api.commands.requirements;
 
 import fr.traqueur.commands.api.requirements.Requirement;
 import fr.traqueur.modernfactions.api.FactionsPlugin;
+import fr.traqueur.modernfactions.api.messages.Messages;
 import fr.traqueur.modernfactions.api.users.User;
 import fr.traqueur.modernfactions.api.users.UsersManager;
 import org.bukkit.command.CommandSender;
@@ -26,6 +27,6 @@ public class LeaderRequirement implements Requirement {
 
     @Override
     public String errorMessage() {
-        return "You must be the leader of the faction to disband it.";
+        return Messages.NO_LEADER_MESSAGE.translate(true);
     }
 }

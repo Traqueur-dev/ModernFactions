@@ -6,6 +6,8 @@ import fr.traqueur.modernfactions.api.commands.FCommand;
 import fr.traqueur.modernfactions.api.commands.requirements.LeaderRequirement;
 import fr.traqueur.modernfactions.api.configurations.Config;
 import fr.traqueur.modernfactions.api.factions.Faction;
+import fr.traqueur.modernfactions.api.messages.Formatter;
+import fr.traqueur.modernfactions.api.messages.Messages;
 import fr.traqueur.modernfactions.api.users.User;
 import fr.traqueur.modernfactions.configurations.RolesConfiguration;
 import org.bukkit.Bukkit;
@@ -30,9 +32,9 @@ public class FDisbandCommand extends FCommand {
         factionsManager.removeFaction(faction);
         user.setFaction(factionsManager.getWilderness().getId());
         user.setRole(Config.getConfiguration(RolesConfiguration.class).getDefaultRole());
-        user.sendMessage("<green>Vous avez dissous votre faction.");
+        user.sendMessage(Messages.DISBAND_FACTION_MESSAGE.translate(Formatter.faction(faction)));
         Bukkit.getOnlinePlayers().stream().map(usersManager::getUser).forEach(user1 -> {
-            user1.ifPresent(value -> value.sendMessage("<red>" + user.getName() + " a dissout la faction " + faction.getName() + "."));
+            user1.ifPresent(value -> value.sendMessage(Messages.BROADCAST_DISBAND_MESSAGE.translate(Formatter.faction(faction), Formatter.user(user))));
         });
     }
 }

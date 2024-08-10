@@ -6,6 +6,8 @@ import fr.traqueur.modernfactions.api.commands.FCommand;
 import fr.traqueur.modernfactions.api.configurations.Config;
 import fr.traqueur.modernfactions.api.factions.Faction;
 import fr.traqueur.modernfactions.api.factions.exceptions.FactionAlreadyExistsException;
+import fr.traqueur.modernfactions.api.messages.Formatter;
+import fr.traqueur.modernfactions.api.messages.Messages;
 import fr.traqueur.modernfactions.api.users.User;
 import fr.traqueur.modernfactions.configurations.RolesConfiguration;
 import org.bukkit.Bukkit;
@@ -43,12 +45,12 @@ public class FCreateCommand extends FCommand {
             Faction faction = factionsManager.createFaction(name, user.getId());
             user.setFaction(faction.getId());
             user.setRole(Config.getConfiguration(RolesConfiguration.class).getMaxPriorityRole());
-            user.sendMessage("<green>Vous avez créé la faction " + faction.getName() + ".");
+            user.sendMessage(Messages.CREATE_FACTION_MESSAGE.translate(Formatter.faction(faction)));
             Bukkit.getOnlinePlayers().stream().map(usersManager::getUser).forEach(user1 -> {
-                user1.ifPresent(value -> value.sendMessage("<green>" + user.getName() + " a créé la faction " + faction.getName() + "."));
+                user1.ifPresent(value -> value.sendMessage(Messages.BROADCAST_CREATION_MESSAGE.translate(Formatter.faction(faction), Formatter.user(user))));
             });
         } catch (FactionAlreadyExistsException e) {
-            user.sendMessage("<red>Une faction avec ce nom existe déjà.");
+            user.sendMessage(Messages.FACTION_EXISTS_MESSAGE.translate(Formatter.faction(e.getFaction())));
         }
 
     }
