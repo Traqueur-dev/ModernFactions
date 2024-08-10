@@ -1,4 +1,4 @@
-package fr.traqueur.modernfactions.factions.roles;
+package fr.traqueur.modernfactions.configurations;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
 import fr.traqueur.modernfactions.api.FactionsPlugin;
@@ -31,18 +31,15 @@ public class RolesConfiguration implements Config {
     @Override
     public void loadConfig() {
         YamlDocument config = this.getConfig(this.plugin);
-        List<?> ranks = config.getList("roles");
-        for (Object rankObj : ranks) {
-            if (rankObj instanceof Map) {
-                Map<String, Object> role = (Map<String, Object>) rankObj;
-                String name = (String) role.get("name");
-                String prefix = (String) role.get("prefix");
-                int priority = (int) role.get("priority");
-                this.roles.add(new Role(name, priority, prefix));
-            } else {
-                FactionsLogger.warning("Invalid role object: " + rankObj);
-            }
-        }
+
+        config.getList("roles").stream().map(roleObj -> {
+            Map<String, Object> role = (Map<String, Object>) roleObj;
+            String name = (String) role.get("name");
+            String prefix = (String) role.get("prefix");
+            int priority = (int) role.get("priority");
+            return new Role(name, priority, prefix);
+        }).forEach(this.roles::add);
+
         this.defaultRole = this.getRoleByName(config.getString("default-role"));
         FactionsLogger.info("&eLoaded " + this.roles.size() + " faction role.");
     }

@@ -9,7 +9,7 @@ import fr.traqueur.modernfactions.api.factions.exceptions.FactionAlreadyExistsEx
 import fr.traqueur.modernfactions.api.storage.service.Service;
 import fr.traqueur.modernfactions.api.users.User;
 import fr.traqueur.modernfactions.api.users.UsersManager;
-import fr.traqueur.modernfactions.factions.roles.RolesConfiguration;
+import fr.traqueur.modernfactions.configurations.RolesConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.List;
