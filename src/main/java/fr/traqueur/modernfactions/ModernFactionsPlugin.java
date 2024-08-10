@@ -2,15 +2,17 @@ package fr.traqueur.modernfactions;
 
 import fr.traqueur.commands.api.CommandManager;
 import fr.traqueur.modernfactions.api.FactionsPlugin;
+import fr.traqueur.modernfactions.api.commands.FactionsCommandsHandler;
 import fr.traqueur.modernfactions.api.configurations.Config;
 import fr.traqueur.modernfactions.api.factions.FactionsManager;
+import fr.traqueur.modernfactions.api.messages.LangConfiguration;
 import fr.traqueur.modernfactions.api.platform.paper.PaperMessageUtils;
 import fr.traqueur.modernfactions.api.platform.spigot.SpigotMessageUtils;
 import fr.traqueur.modernfactions.api.storage.Storage;
 import fr.traqueur.modernfactions.api.storage.service.Service;
 import fr.traqueur.modernfactions.api.users.UsersManager;
 import fr.traqueur.modernfactions.api.utils.FactionsLogger;
-import fr.traqueur.modernfactions.api.utils.MessageUtils;
+import fr.traqueur.modernfactions.api.messages.MessageUtils;
 import fr.traqueur.modernfactions.commands.FCreateCommand;
 import fr.traqueur.modernfactions.commands.FDisbandCommand;
 import fr.traqueur.modernfactions.configurations.MainConfiguration;
@@ -34,6 +36,7 @@ public class ModernFactionsPlugin extends FactionsPlugin {
 
         this.messageUtils = this.isPaperVersion() ? new PaperMessageUtils() : new SpigotMessageUtils(this);
         this.commandManager = new CommandManager(this);
+        this.commandManager.setMessageHandler(new FactionsCommandsHandler());
 
         Config.getConfiguration(MainConfiguration.class).loadConfig();
 
@@ -44,7 +47,7 @@ public class ModernFactionsPlugin extends FactionsPlugin {
         this.registerManager(new FFactionsManager(this), FactionsManager.class);
 
         for (Config configuration : Config.REGISTERY.values()) {
-            if(configuration instanceof MainConfiguration) {
+            if(configuration instanceof MainConfiguration || configuration instanceof LangConfiguration) {
                 continue;
             }
             configuration.loadConfig();
@@ -55,6 +58,8 @@ public class ModernFactionsPlugin extends FactionsPlugin {
 
         this.getServer().getPluginManager().registerEvents(new UsersListener(this), this);
         this.getServer().getPluginManager().registerEvents(new ServerListener(this), this);
+
+        Config.getConfiguration(LangConfiguration.class).loadConfig();
 
         FactionsLogger.success("ModernFactionsPlugin enabled");
     }
