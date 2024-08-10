@@ -14,7 +14,9 @@ public class CreateUsersTableMigration extends Migration {
     public void up() {
         create("%prefix%" + tableName, table -> {
             table.uuid("unique_id").primary();
+            table.string("name", 16);
             table.uuid("faction");
+            table.string("role", 16);
         });
     }
 }

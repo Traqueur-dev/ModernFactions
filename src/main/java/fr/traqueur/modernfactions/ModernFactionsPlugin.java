@@ -34,15 +34,20 @@ public class ModernFactionsPlugin extends FactionsPlugin {
         this.messageUtils = this.isPaperVersion() ? new PaperMessageUtils() : new SpigotMessageUtils(this);
         this.commandManager = new CommandManager(this);
 
-        for (Config configuration : Config.REGISTERY.values()) {
-            configuration.loadConfig();
-        }
+        Config.getConfiguration(MainConfiguration.class).loadConfig();
 
         this.storage = this.registerStorage();
         this.storage.onEnable();
 
         this.registerManager(new FUsersManager(this), UsersManager.class);
         this.registerManager(new FFactionsManager(this), FactionsManager.class);
+
+        for (Config configuration : Config.REGISTERY.values()) {
+            if(configuration instanceof MainConfiguration) {
+                continue;
+            }
+            configuration.loadConfig();
+        }
 
         this.commandManager.registerCommand(new FCreateCommand(this));
 

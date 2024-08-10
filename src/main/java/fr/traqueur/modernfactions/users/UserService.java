@@ -13,7 +13,7 @@ public class UserService extends Service<User, UserDTO> {
 
     @Override
     public User deserialize(UserDTO dto) {
-        return dto == null ? null : new FUser(this.plugin, dto.unique_id(), dto.faction());
+        return dto == null ? null : new FUser(this.plugin, dto.unique_id(), dto.name(), dto.faction(), dto.role());
     }
 
 

@@ -1,6 +1,7 @@
 package fr.traqueur.modernfactions.factions;
 
 import fr.traqueur.modernfactions.api.FactionsPlugin;
+import fr.traqueur.modernfactions.api.configurations.Config;
 import fr.traqueur.modernfactions.api.dto.FactionDTO;
 import fr.traqueur.modernfactions.api.factions.Faction;
 import fr.traqueur.modernfactions.api.factions.FactionsManager;
@@ -8,7 +9,7 @@ import fr.traqueur.modernfactions.api.factions.exceptions.FactionAlreadyExistsEx
 import fr.traqueur.modernfactions.api.storage.service.Service;
 import fr.traqueur.modernfactions.api.users.User;
 import fr.traqueur.modernfactions.api.users.UsersManager;
-import fr.traqueur.modernfactions.commands.FCreateCommand;
+import fr.traqueur.modernfactions.factions.roles.RolesConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class FFactionsManager implements FactionsManager {
     public FFactionsManager(FactionsPlugin plugin) {
        this.plugin = plugin;
        this.service = new FactionService(plugin, FactionsManager.TABLE_NAME);
+       Config.registerConfiguration(RolesConfiguration.class, new RolesConfiguration(this.plugin));
     }
 
     @Override

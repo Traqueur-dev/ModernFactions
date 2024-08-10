@@ -1,11 +1,14 @@
 package fr.traqueur.modernfactions.users;
 
 import fr.traqueur.modernfactions.api.FactionsPlugin;
+import fr.traqueur.modernfactions.api.configurations.Config;
 import fr.traqueur.modernfactions.api.dto.UserDTO;
 import fr.traqueur.modernfactions.api.factions.FactionsManager;
+import fr.traqueur.modernfactions.api.factions.roles.Role;
 import fr.traqueur.modernfactions.api.storage.service.Service;
 import fr.traqueur.modernfactions.api.users.User;
 import fr.traqueur.modernfactions.api.users.UsersManager;
+import fr.traqueur.modernfactions.factions.roles.RolesConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.Optional;
@@ -26,7 +29,8 @@ public class FUsersManager implements UsersManager {
         if(optional.isPresent()) {
             return optional.get();
         }
-        User user = new FUser(plugin, player.getUniqueId(),factionsManager.getWilderness().getId());
+        Role defaultRole = Config.getConfiguration(RolesConfiguration.class).getDefaultRole();
+        User user = new FUser(plugin, player.getUniqueId(),player.getName(), factionsManager.getWilderness().getId(), defaultRole.name());
         this.service.save(user);
         return user;
     }

@@ -1,0 +1,16 @@
+config-version: ${ranks_config_version}
+
+default-role: "Recruit"
+roles:
+  - name: "Leader"
+    prefix: "**"
+    priority: 100
+  - name: "Officer"
+    prefix: "*"
+    priority: 90
+  - name: "Member"
+    prefix: ""
+    priority: 80
+  - name: "Recruit"
+    prefix: "-"
+    priority: 70
