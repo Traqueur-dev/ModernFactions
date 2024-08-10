@@ -46,7 +46,7 @@ public class LangConfiguration implements Config {
         langs.getKeys().forEach(lang -> {
             String langFile = langs.getString(lang.toString());
             try {
-                YamlDocument langDocument = YamlDocument.create(new File(plugin.getDataFolder(), this.getFile()), Objects.requireNonNull(plugin.getResource(langFile)), GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT, UpdaterSettings.builder().setVersioning(new BasicVersioning("config-version")).build());
+                YamlDocument langDocument = YamlDocument.create(new File(plugin.getDataFolder(), langFile), Objects.requireNonNull(plugin.getResource(langFile)), GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT, UpdaterSettings.builder().setVersioning(new BasicVersioning("config-version")).build());
                 this.langs.put(lang.toString(), langDocument);
                 langDocument.save();
             } catch (IOException e) {
