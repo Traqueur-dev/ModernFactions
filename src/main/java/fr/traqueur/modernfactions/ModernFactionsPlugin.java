@@ -26,6 +26,7 @@ import fr.traqueur.modernfactions.listeners.ServerListener;
 import fr.traqueur.modernfactions.storages.JSONStorage;
 import fr.traqueur.modernfactions.storages.MongoDBStorage;
 import fr.traqueur.modernfactions.storages.SQLStorage;
+import fr.traqueur.modernfactions.storages.StorageType;
 import fr.traqueur.modernfactions.users.FUsersManager;
 import fr.traqueur.modernfactions.users.UsersListener;
 
@@ -92,8 +93,9 @@ public class ModernFactionsPlugin extends FactionsPlugin {
     private Storage registerStorage() {
         return switch(Config.getConfiguration(MainConfiguration.class).getStorageType()) {
             case MONGODB -> new MongoDBStorage(this, Config.getConfiguration(MainConfiguration.class).isDebug());
-            case SQL -> new SQLStorage(this);
+            case SQL -> new SQLStorage(this, StorageType.SQL);
             case JSON -> new JSONStorage(this, Config.getConfiguration(MainConfiguration.class).isDebug());
+            case SQLLITE -> new SQLStorage(this, StorageType.SQLLITE);
         };
     }
 

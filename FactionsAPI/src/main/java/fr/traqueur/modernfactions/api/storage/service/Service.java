@@ -23,6 +23,9 @@ public abstract class Service<T extends Data<DTO>, DTO> {
     public Service(FactionsPlugin plugin, Class<DTO> dtoClass, String table) {
         this.plugin = plugin;
         this.dtoClass = dtoClass;
+        if(!this.dtoClass.isRecord()) {
+            throw new IllegalArgumentException("DTO class must be a record !");
+        }
         this.cache = new ConcurrentCache<>(plugin,this);
         this.storage = plugin.getStorage();
         this.table = table;

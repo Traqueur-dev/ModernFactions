@@ -31,7 +31,7 @@ public class MainConfiguration implements Config {
         YamlDocument config = this.getConfig(this.plugin);
         this.storageType = StorageType.valueOf(config.getString("storage-type").toUpperCase());
         this.debug = config.getBoolean("storage-config.debug");
-        if(this.storageType == StorageType.SQL) {
+        if(this.storageType == StorageType.SQL || this.storageType == StorageType.SQLLITE) {
             this.databaseConfiguration = new DatabaseConfiguration(
                     config.getString("storage-config.table-prefix"),
                     config.getString("storage-config.username"),
@@ -40,7 +40,7 @@ public class MainConfiguration implements Config {
                     config.getString("storage-config.host"),
                     config.getString("storage-config.database"),
                     this.debug,
-                    DatabaseType.MYSQL
+                    this.storageType == StorageType.SQL ? DatabaseType.MYSQL : DatabaseType.SQLITE
             );
         } else if (this.storageType == StorageType.MONGODB) {
             this.mongoDBConfiguration = new MongoDBConfiguration(
@@ -73,7 +73,7 @@ public class MainConfiguration implements Config {
     }
 
     public DatabaseConfiguration getDatabaseConfiguration() {
-        if(this.storageType != StorageType.SQL) {
+        if(this.storageType != StorageType.SQL && this.storageType != StorageType.SQLLITE) {
             throw new UnsupportedOperationException("The storage type is not SQL");
         }
         return databaseConfiguration;

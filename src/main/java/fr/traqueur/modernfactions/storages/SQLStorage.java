@@ -4,6 +4,7 @@ import fr.maxlego08.sarah.*;
 import fr.traqueur.modernfactions.api.FactionsPlugin;
 import fr.traqueur.modernfactions.api.configurations.Config;
 import fr.traqueur.modernfactions.api.factions.FactionsManager;
+import fr.traqueur.modernfactions.api.storage.Primary;
 import fr.traqueur.modernfactions.api.storage.Storage;
 import fr.traqueur.modernfactions.api.users.UsersManager;
 import fr.traqueur.modernfactions.api.utils.FactionsLogger;
@@ -11,7 +12,9 @@ import fr.traqueur.modernfactions.configurations.MainConfiguration;
 import fr.traqueur.modernfactions.migrations.CreateFactionsTableMigration;
 import fr.traqueur.modernfactions.migrations.CreateUsersTableMigration;
 
+import java.io.File;
 import java.lang.reflect.Field;
+import java.lang.reflect.RecordComponent;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,10 +24,17 @@ public class SQLStorage implements Storage {
     private final DatabaseConnection connection;
     private final RequestHelper requester;
 
-    public SQLStorage(FactionsPlugin plugin) {
+    public SQLStorage(FactionsPlugin plugin, StorageType type) {
         DatabaseConfiguration databaseConfiguration = Config.getConfiguration(MainConfiguration.class).getDatabaseConfiguration();
         this.prefix = databaseConfiguration.getTablePrefix();
-        this.connection = new HikariDatabaseConnection(databaseConfiguration);
+        if(type == StorageType.SQL) {
+            this.connection = new HikariDatabaseConnection(databaseConfiguration);
+        } else if (type == StorageType.SQLLITE) {
+            this.connection = new SqliteConnection(databaseConfiguration, new File(plugin.getDataFolder(), "storage"));
+        } else {
+            throw new IllegalArgumentException("Invalid storage type !");
+        }
+
         this.requester = new RequestHelper(this.connection, FactionsLogger::info);
         if (!this.connection.isValid()) {
             FactionsLogger.severe("Unable to connect to database !");
@@ -43,15 +53,26 @@ public class SQLStorage implements Storage {
     @Override
     public <DTO> void save(String tableName, UUID id, DTO data) {
         this.requester.upsert(this.prefix+tableName, table -> {
-            for (Field declaredField : data.getClass().getDeclaredFields()) {
+            for (RecordComponent recordComponent : data.getClass().getRecordComponents()) {
                 try {
-                    declaredField.setAccessible(true);
-                    if(declaredField.get(data) instanceof UUID uuid) {
-                        table.uuid(declaredField.getName(), uuid);
-                        continue;
+                    Field field = data.getClass().getDeclaredField(recordComponent.getName());
+                    field.setAccessible(true);
+                    Object obj = field.get(data);
+
+                    if(recordComponent.isAnnotationPresent(Primary.class)) {
+                        if(obj instanceof UUID uuid) {
+                            table.uuid(recordComponent.getName(), uuid).primary();
+                            continue;
+                        }
+                        table.object(recordComponent.getName(), obj).primary();
+                    } else {
+                        if(obj instanceof UUID uuid) {
+                            table.uuid(recordComponent.getName(), uuid);
+                            continue;
+                        }
+                        table.object(recordComponent.getName(), obj);
                     }
-                    table.object(declaredField.getName(), declaredField.get(data));
-                } catch (IllegalAccessException e) {
+                } catch (IllegalAccessException | NoSuchFieldException e) {
                     throw new RuntimeException(e);
                 }
             }
