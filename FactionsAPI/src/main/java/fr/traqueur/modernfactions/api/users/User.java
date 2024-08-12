@@ -4,6 +4,7 @@ import fr.traqueur.modernfactions.api.dto.UserDTO;
 import fr.traqueur.modernfactions.api.factions.Faction;
 import fr.traqueur.modernfactions.api.factions.roles.Role;
 import fr.traqueur.modernfactions.api.storage.Data;
+import org.bukkit.Location;
 
 import java.util.UUID;
 
@@ -22,4 +23,10 @@ public interface User extends Data<UserDTO> {
     void sendMessage(String message);
 
     String getName();
+
+    Location getLocation();
+
+    void sendActionBar(String message);
+
+    void sendTitle(String notificationMessage, String subtitle, int fadeIn, int stay, int fadeOut);
 }

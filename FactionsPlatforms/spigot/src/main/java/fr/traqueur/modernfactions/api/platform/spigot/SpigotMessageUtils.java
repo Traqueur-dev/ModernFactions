@@ -3,9 +3,11 @@ package fr.traqueur.modernfactions.api.platform.spigot;
 import fr.traqueur.modernfactions.api.FactionsPlugin;
 import fr.traqueur.modernfactions.api.messages.MessageUtils;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
-import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.kyori.adventure.title.Title;
 import org.bukkit.entity.Player;
+
+import java.time.Duration;
+import java.time.temporal.TemporalUnit;
 
 public class SpigotMessageUtils implements MessageUtils {
 
@@ -19,6 +21,21 @@ public class SpigotMessageUtils implements MessageUtils {
     public void sendMessage(Player player, String message) {
         adventure.player(player).sendMessage(MINI_MESSAGE.deserialize(message));
     }
+
+    @Override
+    public void sendActionBar(Player player, String message) {
+        adventure.player(player).sendActionBar(MINI_MESSAGE.deserialize(message));
+    }
+
+    @Override
+    public void sendTitle(Player player, String title, String subtitle, int fadeIn, int stay, int fadeOut) {
+        Duration fadeInDuration = Duration.ofSeconds(fadeIn / 20);
+        Duration stayDuration = Duration.ofSeconds(stay / 20);
+        Duration fadeOutDuration = Duration.ofSeconds(fadeOut / 20);
+        Title.Times times = Title.Times.times(fadeInDuration, stayDuration, fadeOutDuration);
+        adventure.player(player).showTitle(Title.title(MINI_MESSAGE.deserialize(title), MINI_MESSAGE.deserialize(subtitle), times));
+    }
+
 
     public void close() {
         adventure.close();

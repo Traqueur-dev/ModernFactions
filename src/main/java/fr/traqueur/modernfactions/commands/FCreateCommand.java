@@ -18,11 +18,15 @@ import java.util.Optional;
 
 public class FCreateCommand extends FCommand {
 
+    private final RolesConfiguration rolesConfiguration;
+
     public FCreateCommand(FactionsPlugin plugin) {
         super(plugin, "create");
 
         this.setUsage("/f create <name>");
         this.addArgs("name:string");
+
+        this.rolesConfiguration = Config.getConfiguration(RolesConfiguration.class);
 
         this.setGameOnly(true);
     }
@@ -44,7 +48,7 @@ public class FCreateCommand extends FCommand {
         try {
             Faction faction = factionsManager.createFaction(name, user.getId());
             user.setFaction(faction.getId());
-            user.setRole(Config.getConfiguration(RolesConfiguration.class).getMaxPriorityRole());
+            user.setRole(rolesConfiguration.getMaxPriorityRole());
             user.sendMessage(Messages.CREATE_FACTION_MESSAGE.translate(Formatter.faction(faction)));
             Bukkit.getOnlinePlayers().stream().map(usersManager::getUser).forEach(user1 -> {
                 user1.ifPresent(value -> value.sendMessage(Messages.BROADCAST_CREATION_MESSAGE.translate(Formatter.faction(faction), Formatter.user(user))));

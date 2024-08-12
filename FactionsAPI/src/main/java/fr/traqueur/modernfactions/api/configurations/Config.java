@@ -18,8 +18,9 @@ public interface Config {
 
     Map<Class<?>, Config> REGISTERY = new HashMap<>();
 
-    static <T extends Config> void registerConfiguration(Class<T> clazz, T configuration) {
+    static <T extends Config> T registerConfiguration(Class<T> clazz, T configuration) {
         REGISTERY.put(clazz, configuration);
+        return configuration;
     }
 
     static <T extends Config> T getConfiguration(Class<T> clazz) {

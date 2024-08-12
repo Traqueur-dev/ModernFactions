@@ -16,11 +16,16 @@ import org.bukkit.entity.Player;
 
 public class FDisbandCommand extends FCommand {
 
+    private final RolesConfiguration rolesConfiguration;
+
     public FDisbandCommand(FactionsPlugin plugin) {
         super(plugin, "disband");
 
         this.setUsage("/f disband");
         this.addRequirements(new LeaderRequirement(plugin));
+
+        this.rolesConfiguration = Config.getConfiguration(RolesConfiguration.class);
+
         this.setGameOnly(true);
     }
 
@@ -31,7 +36,7 @@ public class FDisbandCommand extends FCommand {
         Faction faction = user.getFaction();
         factionsManager.removeFaction(faction);
         user.setFaction(factionsManager.getWilderness().getId());
-        user.setRole(Config.getConfiguration(RolesConfiguration.class).getDefaultRole());
+        user.setRole(rolesConfiguration.getDefaultRole());
         user.sendMessage(Messages.DISBAND_FACTION_MESSAGE.translate(Formatter.faction(faction)));
         Bukkit.getOnlinePlayers().stream().map(usersManager::getUser).forEach(user1 -> {
             user1.ifPresent(value -> value.sendMessage(Messages.BROADCAST_DISBAND_MESSAGE.translate(Formatter.faction(faction), Formatter.user(user))));

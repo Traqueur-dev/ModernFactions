@@ -14,4 +14,7 @@ public interface MessageUtils {
         return LegacyComponentSerializer.legacyAmpersand().serialize(MINI_MESSAGE.deserialize(message));
     }
 
+    void sendActionBar(Player player, String message);
+
+    void sendTitle(Player player, String title, String subtitle, int fadeIn, int stay, int fadeOut);
 }

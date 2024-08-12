@@ -5,7 +5,9 @@ import fr.traqueur.modernfactions.api.FactionsPlugin;
 import fr.traqueur.modernfactions.api.commands.FactionsCommandsHandler;
 import fr.traqueur.modernfactions.api.configurations.Config;
 import fr.traqueur.modernfactions.api.factions.FactionsManager;
+import fr.traqueur.modernfactions.api.lands.LandsManager;
 import fr.traqueur.modernfactions.api.messages.LangConfiguration;
+import fr.traqueur.modernfactions.api.messages.MessageUtils;
 import fr.traqueur.modernfactions.api.platform.paper.PaperMessageUtils;
 import fr.traqueur.modernfactions.api.platform.paper.listeners.PaperChatListener;
 import fr.traqueur.modernfactions.api.platform.spigot.SpigotMessageUtils;
@@ -14,11 +16,12 @@ import fr.traqueur.modernfactions.api.storage.Storage;
 import fr.traqueur.modernfactions.api.storage.service.Service;
 import fr.traqueur.modernfactions.api.users.UsersManager;
 import fr.traqueur.modernfactions.api.utils.FactionsLogger;
-import fr.traqueur.modernfactions.api.messages.MessageUtils;
 import fr.traqueur.modernfactions.commands.FCreateCommand;
 import fr.traqueur.modernfactions.commands.FDisbandCommand;
 import fr.traqueur.modernfactions.configurations.MainConfiguration;
 import fr.traqueur.modernfactions.factions.FFactionsManager;
+import fr.traqueur.modernfactions.lands.FLandsManager;
+import fr.traqueur.modernfactions.listeners.MoveListener;
 import fr.traqueur.modernfactions.listeners.ServerListener;
 import fr.traqueur.modernfactions.storages.JSONStorage;
 import fr.traqueur.modernfactions.storages.MongoDBStorage;
@@ -47,6 +50,7 @@ public class ModernFactionsPlugin extends FactionsPlugin {
 
         this.registerManager(new FUsersManager(this), UsersManager.class);
         this.registerManager(new FFactionsManager(this), FactionsManager.class);
+        this.registerManager(new FLandsManager(this), LandsManager.class);
 
         for (Config configuration : Config.REGISTERY.values()) {
             if(configuration instanceof MainConfiguration || configuration instanceof LangConfiguration) {
@@ -60,6 +64,7 @@ public class ModernFactionsPlugin extends FactionsPlugin {
 
         this.getServer().getPluginManager().registerEvents(new UsersListener(this), this);
         this.getServer().getPluginManager().registerEvents(new ServerListener(this), this);
+        this.getServer().getPluginManager().registerEvents(new MoveListener(this), this);
 
         if(this.isPaperVersion()) {
             this.getServer().getPluginManager().registerEvents(new PaperChatListener(this), this);

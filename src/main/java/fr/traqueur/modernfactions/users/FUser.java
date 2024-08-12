@@ -9,6 +9,7 @@ import fr.traqueur.modernfactions.api.factions.roles.Role;
 import fr.traqueur.modernfactions.api.users.User;
 import fr.traqueur.modernfactions.configurations.RolesConfiguration;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
@@ -74,5 +75,25 @@ public class FUser implements User {
     @Override
     public String getName() {
         return this.name;
+    }
+
+    public Location getLocation() {
+        Player player = Bukkit.getPlayer(this.uuid);
+        if(player == null) {
+            throw new IllegalStateException("Player not found");
+        }
+        return player.getLocation();
+    }
+
+    @Override
+    public void sendActionBar(String message) {
+        Player player = Bukkit.getPlayer(this.uuid);
+        plugin.getMessageUtils().sendActionBar(player, message);
+    }
+
+    @Override
+    public void sendTitle(String notificationMessage, String subtitle, int fadeIn, int stay, int fadeOut) {
+        Player player = Bukkit.getPlayer(this.uuid);
+        plugin.getMessageUtils().sendTitle(player, notificationMessage, subtitle, fadeIn, stay, fadeOut);
     }
 }

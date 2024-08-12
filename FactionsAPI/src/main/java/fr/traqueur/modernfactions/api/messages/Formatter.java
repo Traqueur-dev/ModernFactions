@@ -4,6 +4,7 @@ import fr.traqueur.modernfactions.api.FactionsPlugin;
 import fr.traqueur.modernfactions.api.factions.Faction;
 import fr.traqueur.modernfactions.api.users.User;
 
+import java.util.List;
 import java.util.function.Function;
 
 public class Formatter {
@@ -35,6 +36,13 @@ public class Formatter {
 
     public static Formatter user(User user) {
         return format("%user%", ressourcefulBeesLikeAPI -> user.getName());
+    }
+
+    public static String factionDescription(String message) {
+        for (Formatter formatter : List.of(wildernessDescription(), safezoneDescription(), warzoneDescription())) {
+            message = formatter.handle(null, message);
+        }
+        return message;
     }
 
     public static Formatter wildernessDescription() {
