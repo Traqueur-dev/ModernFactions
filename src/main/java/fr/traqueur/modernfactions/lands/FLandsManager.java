@@ -7,6 +7,7 @@ import fr.traqueur.modernfactions.api.lands.LandsManager;
 import fr.traqueur.modernfactions.api.messages.Formatter;
 import fr.traqueur.modernfactions.api.users.User;
 import fr.traqueur.modernfactions.configurations.LandsConfiguration;
+import fr.traqueur.modernfactions.relations.Relations;
 
 public class FLandsManager implements LandsManager {
 
@@ -27,6 +28,9 @@ public class FLandsManager implements LandsManager {
                 .replace("%faction%", factionName)
                 .replace("%faction_description%", description);
 
+        //TODO: get relation between user and faction and replace optional <relation_color> in message
+        message = Relations.ALLY.changeColorMessage(message);
+
         switch (this.landsConfiguration.getNotificationType()) {
             case ACTION_BAR:
                 user.sendActionBar(message);
@@ -38,6 +42,7 @@ public class FLandsManager implements LandsManager {
                 String subtitle = this.landsConfiguration.getSubtitle()
                         .replace("%faction%", factionName)
                         .replace("%faction_description%", description);
+                //TODO: get relation between user and faction and replace optional <relation_color> in message
                 user.sendTitle(message, subtitle, this.landsConfiguration.getFadeIn(), this.landsConfiguration.getStay(), this.landsConfiguration.getFadeOut());
                 break;
         }
