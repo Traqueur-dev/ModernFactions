@@ -2,6 +2,7 @@ package fr.traqueur.modernfactions.api.messages;
 
 import fr.traqueur.modernfactions.api.FactionsPlugin;
 import fr.traqueur.modernfactions.api.factions.Faction;
+import fr.traqueur.modernfactions.api.relations.RelationsType;
 import fr.traqueur.modernfactions.api.users.User;
 
 import java.util.List;
@@ -32,6 +33,11 @@ public class Formatter {
 
     public static Formatter faction(Faction faction) {
         return format("%faction%", ressourcefulBeesLikeAPI -> faction.getName());
+    }
+
+    public static Formatter relation(RelationsType relation) {
+        //TODO add translation for relations
+        return format("%relation%", ressourcefulBeesLikeAPI -> relation.name());
     }
 
     public static Formatter user(User user) {

@@ -31,8 +31,7 @@ public class FDisbandCommand extends FCommand {
 
     @Override
     public void execute(CommandSender commandSender, Arguments arguments) {
-        Player player = (Player) commandSender;
-        User user = usersManager.getUser(player).orElseThrow(() -> new IllegalArgumentException("User not found."));
+        User user = this.getUser(commandSender);
         Faction faction = user.getFaction();
         factionsManager.removeFaction(faction);
         user.setFaction(factionsManager.getWilderness().getId());

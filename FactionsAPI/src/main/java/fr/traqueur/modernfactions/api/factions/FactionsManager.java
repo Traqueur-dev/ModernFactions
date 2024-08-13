@@ -5,6 +5,7 @@ import fr.traqueur.modernfactions.api.managers.Manager;
 import org.bukkit.entity.Player;
 
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 public interface FactionsManager extends Manager {
@@ -25,6 +26,8 @@ public interface FactionsManager extends Manager {
         Faction createFaction(String faction, UUID leader) throws FactionAlreadyExistsException;
 
         void removeFaction(Faction faction);
+
+        Set<Faction> getFactions();
 
         Faction getWilderness();
 

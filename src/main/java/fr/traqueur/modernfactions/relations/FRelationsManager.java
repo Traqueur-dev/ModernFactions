@@ -25,6 +25,16 @@ public class FRelationsManager implements RelationsManager {
     }
 
     @Override
+    public Relation createRelation(Faction emitter, Faction receiver, RelationsType type) {
+        return new FRelation(emitter, receiver, type);
+    }
+
+    @Override
+    public void addRelation(Relation relation) {
+        this.service.save(relation);
+    }
+
+    @Override
     public RelationsType getRelationBetween(Faction faction, Faction value) {
         if(faction.getId().equals(value.getId())) {
             return RelationsType.OWN;

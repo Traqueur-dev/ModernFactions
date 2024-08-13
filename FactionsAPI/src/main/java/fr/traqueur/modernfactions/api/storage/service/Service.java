@@ -116,6 +116,4 @@ public abstract class Service<T extends Data<DTO>, DTO> {
 
 
     public abstract T deserialize(@Nullable DTO dto);
-
-
 }

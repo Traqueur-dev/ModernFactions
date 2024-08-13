@@ -12,9 +12,7 @@ import fr.traqueur.modernfactions.api.users.UsersManager;
 import fr.traqueur.modernfactions.configurations.RolesConfiguration;
 import org.bukkit.entity.Player;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public class FFactionsManager implements FactionsManager {
 
@@ -72,6 +70,11 @@ public class FFactionsManager implements FactionsManager {
     @Override
     public void removeFaction(Faction faction) {
         this.service.delete(faction);
+    }
+
+    @Override
+    public Set<Faction> getFactions() {
+        return new HashSet<>(this.service.values());
     }
 
     @Override

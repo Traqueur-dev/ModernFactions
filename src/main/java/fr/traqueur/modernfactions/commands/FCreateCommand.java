@@ -33,15 +33,10 @@ public class FCreateCommand extends FCommand {
 
     @Override
     public void execute(CommandSender commandSender, Arguments arguments) {
-        Optional<User> userOpt = usersManager.getUser((Player) commandSender);
-        if(userOpt.isEmpty()) {
-            commandSender.sendMessage("§cErreur: Impossible de charger votre profil.");
-            return;
-        }
-        User user = userOpt.get();
+        User user = this.getUser(commandSender);
         String name = arguments.get("name");
         if (!user.getFaction().isWilderness()) {
-            user.sendMessage("<red>Vous êtes déjà dans une faction.");
+            user.sendMessage(Messages.ALREADY_IN_FACTION_MESSAGE.translate());
             return;
         }
 
