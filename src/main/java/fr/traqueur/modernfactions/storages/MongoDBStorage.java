@@ -25,6 +25,7 @@ import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -131,14 +132,18 @@ public class MongoDBStorage implements Storage {
     }
 
     @Override
-    public <DTO> List<DTO> where(String tableName, Class<DTO> clazz, String key, String content) {
+    public <DTO> List<DTO> where(String tableName, Class<DTO> clazz, String[] key, String[] content) {
         if (this.isDebug()) {
-            FactionsLogger.info("Fetching MongoDB data from collection: " + tableName + " with key " + key + "is " + content);
+            FactionsLogger.info("Fetching MongoDB data from collection: " + tableName + " with keys " + Arrays.toString(key) + "is " + Arrays.toString(content));
         }
         MongoCollection<Document> collection = this.mongoDatabase.getCollection(this.tablePrefix+tableName);
         List<DTO> values = new ArrayList<>();
-        for (Document document : collection.find(Filters.eq(key, content))) {
-            values.add(this.gson.fromJson(document.toJson(), clazz));
+        Document document = new Document();
+        for (int i = 0; i < key.length; i++) {
+            document.put(key[i], content[i]);
+        }
+        for (Document doc : collection.find(document)) {
+            values.add(this.gson.fromJson(doc.toJson(), clazz));
         }
         return values;
     }

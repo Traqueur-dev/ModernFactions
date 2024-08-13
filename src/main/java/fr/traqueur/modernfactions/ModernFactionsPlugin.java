@@ -12,6 +12,7 @@ import fr.traqueur.modernfactions.api.platform.paper.PaperMessageUtils;
 import fr.traqueur.modernfactions.api.platform.paper.listeners.PaperChatListener;
 import fr.traqueur.modernfactions.api.platform.spigot.SpigotMessageUtils;
 import fr.traqueur.modernfactions.api.platform.spigot.listeners.SpigotChatListener;
+import fr.traqueur.modernfactions.api.relations.RelationsManager;
 import fr.traqueur.modernfactions.api.storage.Storage;
 import fr.traqueur.modernfactions.api.storage.service.Service;
 import fr.traqueur.modernfactions.api.users.UsersManager;
@@ -23,6 +24,7 @@ import fr.traqueur.modernfactions.factions.FFactionsManager;
 import fr.traqueur.modernfactions.lands.FLandsManager;
 import fr.traqueur.modernfactions.listeners.MoveListener;
 import fr.traqueur.modernfactions.listeners.ServerListener;
+import fr.traqueur.modernfactions.relations.FRelationsManager;
 import fr.traqueur.modernfactions.storages.JSONStorage;
 import fr.traqueur.modernfactions.storages.MongoDBStorage;
 import fr.traqueur.modernfactions.storages.SQLStorage;
@@ -52,6 +54,7 @@ public class ModernFactionsPlugin extends FactionsPlugin {
         this.registerManager(new FUsersManager(this), UsersManager.class);
         this.registerManager(new FFactionsManager(this), FactionsManager.class);
         this.registerManager(new FLandsManager(this), LandsManager.class);
+        this.registerManager(new FRelationsManager(this), RelationsManager.class);
 
         for (Config configuration : Config.REGISTERY.values()) {
             if(configuration instanceof MainConfiguration || configuration instanceof LangConfiguration) {

@@ -2,7 +2,6 @@ package fr.traqueur.modernfactions.api.events;
 
 import fr.traqueur.modernfactions.api.FactionsPlugin;
 import org.bukkit.Chunk;
-import org.bukkit.ChunkSnapshot;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;

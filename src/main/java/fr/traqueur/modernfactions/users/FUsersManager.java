@@ -12,6 +12,7 @@ import fr.traqueur.modernfactions.configurations.RolesConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.Optional;
+import java.util.UUID;
 
 public class FUsersManager implements UsersManager {
 
@@ -38,6 +39,11 @@ public class FUsersManager implements UsersManager {
     @Override
     public Optional<User> getUser(Player player) {
         return this.service.get(player.getUniqueId());
+    }
+
+    @Override
+    public Optional<User> getUserById(UUID uuid) {
+        return this.service.get(uuid);
     }
 
     @Override

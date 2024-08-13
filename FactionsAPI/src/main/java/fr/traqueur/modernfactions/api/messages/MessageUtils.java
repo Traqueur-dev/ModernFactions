@@ -1,5 +1,6 @@
 package fr.traqueur.modernfactions.api.messages;
 
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.entity.Player;
@@ -12,6 +13,10 @@ public interface MessageUtils {
 
     default String convertToLegacyFormat(String message) {
         return LegacyComponentSerializer.legacyAmpersand().serialize(MINI_MESSAGE.deserialize(message));
+    }
+
+    default Component convertToComponent(String message) {
+        return MINI_MESSAGE.deserialize(message);
     }
 
     void sendActionBar(Player player, String message);

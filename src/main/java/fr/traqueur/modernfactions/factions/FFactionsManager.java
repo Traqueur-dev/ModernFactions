@@ -23,7 +23,7 @@ public class FFactionsManager implements FactionsManager {
 
     public FFactionsManager(FactionsPlugin plugin) {
        this.plugin = plugin;
-       this.service = new FactionService(plugin, FactionsManager.TABLE_NAME);
+       this.service = new FactionService(plugin, TABLE_NAME);
        Config.registerConfiguration(RolesConfiguration.class, new RolesConfiguration(this.plugin));
     }
 

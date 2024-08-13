@@ -1,6 +1,6 @@
-package fr.traqueur.modernfactions.relations;
+package fr.traqueur.modernfactions.api.relations;
 
-public enum Relations {
+public enum RelationsType {
 
     OWN("<green>"),
     ALLY("<dark_purple>"),
@@ -11,7 +11,7 @@ public enum Relations {
 
     private final String color;
 
-    Relations(String color) {
+    RelationsType(String color) {
         this.color = color;
     }
 

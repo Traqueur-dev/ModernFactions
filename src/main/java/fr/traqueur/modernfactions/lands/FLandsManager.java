@@ -5,9 +5,10 @@ import fr.traqueur.modernfactions.api.configurations.Config;
 import fr.traqueur.modernfactions.api.factions.Faction;
 import fr.traqueur.modernfactions.api.lands.LandsManager;
 import fr.traqueur.modernfactions.api.messages.Formatter;
+import fr.traqueur.modernfactions.api.relations.RelationsManager;
+import fr.traqueur.modernfactions.api.relations.RelationsType;
 import fr.traqueur.modernfactions.api.users.User;
 import fr.traqueur.modernfactions.configurations.LandsConfiguration;
-import fr.traqueur.modernfactions.relations.Relations;
 
 public class FLandsManager implements LandsManager {
 
@@ -21,6 +22,7 @@ public class FLandsManager implements LandsManager {
 
     @Override
     public void sendNotification(User user, Faction faction) {
+        RelationsManager relationsManager = plugin.getManager(RelationsManager.class);
         String description = Formatter.factionDescription(faction.getDescription());
         String factionName = faction.getName();
 
@@ -28,8 +30,8 @@ public class FLandsManager implements LandsManager {
                 .replace("%faction%", factionName)
                 .replace("%faction_description%", description);
 
-        //TODO: get relation between user and faction and replace optional <relation_color> in message
-        message = Relations.ALLY.changeColorMessage(message);
+        RelationsType relationsType = relationsManager.getRelationBetween(user.getFaction(), faction);
+        message = relationsType.changeColorMessage(message);
 
         switch (this.landsConfiguration.getNotificationType()) {
             case ACTION_BAR:
@@ -42,7 +44,7 @@ public class FLandsManager implements LandsManager {
                 String subtitle = this.landsConfiguration.getSubtitle()
                         .replace("%faction%", factionName)
                         .replace("%faction_description%", description);
-                //TODO: get relation between user and faction and replace optional <relation_color> in message
+                subtitle = relationsType.changeColorMessage(subtitle);
                 user.sendTitle(message, subtitle, this.landsConfiguration.getFadeIn(), this.landsConfiguration.getStay(), this.landsConfiguration.getFadeOut());
                 break;
         }

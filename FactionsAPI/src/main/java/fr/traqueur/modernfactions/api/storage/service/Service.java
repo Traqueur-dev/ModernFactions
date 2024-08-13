@@ -5,6 +5,7 @@ import fr.traqueur.modernfactions.api.storage.Data;
 import fr.traqueur.modernfactions.api.storage.Storage;
 import fr.traqueur.modernfactions.api.storage.cache.Cache;
 import fr.traqueur.modernfactions.api.storage.cache.ConcurrentCache;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -47,12 +48,21 @@ public abstract class Service<T extends Data<DTO>, DTO> {
     }
 
     public List<T> where(String key, String content) {
+        return this.where(new String[] {key}, new String[]{content});
+    }
+
+    public List<T> where(String[] key, String[] content) {
         List<T> values = this.cache.values().stream().filter(data -> {
             try {
                 DTO dto = data.toDTO();
-                Field field = dto.getClass().getDeclaredField(key);
-                field.setAccessible(true);
-                return field.get(dto).toString().equals(content);
+                for (int i = 0; i < key.length; i++) {
+                    Field field = dto.getClass().getDeclaredField(key[i]);
+                    field.setAccessible(true);
+                    if (!field.get(dto).toString().equals(content[i])) {
+                        return false;
+                    }
+                }
+                return true;
             } catch (NoSuchFieldException | IllegalAccessException e) {
                 throw new RuntimeException(e);
             }
@@ -105,7 +115,7 @@ public abstract class Service<T extends Data<DTO>, DTO> {
     }
 
 
-    public abstract T deserialize(DTO dto);
+    public abstract T deserialize(@Nullable DTO dto);
 
 
 }

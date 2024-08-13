@@ -7,7 +7,6 @@ import net.kyori.adventure.title.Title;
 import org.bukkit.entity.Player;
 
 import java.time.Duration;
-import java.time.temporal.TemporalUnit;
 
 public class SpigotMessageUtils implements MessageUtils {
 

@@ -4,12 +4,14 @@ import fr.maxlego08.sarah.*;
 import fr.traqueur.modernfactions.api.FactionsPlugin;
 import fr.traqueur.modernfactions.api.configurations.Config;
 import fr.traqueur.modernfactions.api.factions.FactionsManager;
+import fr.traqueur.modernfactions.api.relations.RelationsManager;
 import fr.traqueur.modernfactions.api.storage.Primary;
 import fr.traqueur.modernfactions.api.storage.Storage;
 import fr.traqueur.modernfactions.api.users.UsersManager;
 import fr.traqueur.modernfactions.api.utils.FactionsLogger;
 import fr.traqueur.modernfactions.configurations.MainConfiguration;
 import fr.traqueur.modernfactions.migrations.CreateFactionsTableMigration;
+import fr.traqueur.modernfactions.migrations.CreateRelationsTableMigration;
 import fr.traqueur.modernfactions.migrations.CreateUsersTableMigration;
 
 import java.io.File;
@@ -45,6 +47,7 @@ public class SQLStorage implements Storage {
 
         MigrationManager.registerMigration(new CreateUsersTableMigration(UsersManager.TABLE_NAME));
         MigrationManager.registerMigration(new CreateFactionsTableMigration(FactionsManager.TABLE_NAME));
+        MigrationManager.registerMigration(new CreateRelationsTableMigration(RelationsManager.TABLE_NAME));
     }
 
     @Override
@@ -100,9 +103,11 @@ public class SQLStorage implements Storage {
     }
 
     @Override
-    public <DTO> List<DTO> where(String tableName, Class<DTO> clazz, String key, String content) {
+    public <DTO> List<DTO> where(String tableName, Class<DTO> clazz, String[] key, String[] content) {
         return this.requester.select(this.prefix+tableName, clazz, table -> {
-            table.where(key, content);
+            for (int i = 0; i < key.length; i++) {
+                table.where(key[i], content[i]);
+            }
         });
     }
 

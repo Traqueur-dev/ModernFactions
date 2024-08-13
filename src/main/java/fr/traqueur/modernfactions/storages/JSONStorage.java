@@ -119,7 +119,7 @@ public class JSONStorage implements Storage {
     }
 
     @Override
-    public <DTO> List<DTO> where(String tableName, Class<DTO> clazz, String key, String content) {
+    public <DTO> List<DTO> where(String tableName, Class<DTO> clazz, String[] key, String[] content) {
         File tableFolder = new File(this.getFolder(), tableName);
         List<DTO> values = new ArrayList<>();
         if (tableFolder.exists()) {
@@ -129,7 +129,14 @@ public class JSONStorage implements Storage {
                     try {
                         String fileContent = new String(Files.readAllBytes(file.toPath()));
                         Map<String, Object> map = this.gson.fromJson(fileContent, new TypeToken<Map<String, Object>>(){}.getType());
-                        if (map.containsKey(key) && map.get(key).equals(content)) {
+                        boolean valid = true;
+                        for (int i = 0; i < key.length; i++) {
+                            if (!map.containsKey(key[i]) || !map.get(key[i]).equals(content[i])) {
+                                valid = false;
+                                break;
+                            }
+                        }
+                        if (valid) {
                             values.add(this.gson.fromJson(fileContent, clazz));
                         }
                     } catch (IOException e) {
