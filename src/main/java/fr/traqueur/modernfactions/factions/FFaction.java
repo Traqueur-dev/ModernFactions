@@ -4,8 +4,10 @@ import fr.traqueur.modernfactions.api.FactionsPlugin;
 import fr.traqueur.modernfactions.api.dto.FactionDTO;
 import fr.traqueur.modernfactions.api.factions.Faction;
 import fr.traqueur.modernfactions.api.factions.FactionsManager;
-import fr.traqueur.modernfactions.api.relations.RelationsType;
 import fr.traqueur.modernfactions.api.relations.RelationWish;
+import fr.traqueur.modernfactions.api.relations.RelationsType;
+import fr.traqueur.modernfactions.api.users.User;
+import fr.traqueur.modernfactions.api.users.UsersManager;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -83,13 +85,23 @@ public class FFaction implements Faction {
     }
 
     @Override
-    public Optional<RelationWish> getRelationWish(Faction emitter) {
-        return this.relationWishes.stream().filter(relationWish -> relationWish.emitter().getId().equals(emitter.getId())).findFirst();
+    public Optional<RelationWish> getRelationWish(Faction emitter, RelationsType type) {
+        return this.relationWishes.stream().filter(relationWish ->
+                relationWish.emitter().getId().equals(emitter.getId())
+        && relationWish.type().equals(type)).findFirst();
     }
 
     @Override
     public UUID getId() {
         return this.id;
+    }
+
+    @Override
+    public void broadcast(String message) {
+        UsersManager usersManager = this.plugin.getManager(UsersManager.class);
+        usersManager.getUsersInFaction(this)
+                .stream().filter(User::isOnline)
+                .forEach(user -> user.sendMessage(message));
     }
 
     @Override

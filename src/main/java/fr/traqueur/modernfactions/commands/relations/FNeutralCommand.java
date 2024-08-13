@@ -10,11 +10,10 @@ import fr.traqueur.modernfactions.api.relations.RelationsType;
 import fr.traqueur.modernfactions.api.users.User;
 import org.bukkit.command.CommandSender;
 
-public class FEnemyCommand extends RelationCommand {
+public class FNeutralCommand extends RelationCommand {
 
-    public FEnemyCommand(FactionsPlugin plugin) {
-        super(plugin, "enemy");
-
+    public FNeutralCommand(FactionsPlugin plugin) {
+        super(plugin, "neutral");
         this.addArgs("receiver:faction");
         this.setGameOnly(true);
     }
@@ -26,11 +25,17 @@ public class FEnemyCommand extends RelationCommand {
             return;
         }
 
-        RelationsType type = this.relationsManager.getRelationBetween(emitter, receiver);
-        if (type == RelationsType.ENEMY) {
-            user.sendMessage(Messages.ALREADY_RELATION_MESSAGE.translate(Formatter.relation(RelationsType.ENEMY), Formatter.faction(receiver)));
-        } else {
-            relation(emitter, receiver, RelationsType.ENEMY, false);
+        RelationsType oldRelation = this.relationsManager.getRelationBetween(emitter, receiver);
+        switch (oldRelation) {
+            case ALLY, TRUCE -> {
+                relation(emitter, receiver, RelationsType.NEUTRAL, false);
+            }
+            case NEUTRAL -> {
+                user.sendMessage(Messages.ALREADY_RELATION_MESSAGE.translate(Formatter.relation(RelationsType.NEUTRAL), Formatter.faction(receiver)));
+            }
+            case ENEMY -> {
+                emitter.getRelationWish(receiver, RelationsType.NEUTRAL).ifPresentOrElse(acceptRelation(emitter, receiver, RelationsType.NEUTRAL), wishRelation(emitter, receiver, user, RelationsType.NEUTRAL));
+            }
         }
     }
 }

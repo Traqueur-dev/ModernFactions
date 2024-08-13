@@ -12,7 +12,6 @@ import fr.traqueur.modernfactions.api.users.User;
 import fr.traqueur.modernfactions.configurations.RolesConfiguration;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 public class FDisbandCommand extends FCommand {
 

@@ -7,7 +7,6 @@ import fr.traqueur.modernfactions.api.factions.Faction;
 import fr.traqueur.modernfactions.api.factions.FactionsManager;
 import fr.traqueur.modernfactions.api.users.UsersManager;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.List;
 import java.util.Set;

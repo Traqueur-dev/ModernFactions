@@ -6,7 +6,6 @@ import fr.traqueur.modernfactions.api.relations.RelationsManager;
 import fr.traqueur.modernfactions.api.relations.RelationsType;
 import fr.traqueur.modernfactions.api.users.User;
 import fr.traqueur.modernfactions.api.users.UsersManager;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

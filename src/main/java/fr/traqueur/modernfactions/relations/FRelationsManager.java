@@ -8,6 +8,8 @@ import fr.traqueur.modernfactions.api.relations.RelationsManager;
 import fr.traqueur.modernfactions.api.relations.RelationsType;
 import fr.traqueur.modernfactions.api.storage.service.Service;
 
+import java.util.Optional;
+
 public class FRelationsManager implements RelationsManager {
 
     private final FactionsPlugin plugin;
@@ -32,6 +34,26 @@ public class FRelationsManager implements RelationsManager {
     @Override
     public void addRelation(Relation relation) {
         this.service.save(relation);
+    }
+
+    @Override
+    public void removeRelation(Relation relation) {
+        this.service.delete(relation);
+    }
+
+    @Override
+    public Optional<Relation> getRelation(Faction emitter, Faction receiver) {
+        Optional<Relation> opt = this.service.where(new String[] {"faction_emitter", "faction_receiver"}, new String[] {emitter.getName(), receiver.getName()})
+                .stream()
+                .findFirst();
+
+        if(opt.isEmpty()) {
+            return this.service.where(new String[] {"faction_emitter", "faction_receiver"}, new String[] {receiver.getName(), emitter.getName()})
+                    .stream()
+                    .findFirst();
+        }
+
+        return opt;
     }
 
     @Override

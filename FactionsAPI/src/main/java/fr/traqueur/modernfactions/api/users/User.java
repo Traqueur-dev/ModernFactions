@@ -29,4 +29,6 @@ public interface User extends Data<UserDTO> {
     void sendActionBar(String message);
 
     void sendTitle(String notificationMessage, String subtitle, int fadeIn, int stay, int fadeOut);
+
+    boolean isOnline();
 }

@@ -67,16 +67,15 @@ public abstract class Service<T extends Data<DTO>, DTO> {
                 throw new RuntimeException(e);
             }
         }).collect(Collectors.toList());
-        if (!values.isEmpty()) {
-            return values;
-        }
 
         this.storage.where(table, this.dtoClass, key, content)
                 .stream()
                 .map(this::deserialize)
                 .forEach(value -> {
-            this.cache.add(value);
-            values.add(value);
+                    if(!this.cache.values().contains(value)) {
+                        this.cache.add(value);
+                        values.add(value);
+                    }
         });
 
         return values;

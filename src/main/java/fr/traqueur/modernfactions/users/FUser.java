@@ -10,6 +10,7 @@ import fr.traqueur.modernfactions.api.users.User;
 import fr.traqueur.modernfactions.configurations.RolesConfiguration;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
@@ -95,5 +96,11 @@ public class FUser implements User {
     public void sendTitle(String notificationMessage, String subtitle, int fadeIn, int stay, int fadeOut) {
         Player player = Bukkit.getPlayer(this.uuid);
         plugin.getMessageUtils().sendTitle(player, notificationMessage, subtitle, fadeIn, stay, fadeOut);
+    }
+
+    @Override
+    public boolean isOnline() {
+        OfflinePlayer player = Bukkit.getOfflinePlayer(this.uuid);
+        return player.isOnline();
     }
 }

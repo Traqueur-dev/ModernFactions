@@ -12,9 +12,6 @@ import fr.traqueur.modernfactions.api.users.User;
 import fr.traqueur.modernfactions.configurations.RolesConfiguration;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
-import java.util.Optional;
 
 public class FCreateCommand extends FCommand {
 
