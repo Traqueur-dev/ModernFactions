@@ -5,10 +5,14 @@ import fr.traqueur.commands.api.arguments.TabConverter;
 import fr.traqueur.modernfactions.api.FactionsPlugin;
 import fr.traqueur.modernfactions.api.factions.Faction;
 import fr.traqueur.modernfactions.api.factions.FactionsManager;
+import fr.traqueur.modernfactions.api.users.User;
 import fr.traqueur.modernfactions.api.users.UsersManager;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -33,6 +37,13 @@ public class FactionArgument implements ArgumentConverter<Faction>, TabConverter
         if(!commandSender.isOp()) {
             factions = factions.stream().filter(faction -> !faction.isSystem()).collect(Collectors.toSet());
         }
-        return factions.stream().map(Faction::getName).collect(Collectors.toList());
+        Set<Faction> finalFactions = new HashSet<>(factions);
+        if(commandSender instanceof Player player) {
+            Optional<User> userOpt = usersManager.getUser(player);
+            userOpt.ifPresent(user -> {
+                finalFactions.removeIf(faction -> faction.getId().equals(user.getFaction().getId()));
+            });
+        }
+        return finalFactions.stream().map(Faction::getName).collect(Collectors.toList());
     }
 }

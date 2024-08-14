@@ -85,6 +85,11 @@ public class FFaction implements Faction {
     }
 
     @Override
+    public void removeRelationWish(Faction emitter, RelationsType type) {
+        this.relationWishes.removeIf(relationWish -> relationWish.emitter().getId().equals(emitter.getId()) && relationWish.type().equals(type));
+    }
+
+    @Override
     public Optional<RelationWish> getRelationWish(Faction emitter, RelationsType type) {
         return this.relationWishes.stream().filter(relationWish ->
                 relationWish.emitter().getId().equals(emitter.getId())

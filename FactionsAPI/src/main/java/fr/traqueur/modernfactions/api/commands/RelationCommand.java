@@ -62,6 +62,8 @@ public abstract class RelationCommand extends FCommand {
                 this.relationsManager.removeRelation(relation);
             });
             Relation relation = relationWish.conclude(emitter);
+            receiver.removeRelationWish(emitter, type);
+            emitter.removeRelationWish(receiver, type);
             this.relationsManager.addRelation(relation);
             emitter.broadcast(Messages.RELATION_COMMAND_MESSAGE.translate(Formatter.faction(receiver), Formatter.relation(type)));
             receiver.broadcast(Messages.RECEIVER_RELATION_COMMAND_MESSAGE.translate(Formatter.faction(emitter), Formatter.relation(type)));

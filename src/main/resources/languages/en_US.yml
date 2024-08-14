@@ -24,3 +24,8 @@ same_faction_message: "<red>You can't do this action with your own faction."
 wilderness_description: "The wilderness is a place where you can build your base."
 safezone_description: "The safezone is a place where you can't be attacked."
 warzone_description: "The warzone is a place where you can attack other players."
+
+enemy_relation_name: "enemy"
+ally_relation_name: "ally"
+neutral_relation_name: "neutral"
+truce_relation_name: "truce"

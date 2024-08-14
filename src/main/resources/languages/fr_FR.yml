@@ -24,3 +24,8 @@ same_faction_message: "<red>Vous ne pouvez pas réaliser cette action avec votre
 wilderness_description: "La nature est un endroit où vous pouvez construire votre base."
 safezone_description: "La zone sûre est un endroit où vous ne pouvez pas être attaqué."
 warzone_description: "La zone de guerre est un endroit où vous pouvez attaquer d'autres joueurs."
+
+enemy_relation_name: "ennemie"
+ally_relation_name: "alliée"
+neutral_relation_name: "neutre"
+truce_relation_name: "en trêve"

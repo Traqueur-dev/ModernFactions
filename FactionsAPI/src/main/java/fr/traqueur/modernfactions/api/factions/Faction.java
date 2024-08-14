@@ -28,6 +28,8 @@ public interface Faction extends Data<FactionDTO> {
 
     void addRelationWish(Faction emitter, RelationsType type);
 
+    void removeRelationWish(Faction emitter, RelationsType type);
+
     Optional<RelationWish> getRelationWish(Faction emitter, RelationsType type);
 
     void broadcast(String message);

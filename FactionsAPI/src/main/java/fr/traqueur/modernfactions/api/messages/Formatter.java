@@ -37,7 +37,7 @@ public class Formatter {
 
     public static Formatter relation(RelationsType relation) {
         //TODO add translation for relations
-        return format("%relation%", ressourcefulBeesLikeAPI -> relation.name());
+        return format("%relation%", ressourcefulBeesLikeAPI -> relation.message());
     }
 
     public static Formatter user(User user) {
