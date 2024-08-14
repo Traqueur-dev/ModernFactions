@@ -5,6 +5,8 @@ import fr.traqueur.modernfactions.api.FactionsPlugin;
 import fr.traqueur.modernfactions.api.commands.FCommand;
 import fr.traqueur.modernfactions.api.commands.requirements.LeaderRequirement;
 import fr.traqueur.modernfactions.api.configurations.Config;
+import fr.traqueur.modernfactions.api.events.FactionCreateEvent;
+import fr.traqueur.modernfactions.api.events.FactionDisbandEvent;
 import fr.traqueur.modernfactions.api.factions.Faction;
 import fr.traqueur.modernfactions.api.messages.Formatter;
 import fr.traqueur.modernfactions.api.messages.Messages;
@@ -32,6 +34,13 @@ public class FDisbandCommand extends FCommand {
     public void execute(CommandSender commandSender, Arguments arguments) {
         User user = this.getUser(commandSender);
         Faction faction = user.getFaction();
+
+        FactionDisbandEvent event = new FactionDisbandEvent(user, faction);
+        this.getPlugin().getServer().getPluginManager().callEvent(event);
+        if(event.isCancelled()) {
+            return;
+        }
+
         user.setFaction(factionsManager.getWilderness().getId());
         user.setRole(rolesConfiguration.getDefaultRole());
         faction.broadcast(Messages.DISBAND_FACTION_MESSAGE.translate(Formatter.user(user), Formatter.faction(faction)));

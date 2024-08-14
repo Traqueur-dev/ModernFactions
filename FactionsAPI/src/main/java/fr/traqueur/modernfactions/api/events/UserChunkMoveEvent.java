@@ -1,8 +1,7 @@
 package fr.traqueur.modernfactions.api.events;
 
-import fr.traqueur.modernfactions.api.FactionsPlugin;
+import fr.traqueur.modernfactions.api.users.User;
 import org.bukkit.Chunk;
-import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,8 +16,8 @@ public class UserChunkMoveEvent extends UserEvent {
     private final Chunk from;
     private final Chunk to;
 
-    public UserChunkMoveEvent(FactionsPlugin plugin, @NotNull Player who, Chunk from, Chunk to) {
-        super(plugin, who);
+    public UserChunkMoveEvent(@NotNull User who, Chunk from, Chunk to) {
+        super(who);
         this.from = from;
         this.to = to;
     }

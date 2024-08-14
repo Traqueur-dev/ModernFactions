@@ -9,13 +9,11 @@ import org.jetbrains.annotations.NotNull;
 
 public abstract class UserEvent extends PlayerEvent {
 
-    protected final FactionsPlugin plugin;
     protected final User user;
 
-    public UserEvent(FactionsPlugin plugin, @NotNull Player who) {
-        super(who);
-        this.plugin = plugin;
-        this.user = plugin.getManager(UsersManager.class).getUser(who).orElseThrow(() -> new IllegalStateException("User not found"));
+    public UserEvent(@NotNull User who) {
+        super(who.getPlayer());
+        this.user = who;
     }
 
     public User getUser() {

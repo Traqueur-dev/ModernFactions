@@ -103,4 +103,9 @@ public class FUser implements User {
         OfflinePlayer player = Bukkit.getOfflinePlayer(this.uuid);
         return player.isOnline();
     }
+
+    @Override
+    public Player getPlayer() {
+        return Bukkit.getPlayer(this.uuid);
+    }
 }

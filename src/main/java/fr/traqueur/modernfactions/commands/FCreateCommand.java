@@ -4,6 +4,7 @@ import fr.traqueur.commands.api.Arguments;
 import fr.traqueur.modernfactions.api.FactionsPlugin;
 import fr.traqueur.modernfactions.api.commands.FCommand;
 import fr.traqueur.modernfactions.api.configurations.Config;
+import fr.traqueur.modernfactions.api.events.FactionCreateEvent;
 import fr.traqueur.modernfactions.api.factions.Faction;
 import fr.traqueur.modernfactions.api.factions.exceptions.FactionAlreadyExistsException;
 import fr.traqueur.modernfactions.api.messages.Formatter;
@@ -34,6 +35,12 @@ public class FCreateCommand extends FCommand {
         String name = arguments.get("name");
         if (!user.getFaction().isWilderness()) {
             user.sendMessage(Messages.ALREADY_IN_FACTION_MESSAGE.translate());
+            return;
+        }
+
+        FactionCreateEvent event = new FactionCreateEvent(user, name);
+        this.getPlugin().getServer().getPluginManager().callEvent(event);
+        if(event.isCancelled()) {
             return;
         }
 
