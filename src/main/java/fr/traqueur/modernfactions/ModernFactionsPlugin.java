@@ -56,16 +56,20 @@ public class ModernFactionsPlugin extends FactionsPlugin {
         this.storage = this.registerStorage();
         this.storage.onEnable();
 
-        this.registerManager(new FUsersManager(this), UsersManager.class);
         this.registerManager(new FFactionsManager(this), FactionsManager.class);
+        this.registerManager(new FUsersManager(this), UsersManager.class);
         this.registerManager(new FLandsManager(this), LandsManager.class);
         this.registerManager(new FRelationsManager(this), RelationsManager.class);
 
-        for (Config configuration : Config.REGISTERY.values()) {
+        for (Config configuration : Config.REGISTRY.values()) {
             if(configuration instanceof MainConfiguration || configuration instanceof LangConfiguration) {
                 continue;
             }
             configuration.loadConfig();
+        }
+
+        for (Service<?, ?> service : Service.REGISTRY) {
+            service.loadAll();
         }
 
         this.commandManager.registerConverter(Faction.class, "faction", new FactionArgument(this));
@@ -96,7 +100,7 @@ public class ModernFactionsPlugin extends FactionsPlugin {
         if(messageUtils instanceof SpigotMessageUtils spigotMessageUtils) {
             spigotMessageUtils.close();
         }
-        for (Service<?, ?> service : Service.REGISTERY) {
+        for (Service<?, ?> service : Service.REGISTRY) {
             service.saveAll();
         }
         this.storage.onDisable();

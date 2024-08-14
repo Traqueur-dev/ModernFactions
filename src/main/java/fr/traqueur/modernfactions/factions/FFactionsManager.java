@@ -28,9 +28,9 @@ public class FFactionsManager implements FactionsManager {
     @Override
     public void loadFactions() {
         if(this.service.values().isEmpty()) {
-            this.service.save(new FFaction(plugin, FactionsManager.WILDERNESS_NAME, "%wilderness_description%", FactionsPlugin.CONSOLE_UUID));
-            this.service.save(new FFaction(plugin, FactionsManager.SAFEZONE_NAME, "%safezone_description%", FactionsPlugin.CONSOLE_UUID));
-            this.service.save(new FFaction(plugin, FactionsManager.WARZONE_NAME, "%warzone_description%", FactionsPlugin.CONSOLE_UUID));
+            this.service.add(new FFaction(plugin, FactionsManager.WILDERNESS_NAME, "%wilderness_description%", FactionsPlugin.CONSOLE_UUID));
+            this.service.add(new FFaction(plugin, FactionsManager.SAFEZONE_NAME, "%safezone_description%", FactionsPlugin.CONSOLE_UUID));
+            this.service.add(new FFaction(plugin, FactionsManager.WARZONE_NAME, "%warzone_description%", FactionsPlugin.CONSOLE_UUID));
         }
     }
 
@@ -63,7 +63,7 @@ public class FFactionsManager implements FactionsManager {
             throw new FactionAlreadyExistsException(optionalFaction.get());
         }
         Faction created = new FFaction(plugin, faction, "The faction " + faction + " is a new faction.", leader);
-        this.service.save(created);
+        this.service.add(created);
         return created;
     }
 

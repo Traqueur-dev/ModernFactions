@@ -34,7 +34,7 @@ public class FUsersManager implements UsersManager {
         }
         Role defaultRole = Config.getConfiguration(RolesConfiguration.class).getDefaultRole();
         User user = new FUser(plugin, player.getUniqueId(),player.getName(), factionsManager.getWilderness().getId(), defaultRole.name());
-        this.service.save(user);
+        this.service.add(user);
         return user;
     }
 

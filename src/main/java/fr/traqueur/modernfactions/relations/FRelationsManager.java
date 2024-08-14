@@ -33,7 +33,7 @@ public class FRelationsManager implements RelationsManager {
 
     @Override
     public void addRelation(Relation relation) {
-        this.service.save(relation);
+        this.service.add(relation);
     }
 
     @Override

@@ -9,11 +9,12 @@ import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 public abstract class Service<T extends Data<DTO>, DTO> {
 
-    public static final Set<Service<?,?>> REGISTERY = new HashSet<>();
+    public static final List<Service<?,?>> REGISTRY = new CopyOnWriteArrayList<>();
 
     private final Class<DTO> dtoClass;
     protected final FactionsPlugin plugin;
@@ -31,20 +32,11 @@ public abstract class Service<T extends Data<DTO>, DTO> {
         this.storage = plugin.getStorage();
         this.table = table;
         this.storage.createTable(table);
-        REGISTERY.add(this);
+        REGISTRY.add(this);
     }
 
     public Optional<T> get(UUID id) {
-        Optional<T> optional = this.cache.get(id);
-        if (optional.isPresent()) {
-            return optional;
-        }
-
-        T value = this.deserialize(this.storage.get(table, id, this.dtoClass));
-        if(value != null) {
-            this.cache.add(value);
-        }
-        return  Optional.ofNullable(value);
+        return this.cache.get(id);
     }
 
     public List<T> where(String key, String content) {
@@ -52,7 +44,7 @@ public abstract class Service<T extends Data<DTO>, DTO> {
     }
 
     public List<T> where(String[] key, String[] content) {
-        List<T> values = this.cache.values().stream().filter(data -> {
+        return this.cache.values().stream().filter(data -> {
             try {
                 DTO dto = data.toDTO();
                 for (int i = 0; i < key.length; i++) {
@@ -67,22 +59,13 @@ public abstract class Service<T extends Data<DTO>, DTO> {
                 throw new RuntimeException(e);
             }
         }).collect(Collectors.toList());
+    }
 
-        this.storage.where(table, this.dtoClass, key, content)
-                .stream()
-                .map(this::deserialize)
-                .forEach(value -> {
-                    if(!this.cache.values().contains(value)) {
-                        this.cache.add(value);
-                        values.add(value);
-                    }
-        });
-
-        return values;
+    public void add(T data) {
+        this.cache.add(data);
     }
 
     public void save(T data) {
-        this.cache.add(data);
         this.storage.save(table, data.getId(), data.toDTO());
     }
 
@@ -98,15 +81,14 @@ public abstract class Service<T extends Data<DTO>, DTO> {
     }
 
     public List<T> values() {
+        return new ArrayList<>(this.cache.values());
+    }
+
+    public void loadAll() {
         this.storage.values(table, this.dtoClass).forEach(dto -> {
             T value = this.deserialize(dto);
             this.cache.add(value);
         });
-        return new ArrayList<>(this.cache.values());
-    }
-
-    public Cache<T> getCache() {
-        return cache;
     }
 
     public String getTable() {

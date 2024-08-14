@@ -16,15 +16,15 @@ import java.util.Objects;
 
 public interface Config {
 
-    Map<Class<?>, Config> REGISTERY = new HashMap<>();
+    Map<Class<?>, Config> REGISTRY = new HashMap<>();
 
     static <T extends Config> T registerConfiguration(Class<T> clazz, T configuration) {
-        REGISTERY.put(clazz, configuration);
+        REGISTRY.put(clazz, configuration);
         return configuration;
     }
 
     static <T extends Config> T getConfiguration(Class<T> clazz) {
-        return (T) REGISTERY.get(clazz);
+        return (T) REGISTRY.get(clazz);
     }
 
     String getFile();
