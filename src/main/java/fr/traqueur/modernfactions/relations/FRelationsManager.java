@@ -72,4 +72,10 @@ public class FRelationsManager implements RelationsManager {
                         .map(Relation::getRelation)
                         .orElse(RelationsType.NEUTRAL));
     }
+
+    @Override
+    public void deleteRelationWithFaction(Faction faction) {
+        this.service.where("faction_emitter", faction.getName()).forEach(this.service::delete);
+        this.service.where("faction_receiver", faction.getName()).forEach(this.service::delete);
+    }
 }

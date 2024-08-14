@@ -19,4 +19,5 @@ public interface RelationsManager extends Manager {
 
     RelationsType getRelationBetween(Faction faction, Faction value);
 
+    void deleteRelationWithFaction(Faction faction);
 }

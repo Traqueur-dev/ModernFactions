@@ -9,7 +9,7 @@ no_leader_message: "<red>Vous devez être le chef de la faction pour la dissoudr
 faction_exists_message: "<red>Une faction avec le nom %faction% existe déjà."
 create_faction_message: "<green>Vous avez créé la faction %faction%."
 broadcast_creation_message: "<green>%user% a créé la faction %faction%."
-disband_faction_message: "<green>Vous avez dissous la faction %faction%."
+disband_faction_message: "<green>%user% avez dissous la faction %faction%."
 broadcast_disband_message: "<green>%user% a dissous la faction %faction%."
 already_in_faction_message: "<red>Vous êtes déjà dans une faction."
 not_in_faction_message: "<red>Vous n'êtes pas dans une faction."

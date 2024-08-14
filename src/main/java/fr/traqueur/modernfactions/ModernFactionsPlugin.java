@@ -21,9 +21,7 @@ import fr.traqueur.modernfactions.api.utils.FactionsLogger;
 import fr.traqueur.modernfactions.commands.FCreateCommand;
 import fr.traqueur.modernfactions.commands.FDisbandCommand;
 import fr.traqueur.modernfactions.commands.arguments.FactionArgument;
-import fr.traqueur.modernfactions.commands.relations.FEnemyAllCommand;
-import fr.traqueur.modernfactions.commands.relations.FEnemyCommand;
-import fr.traqueur.modernfactions.commands.relations.FNeutralCommand;
+import fr.traqueur.modernfactions.commands.relations.*;
 import fr.traqueur.modernfactions.configurations.MainConfiguration;
 import fr.traqueur.modernfactions.factions.FFactionsManager;
 import fr.traqueur.modernfactions.lands.FLandsManager;
@@ -79,6 +77,8 @@ public class ModernFactionsPlugin extends FactionsPlugin {
         this.commandManager.registerCommand(new FNeutralCommand(this));
         this.commandManager.registerCommand(new FEnemyAllCommand(this));
         this.commandManager.registerCommand(new FEnemyCommand(this));
+        this.commandManager.registerCommand(new FTruceCommand(this));
+        this.commandManager.registerCommand(new FAllyCommand(this));
 
         this.getServer().getPluginManager().registerEvents(new UsersListener(this), this);
         this.getServer().getPluginManager().registerEvents(new ServerListener(this), this);

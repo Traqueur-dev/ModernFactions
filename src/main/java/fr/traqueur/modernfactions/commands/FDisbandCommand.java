@@ -32,12 +32,12 @@ public class FDisbandCommand extends FCommand {
     public void execute(CommandSender commandSender, Arguments arguments) {
         User user = this.getUser(commandSender);
         Faction faction = user.getFaction();
-        factionsManager.removeFaction(faction);
         user.setFaction(factionsManager.getWilderness().getId());
         user.setRole(rolesConfiguration.getDefaultRole());
-        user.sendMessage(Messages.DISBAND_FACTION_MESSAGE.translate(Formatter.faction(faction)));
+        faction.broadcast(Messages.DISBAND_FACTION_MESSAGE.translate(Formatter.user(user), Formatter.faction(faction)));
         Bukkit.getOnlinePlayers().stream().map(usersManager::getUser).forEach(user1 -> {
             user1.ifPresent(value -> value.sendMessage(Messages.BROADCAST_DISBAND_MESSAGE.translate(Formatter.faction(faction), Formatter.user(user))));
         });
+        factionsManager.removeFaction(faction);
     }
 }
