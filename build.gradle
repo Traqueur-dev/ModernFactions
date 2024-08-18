@@ -108,8 +108,7 @@ processResources {
     def props = [version: version,
     global_config_version: global_config_version,
     ranks_config_version: ranks_config_version, lang_config_version: lang_config_version,
-                 lang_settings_config_version: lang_settings_config_version,
-                 lands_config_version: lands_config_version]
+                 lang_settings_config_version: lang_settings_config_version]
     inputs.properties props
     filesMatching('**/*.yml') {
         expand props

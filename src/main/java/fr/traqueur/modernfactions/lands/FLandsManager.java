@@ -8,16 +8,16 @@ import fr.traqueur.modernfactions.api.messages.Formatter;
 import fr.traqueur.modernfactions.api.relations.RelationsManager;
 import fr.traqueur.modernfactions.api.relations.RelationsType;
 import fr.traqueur.modernfactions.api.users.User;
-import fr.traqueur.modernfactions.configurations.LandsConfiguration;
+import fr.traqueur.modernfactions.configurations.MainConfiguration;
 
 public class FLandsManager implements LandsManager {
 
     private final FactionsPlugin plugin;
-    private final LandsConfiguration landsConfiguration;
+    private final MainConfiguration landsConfiguration;
 
     public FLandsManager(FactionsPlugin plugin) {
         this.plugin = plugin;
-        this.landsConfiguration = Config.registerConfiguration(LandsConfiguration.class, new LandsConfiguration(plugin));
+        this.landsConfiguration = Config.getConfiguration(MainConfiguration.class);
     }
 
     @Override

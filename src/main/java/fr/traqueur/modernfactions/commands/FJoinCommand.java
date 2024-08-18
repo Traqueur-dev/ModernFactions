@@ -4,10 +4,12 @@ import fr.traqueur.commands.api.Arguments;
 import fr.traqueur.modernfactions.api.FactionsPlugin;
 import fr.traqueur.modernfactions.api.commands.FCommand;
 import fr.traqueur.modernfactions.api.commands.requirements.NoFactionRequirement;
+import fr.traqueur.modernfactions.api.configurations.Config;
 import fr.traqueur.modernfactions.api.factions.Faction;
 import fr.traqueur.modernfactions.api.messages.Formatter;
 import fr.traqueur.modernfactions.api.messages.Messages;
 import fr.traqueur.modernfactions.api.users.User;
+import fr.traqueur.modernfactions.configurations.MainConfiguration;
 import org.bukkit.command.CommandSender;
 
 public class FJoinCommand extends FCommand {
@@ -37,7 +39,13 @@ public class FJoinCommand extends FCommand {
             user.sendMessage(Messages.USER_NOT_INVITED_MESSAGE.translate(Formatter.faction(faction)));
             return;
         }
-        //TODO: Add faction limit
+
+        int usersInFaction = this.usersManager.getUsersInFaction(faction).size();
+        int maxUsersInFaction = Config.getConfiguration(MainConfiguration.class).getMaxUsersPerFaction();
+        if(usersInFaction >= maxUsersInFaction) {
+            user.sendMessage(Messages.FACTION_FULL_MESSAGE.translate());
+            return;
+        }
 
         this.factionsManager.joinFaction(user, faction);
         user.sendMessage(Messages.FACTION_JOINED_MESSAGE.translate(Formatter.faction(faction)));

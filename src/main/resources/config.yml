@@ -1,8 +1,8 @@
 config-version: ${global_config_version}
 
 # The storage type of the plugin
-# Available types: MYSQL, MONGODB, JSON
-storage-type: JSON
+# Available types: MYSQL, MONGODB, JSON, SQLITE
+storage-type: SQLITE
 storage-config:
   host: "127.0.0.1"
   port: 3306
@@ -13,3 +13,17 @@ storage-config:
   debug: true
   # If you want to use MangoDB, please change the storage-type to MONGODB and fill this configuration
   auth-database: admin
+
+# The type of notification when a player enters a chunk
+# Options: ACTION_BAR, MESSAGE, TITLE
+enter-chunk-notification:
+  type: MESSAGE
+  message: "%faction% ~ %faction_description%"
+  #If type is TITLE
+  subtitle: "%faction_description%"
+  fadeIn: 10
+  stay: 40
+  fadeOut: 10
+
+# The max amount of users per faction
+max-users-per-faction: 10

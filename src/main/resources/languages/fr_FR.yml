@@ -29,6 +29,7 @@ user_not_invited_message: "<red>Vous n'êtes pas invité à rejoindre la faction
 faction_joined_message: "<green>Vous avez rejoint la faction %faction%."
 user_join_message: "<yellow>%user% a rejoint la faction."
 kick_or_disband_message: "<red>Vous avez été expulsé ou votre faction a été dissoute."
+faction_full_message: "<red>La faction est pleine."
 
 wilderness_description: "La nature est un endroit où vous pouvez construire votre base."
 safezone_description: "La zone sûre est un endroit où vous ne pouvez pas être attaqué."

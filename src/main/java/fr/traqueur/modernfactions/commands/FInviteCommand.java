@@ -4,10 +4,12 @@ import fr.traqueur.commands.api.Arguments;
 import fr.traqueur.modernfactions.api.FactionsPlugin;
 import fr.traqueur.modernfactions.api.commands.FCommand;
 import fr.traqueur.modernfactions.api.commands.requirements.HaveFactionRequirement;
+import fr.traqueur.modernfactions.api.configurations.Config;
 import fr.traqueur.modernfactions.api.factions.Faction;
 import fr.traqueur.modernfactions.api.messages.Formatter;
 import fr.traqueur.modernfactions.api.messages.Messages;
 import fr.traqueur.modernfactions.api.users.User;
+import fr.traqueur.modernfactions.configurations.MainConfiguration;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -51,7 +53,12 @@ public class FInviteCommand extends FCommand {
             return;
         }
 
-        //TODO: Add faction limit
+        int usersInFaction = this.usersManager.getUsersInFaction(faction).size();
+        int maxUsersInFaction = Config.getConfiguration(MainConfiguration.class).getMaxUsersPerFaction();
+        if(usersInFaction >= maxUsersInFaction) {
+            user.sendMessage(Messages.FACTION_FULL_MESSAGE.translate());
+            return;
+        }
 
         faction.inviteUser(invited);
         user.sendMessage(Messages.INVITATION_SENT_MESSAGE.translate(Formatter.user(invited)));
