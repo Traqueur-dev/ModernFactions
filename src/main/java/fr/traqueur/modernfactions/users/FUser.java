@@ -108,4 +108,9 @@ public class FUser implements User {
     public Player getPlayer() {
         return Bukkit.getPlayer(this.uuid);
     }
+
+    @Override
+    public boolean hasFaction() {
+        return !this.getFaction().isWilderness();
+    }
 }

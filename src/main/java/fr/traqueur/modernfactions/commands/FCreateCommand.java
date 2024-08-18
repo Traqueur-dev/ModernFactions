@@ -3,6 +3,7 @@ package fr.traqueur.modernfactions.commands;
 import fr.traqueur.commands.api.Arguments;
 import fr.traqueur.modernfactions.api.FactionsPlugin;
 import fr.traqueur.modernfactions.api.commands.FCommand;
+import fr.traqueur.modernfactions.api.commands.requirements.NoFactionRequirement;
 import fr.traqueur.modernfactions.api.configurations.Config;
 import fr.traqueur.modernfactions.api.events.FactionCreateEvent;
 import fr.traqueur.modernfactions.api.factions.Faction;
@@ -26,6 +27,8 @@ public class FCreateCommand extends FCommand {
 
         this.rolesConfiguration = Config.getConfiguration(RolesConfiguration.class);
 
+        this.addRequirements(new NoFactionRequirement(plugin));
+
         this.setGameOnly(true);
     }
 
@@ -33,10 +36,6 @@ public class FCreateCommand extends FCommand {
     public void execute(CommandSender commandSender, Arguments arguments) {
         User user = this.getUser(commandSender);
         String name = arguments.get("name");
-        if (!user.getFaction().isWilderness()) {
-            user.sendMessage(Messages.ALREADY_IN_FACTION_MESSAGE.translate());
-            return;
-        }
 
         FactionCreateEvent event = new FactionCreateEvent(user, name);
         this.getPlugin().getServer().getPluginManager().callEvent(event);

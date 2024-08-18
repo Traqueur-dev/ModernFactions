@@ -2,6 +2,7 @@ package fr.traqueur.modernfactions.api.factions;
 
 import fr.traqueur.modernfactions.api.factions.exceptions.FactionAlreadyExistsException;
 import fr.traqueur.modernfactions.api.managers.Manager;
+import fr.traqueur.modernfactions.api.users.User;
 import org.bukkit.entity.Player;
 
 import java.util.Optional;
@@ -34,4 +35,6 @@ public interface FactionsManager extends Manager {
         Faction getSafeZone();
 
         Faction getWarZone();
+
+        void joinFaction(User user, Faction faction);
 }

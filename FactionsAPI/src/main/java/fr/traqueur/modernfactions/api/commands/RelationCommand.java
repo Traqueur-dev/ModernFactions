@@ -2,6 +2,7 @@ package fr.traqueur.modernfactions.api.commands;
 
 import fr.traqueur.commands.api.Arguments;
 import fr.traqueur.modernfactions.api.FactionsPlugin;
+import fr.traqueur.modernfactions.api.commands.requirements.HaveFactionRequirement;
 import fr.traqueur.modernfactions.api.factions.Faction;
 import fr.traqueur.modernfactions.api.messages.Formatter;
 import fr.traqueur.modernfactions.api.messages.Messages;
@@ -24,17 +25,14 @@ public abstract class RelationCommand extends FCommand {
     public RelationCommand(FactionsPlugin plugin, String name) {
         super(plugin, name);
         this.relationsManager = plugin.getManager(RelationsManager.class);
+
+        this.addRequirements(new HaveFactionRequirement(plugin));
     }
 
     @Override
     public void execute(CommandSender commandSender, Arguments arguments) {
         User user = this.getUser(commandSender);
         Faction emitter = user.getFaction();
-        if(emitter.isWilderness()) {
-            user.sendMessage(Messages.NOT_IN_FACTION_MESSAGE.translate());
-            return;
-        }
-
         this.user = user;
         this.emitter = emitter;
         this.executeCommand(commandSender, arguments);

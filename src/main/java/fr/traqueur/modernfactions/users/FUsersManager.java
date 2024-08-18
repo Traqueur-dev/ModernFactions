@@ -54,6 +54,11 @@ public class FUsersManager implements UsersManager {
     }
 
     @Override
+    public Optional<User> getUserByName(String s) {
+        return this.service.where("name", s).stream().findFirst();
+    }
+
+    @Override
     public FactionsPlugin getPlugin() {
         return this.plugin;
     }

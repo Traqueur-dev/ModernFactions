@@ -97,6 +97,11 @@ public class FFactionsManager implements FactionsManager {
     }
 
     @Override
+    public void joinFaction(User user, Faction faction) {
+        faction.addMember(user);
+    }
+
+    @Override
     public FactionsPlugin getPlugin() {
         return this.plugin;
     }

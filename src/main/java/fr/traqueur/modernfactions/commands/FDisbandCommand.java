@@ -3,6 +3,7 @@ package fr.traqueur.modernfactions.commands;
 import fr.traqueur.commands.api.Arguments;
 import fr.traqueur.modernfactions.api.FactionsPlugin;
 import fr.traqueur.modernfactions.api.commands.FCommand;
+import fr.traqueur.modernfactions.api.commands.requirements.HaveFactionRequirement;
 import fr.traqueur.modernfactions.api.commands.requirements.LeaderRequirement;
 import fr.traqueur.modernfactions.api.configurations.Config;
 import fr.traqueur.modernfactions.api.events.FactionCreateEvent;
@@ -23,7 +24,7 @@ public class FDisbandCommand extends FCommand {
         super(plugin, "disband");
 
         this.setUsage("/f disband");
-        this.addRequirements(new LeaderRequirement(plugin));
+        this.addRequirements(new LeaderRequirement(plugin), new HaveFactionRequirement(plugin));
 
         this.rolesConfiguration = Config.getConfiguration(RolesConfiguration.class);
 
@@ -41,8 +42,10 @@ public class FDisbandCommand extends FCommand {
             return;
         }
 
-        user.setFaction(factionsManager.getWilderness().getId());
-        user.setRole(rolesConfiguration.getDefaultRole());
+        usersManager.getUsersInFaction(faction).forEach(userInFaction -> {
+            factionsManager.getWilderness().addMember(userInFaction);
+        });
+
         faction.broadcast(Messages.DISBAND_FACTION_MESSAGE.translate(Formatter.user(user), Formatter.faction(faction)));
         Bukkit.getOnlinePlayers().stream().map(usersManager::getUser).forEach(user1 -> {
             user1.ifPresent(value -> value.sendMessage(Messages.BROADCAST_DISBAND_MESSAGE.translate(Formatter.faction(faction), Formatter.user(user))));

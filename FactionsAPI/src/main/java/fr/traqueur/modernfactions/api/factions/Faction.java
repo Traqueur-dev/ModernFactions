@@ -4,8 +4,11 @@ import fr.traqueur.modernfactions.api.dto.FactionDTO;
 import fr.traqueur.modernfactions.api.relations.RelationWish;
 import fr.traqueur.modernfactions.api.relations.RelationsType;
 import fr.traqueur.modernfactions.api.storage.Data;
+import fr.traqueur.modernfactions.api.users.User;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 public interface Faction extends Data<FactionDTO> {
@@ -32,5 +35,13 @@ public interface Faction extends Data<FactionDTO> {
 
     Optional<RelationWish> getRelationWish(Faction emitter, RelationsType type);
 
+    boolean hasInvitation(User user);
+
+    Set<PendingInvitation> getInvitations();
+
     void broadcast(String message);
+
+    void inviteUser(User invited);
+
+    void addMember(User user);
 }

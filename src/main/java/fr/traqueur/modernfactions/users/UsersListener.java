@@ -6,6 +6,7 @@ import fr.traqueur.modernfactions.api.factions.Faction;
 import fr.traqueur.modernfactions.api.factions.FactionPersistentDataType;
 import fr.traqueur.modernfactions.api.factions.FactionsManager;
 import fr.traqueur.modernfactions.api.lands.LandsManager;
+import fr.traqueur.modernfactions.api.messages.Messages;
 import fr.traqueur.modernfactions.api.users.User;
 import fr.traqueur.modernfactions.api.users.UsersManager;
 import org.bukkit.Chunk;
@@ -13,7 +14,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 public class UsersListener implements Listener {
 
@@ -33,7 +36,21 @@ public class UsersListener implements Listener {
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         User user = this.usersManager.loadOrCreateUser(player);
+        //TODO : remove welcome message
         user.sendMessage("<rainbow>Bienvenue sur le serveur!");
+        PersistentDataContainer playerContainer = player.getPersistentDataContainer();
+        String factionId = playerContainer.get(UsersManager.FACTION_KEY, PersistentDataType.STRING);
+        if (factionId != null && !factionId.equals(user.getFaction().getId().toString())) {
+            user.sendMessage(Messages.KICK_OR_DISBAND_MESSAGE.translate());
+        }
+    }
+
+    @EventHandler
+    public void onQuit(PlayerQuitEvent event) {
+        Player player = event.getPlayer();
+        User user = this.usersManager.getUser(player).orElseThrow(() -> new IllegalStateException("User not found"));
+        PersistentDataContainer playerContainer = player.getPersistentDataContainer();
+        playerContainer.set(UsersManager.FACTION_KEY, PersistentDataType.STRING, user.getFaction().getId().toString());
     }
 
     @EventHandler

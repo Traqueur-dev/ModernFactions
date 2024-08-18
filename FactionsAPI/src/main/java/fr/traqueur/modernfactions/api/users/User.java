@@ -34,4 +34,6 @@ public interface User extends Data<UserDTO> {
     boolean isOnline();
 
     Player getPlayer();
+
+    boolean hasFaction();
 }

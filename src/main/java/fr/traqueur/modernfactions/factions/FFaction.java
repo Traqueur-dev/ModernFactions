@@ -1,13 +1,17 @@
 package fr.traqueur.modernfactions.factions;
 
 import fr.traqueur.modernfactions.api.FactionsPlugin;
+import fr.traqueur.modernfactions.api.configurations.Config;
 import fr.traqueur.modernfactions.api.dto.FactionDTO;
 import fr.traqueur.modernfactions.api.factions.Faction;
 import fr.traqueur.modernfactions.api.factions.FactionsManager;
+import fr.traqueur.modernfactions.api.factions.PendingInvitation;
+import fr.traqueur.modernfactions.api.factions.roles.Role;
 import fr.traqueur.modernfactions.api.relations.RelationWish;
 import fr.traqueur.modernfactions.api.relations.RelationsType;
 import fr.traqueur.modernfactions.api.users.User;
 import fr.traqueur.modernfactions.api.users.UsersManager;
+import fr.traqueur.modernfactions.configurations.RolesConfiguration;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -18,6 +22,7 @@ public class FFaction implements Faction {
 
     private final FactionsPlugin plugin;
 
+    private final Set<PendingInvitation> pendingInvitations;
     private final Set<RelationWish> relationWishes;
 
     private final UUID id;
@@ -32,6 +37,7 @@ public class FFaction implements Faction {
         this.description = description;
         this.leader = leader;
         this.relationWishes = new HashSet<>();
+        this.pendingInvitations = new HashSet<>();
     }
 
     public FFaction(FactionsPlugin plugin, String name, String description, UUID leader) {
@@ -97,6 +103,16 @@ public class FFaction implements Faction {
     }
 
     @Override
+    public boolean hasInvitation(User user) {
+        return this.pendingInvitations.stream().anyMatch(invitation -> invitation.invited().getId().equals(user.getId()));
+    }
+
+    @Override
+    public Set<PendingInvitation> getInvitations() {
+        return this.pendingInvitations;
+    }
+
+    @Override
     public UUID getId() {
         return this.id;
     }
@@ -107,6 +123,18 @@ public class FFaction implements Faction {
         usersManager.getUsersInFaction(this)
                 .stream().filter(User::isOnline)
                 .forEach(user -> user.sendMessage(message));
+    }
+
+    @Override
+    public void inviteUser(User invited) {
+        this.pendingInvitations.add(new PendingInvitation(invited, System.currentTimeMillis()));
+    }
+
+    @Override
+    public void addMember(User user) {
+        this.pendingInvitations.removeIf(invitation -> invitation.invited().getId().equals(user.getId()));
+        user.setFaction(this.id);
+        user.setRole(Config.getConfiguration(RolesConfiguration.class).getDefaultRole());
     }
 
     @Override

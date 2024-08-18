@@ -16,11 +16,15 @@ import fr.traqueur.modernfactions.api.platform.spigot.listeners.SpigotChatListen
 import fr.traqueur.modernfactions.api.relations.RelationsManager;
 import fr.traqueur.modernfactions.api.storage.Storage;
 import fr.traqueur.modernfactions.api.storage.service.Service;
+import fr.traqueur.modernfactions.api.users.User;
 import fr.traqueur.modernfactions.api.users.UsersManager;
 import fr.traqueur.modernfactions.api.utils.FactionsLogger;
 import fr.traqueur.modernfactions.commands.FCreateCommand;
 import fr.traqueur.modernfactions.commands.FDisbandCommand;
+import fr.traqueur.modernfactions.commands.FInviteCommand;
+import fr.traqueur.modernfactions.commands.FJoinCommand;
 import fr.traqueur.modernfactions.commands.arguments.FactionArgument;
+import fr.traqueur.modernfactions.commands.arguments.UserArgument;
 import fr.traqueur.modernfactions.commands.relations.*;
 import fr.traqueur.modernfactions.configurations.MainConfiguration;
 import fr.traqueur.modernfactions.factions.FFactionsManager;
@@ -71,6 +75,7 @@ public class ModernFactionsPlugin extends FactionsPlugin {
         }
 
         this.commandManager.registerConverter(Faction.class, "faction", new FactionArgument(this));
+        this.commandManager.registerConverter(User.class, "user", new UserArgument(this));
 
         this.commandManager.registerCommand(new FCreateCommand(this));
         this.commandManager.registerCommand(new FDisbandCommand(this));
@@ -79,6 +84,8 @@ public class ModernFactionsPlugin extends FactionsPlugin {
         this.commandManager.registerCommand(new FEnemyCommand(this));
         this.commandManager.registerCommand(new FTruceCommand(this));
         this.commandManager.registerCommand(new FAllyCommand(this));
+        this.commandManager.registerCommand(new FInviteCommand(this));
+        this.commandManager.registerCommand(new FJoinCommand(this));
 
         this.getServer().getPluginManager().registerEvents(new UsersListener(this), this);
         this.getServer().getPluginManager().registerEvents(new ServerListener(this), this);
