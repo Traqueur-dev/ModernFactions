@@ -1,6 +1,7 @@
 package fr.traqueur.modernfactions.migrations;
 
 import fr.maxlego08.sarah.database.Migration;
+import fr.traqueur.modernfactions.api.dto.UserDTO;
 
 public class CreateUsersTableMigration extends Migration {
 
@@ -12,11 +13,6 @@ public class CreateUsersTableMigration extends Migration {
 
     @Override
     public void up() {
-        create("%prefix%" + tableName, table -> {
-            table.uuid("unique_id").primary();
-            table.string("name", 16);
-            table.uuid("faction");
-            table.string("role", 16);
-        });
+        create("%prefix%" + tableName, UserDTO.class);
     }
 }

@@ -35,6 +35,6 @@ public class FactionPersistentDataType implements PersistentDataType<String, Fac
     @NotNull
     @Override
     public Faction fromPrimitive(@NotNull String uuid, @NotNull PersistentDataAdapterContext persistentDataAdapterContext) {
-        return FACTIONS_MANAGER.getFactionById(UUID.fromString(uuid)).orElseThrow(() -> new IllegalArgumentException("Faction with id " + uuid + " not found"));
+        return FACTIONS_MANAGER.getFactionById(UUID.fromString(uuid)).orElse(FACTIONS_MANAGER.getWilderness());
     }
 }

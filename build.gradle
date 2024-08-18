@@ -24,6 +24,7 @@ allprojects {
     }
 
     repositories {
+        //mavenLocal()
         mavenCentral()
         maven { url 'https://jitpack.io' }
         maven {
@@ -37,6 +38,8 @@ allprojects {
     }
 
     dependencies {
+
+        //implementation 'fr.maxlego08.sarah:SarahORM:1.9'
         implementation 'com.github.Maxlego08:Sarah:develop-SNAPSHOT'
         implementation "net.kyori:adventure-text-minimessage:4.17.0"
         implementation "net.kyori:adventure-api:4.17.0"

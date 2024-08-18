@@ -112,7 +112,7 @@ public class ModernFactionsPlugin extends FactionsPlugin {
             case MONGODB -> new MongoDBStorage(this, Config.getConfiguration(MainConfiguration.class).isDebug());
             case SQL -> new SQLStorage(this, StorageType.SQL);
             case JSON -> new JSONStorage(this, Config.getConfiguration(MainConfiguration.class).isDebug());
-            case SQLLITE -> new SQLStorage(this, StorageType.SQLLITE);
+            case SQLITE -> new SQLStorage(this, StorageType.SQLITE);
         };
     }
 

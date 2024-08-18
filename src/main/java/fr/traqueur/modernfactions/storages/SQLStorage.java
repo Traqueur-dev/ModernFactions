@@ -5,7 +5,6 @@ import fr.traqueur.modernfactions.api.FactionsPlugin;
 import fr.traqueur.modernfactions.api.configurations.Config;
 import fr.traqueur.modernfactions.api.factions.FactionsManager;
 import fr.traqueur.modernfactions.api.relations.RelationsManager;
-import fr.traqueur.modernfactions.api.storage.Primary;
 import fr.traqueur.modernfactions.api.storage.Storage;
 import fr.traqueur.modernfactions.api.users.UsersManager;
 import fr.traqueur.modernfactions.api.utils.FactionsLogger;
@@ -31,7 +30,7 @@ public class SQLStorage implements Storage {
         this.prefix = databaseConfiguration.getTablePrefix();
         if(type == StorageType.SQL) {
             this.connection = new HikariDatabaseConnection(databaseConfiguration);
-        } else if (type == StorageType.SQLLITE) {
+        } else if (type == StorageType.SQLITE) {
             this.connection = new SqliteConnection(databaseConfiguration, new File(plugin.getDataFolder(), "storage"));
         } else {
             throw new IllegalArgumentException("Invalid storage type !");
@@ -56,13 +55,14 @@ public class SQLStorage implements Storage {
     @Override
     public <DTO> void save(String tableName, UUID id, DTO data) {
         this.requester.upsert(this.prefix+tableName, table -> {
+            int i = 0;
             for (RecordComponent recordComponent : data.getClass().getRecordComponents()) {
                 try {
                     Field field = data.getClass().getDeclaredField(recordComponent.getName());
                     field.setAccessible(true);
                     Object obj = field.get(data);
 
-                    if(recordComponent.isAnnotationPresent(Primary.class)) {
+                    if(recordComponent.isAnnotationPresent(Column.class) && recordComponent.getAnnotation(Column.class).primary()) {
                         if(obj instanceof UUID uuid) {
                             table.uuid(recordComponent.getName(), uuid).primary();
                             continue;

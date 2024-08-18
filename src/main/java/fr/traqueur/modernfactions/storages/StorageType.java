@@ -4,5 +4,5 @@ public enum StorageType {
     SQL,
     JSON,
     MONGODB,
-    SQLLITE;
+    SQLITE;
 }

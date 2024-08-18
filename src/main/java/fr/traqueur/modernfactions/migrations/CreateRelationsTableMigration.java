@@ -1,6 +1,7 @@
 package fr.traqueur.modernfactions.migrations;
 
 import fr.maxlego08.sarah.database.Migration;
+import fr.traqueur.modernfactions.api.dto.RelationDTO;
 
 public class CreateRelationsTableMigration extends Migration {
 
@@ -13,11 +14,6 @@ public class CreateRelationsTableMigration extends Migration {
 
     @Override
     public void up() {
-        create("%prefix%" + tableName, table -> {
-            table.uuid("unique_id").primary();
-            table.string("faction_emitter", 255);
-            table.string("faction_receiver", 255);
-            table.string("relation", 16);
-        });
+        create("%prefix%" + tableName, RelationDTO.class);
     }
 }
