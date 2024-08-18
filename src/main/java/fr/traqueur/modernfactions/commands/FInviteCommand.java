@@ -8,7 +8,13 @@ import fr.traqueur.modernfactions.api.factions.Faction;
 import fr.traqueur.modernfactions.api.messages.Formatter;
 import fr.traqueur.modernfactions.api.messages.Messages;
 import fr.traqueur.modernfactions.api.users.User;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class FInviteCommand extends FCommand {
 
@@ -16,7 +22,13 @@ public class FInviteCommand extends FCommand {
         super(plugin, "invite");
 
         this.setUsage("/f invite <player>");
-        this.addArgs("user:user");
+        this.addArgs("user:user", (commandSender -> {
+            List<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
+            if(commandSender instanceof Player player) {
+                players = players.stream().filter(p -> !p.getUniqueId().equals(player.getUniqueId())).toList();
+            }
+            return players.stream().map(Player::getName).collect(Collectors.toList());
+        }));
 
         this.addRequirements(new HaveFactionRequirement(plugin));
 
