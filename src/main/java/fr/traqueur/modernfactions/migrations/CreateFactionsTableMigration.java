@@ -13,6 +13,6 @@ public class CreateFactionsTableMigration extends Migration {
 
     @Override
     public void up() {
-        create("%prefix%" + tableName, FactionDTO.class);
+        createOrAlter("%prefix%" + tableName, FactionDTO.class);
     }
 }

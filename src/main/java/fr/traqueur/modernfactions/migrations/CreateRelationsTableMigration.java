@@ -14,6 +14,6 @@ public class CreateRelationsTableMigration extends Migration {
 
     @Override
     public void up() {
-        create("%prefix%" + tableName, RelationDTO.class);
+        createOrAlter("%prefix%" + tableName, RelationDTO.class);
     }
 }

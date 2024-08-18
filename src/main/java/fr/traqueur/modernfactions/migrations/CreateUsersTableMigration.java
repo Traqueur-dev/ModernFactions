@@ -13,6 +13,6 @@ public class CreateUsersTableMigration extends Migration {
 
     @Override
     public void up() {
-        create("%prefix%" + tableName, UserDTO.class);
+        createOrAlter("%prefix%" + tableName, UserDTO.class);
     }
 }
