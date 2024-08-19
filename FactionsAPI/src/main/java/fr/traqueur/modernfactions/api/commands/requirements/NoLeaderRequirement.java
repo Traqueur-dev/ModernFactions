@@ -5,22 +5,22 @@ import fr.traqueur.modernfactions.api.messages.Messages;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class NoFactionRequirement extends HaveFactionRequirement {
+public class NoLeaderRequirement extends LeaderRequirement {
 
-    public NoFactionRequirement(FactionsPlugin plugin) {
-       super(plugin);
+    public NoLeaderRequirement(FactionsPlugin plugin) {
+        super(plugin);
     }
 
     @Override
-    public boolean check(CommandSender commandSender) {
-        if(!(commandSender instanceof Player)) {
+    public boolean check(CommandSender sender) {
+        if(!(sender instanceof Player)) {
             return false;
         }
-        return !super.check(commandSender);
+        return !super.check(sender) ;
     }
 
     @Override
     public String errorMessage() {
-        return Messages.MUST_NOT_BE_IN_FACTION_MESSAGE.translate(true);
+       return Messages.NO_LEADER_MESSAGE.translate(true);
     }
 }

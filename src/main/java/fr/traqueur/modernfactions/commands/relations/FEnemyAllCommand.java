@@ -2,15 +2,11 @@ package fr.traqueur.modernfactions.commands.relations;
 
 import fr.traqueur.commands.api.Arguments;
 import fr.traqueur.modernfactions.api.FactionsPlugin;
-import fr.traqueur.modernfactions.api.commands.FCommand;
 import fr.traqueur.modernfactions.api.commands.RelationCommand;
 import fr.traqueur.modernfactions.api.factions.Faction;
 import fr.traqueur.modernfactions.api.messages.Formatter;
 import fr.traqueur.modernfactions.api.messages.Messages;
-import fr.traqueur.modernfactions.api.relations.Relation;
-import fr.traqueur.modernfactions.api.relations.RelationsManager;
 import fr.traqueur.modernfactions.api.relations.RelationsType;
-import fr.traqueur.modernfactions.api.users.User;
 import org.bukkit.command.CommandSender;
 
 public class FEnemyAllCommand extends RelationCommand {

@@ -6,7 +6,6 @@ import fr.traqueur.modernfactions.api.relations.RelationsType;
 import fr.traqueur.modernfactions.api.storage.Data;
 import fr.traqueur.modernfactions.api.users.User;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;

@@ -3,7 +3,7 @@ package fr.traqueur.modernfactions.commands;
 import fr.traqueur.commands.api.Arguments;
 import fr.traqueur.modernfactions.api.FactionsPlugin;
 import fr.traqueur.modernfactions.api.commands.FCommand;
-import fr.traqueur.modernfactions.api.commands.requirements.HaveFactionRequirement;
+import fr.traqueur.modernfactions.api.commands.requirements.FactionRequirement;
 import fr.traqueur.modernfactions.api.configurations.Config;
 import fr.traqueur.modernfactions.api.factions.Faction;
 import fr.traqueur.modernfactions.api.messages.Formatter;
@@ -32,7 +32,7 @@ public class FInviteCommand extends FCommand {
             return players.stream().map(Player::getName).collect(Collectors.toList());
         }));
 
-        this.addRequirements(new HaveFactionRequirement(plugin));
+        this.addRequirements(FactionRequirement.HAVE_FACTION);
 
         this.setGameOnly(true);
     }

@@ -2,7 +2,7 @@ package fr.traqueur.modernfactions.api.commands;
 
 import fr.traqueur.commands.api.Arguments;
 import fr.traqueur.modernfactions.api.FactionsPlugin;
-import fr.traqueur.modernfactions.api.commands.requirements.HaveFactionRequirement;
+import fr.traqueur.modernfactions.api.commands.requirements.FactionRequirement;
 import fr.traqueur.modernfactions.api.factions.Faction;
 import fr.traqueur.modernfactions.api.messages.Formatter;
 import fr.traqueur.modernfactions.api.messages.Messages;
@@ -26,7 +26,7 @@ public abstract class RelationCommand extends FCommand {
         super(plugin, name);
         this.relationsManager = plugin.getManager(RelationsManager.class);
 
-        this.addRequirements(new HaveFactionRequirement(plugin));
+        this.addRequirements(FactionRequirement.HAVE_FACTION);
     }
 
     @Override

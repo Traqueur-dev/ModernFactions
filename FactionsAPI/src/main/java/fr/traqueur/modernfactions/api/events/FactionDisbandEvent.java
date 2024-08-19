@@ -1,6 +1,5 @@
 package fr.traqueur.modernfactions.api.events;
 
-import fr.traqueur.modernfactions.api.FactionsPlugin;
 import fr.traqueur.modernfactions.api.factions.Faction;
 import fr.traqueur.modernfactions.api.users.User;
 import org.bukkit.event.Cancellable;

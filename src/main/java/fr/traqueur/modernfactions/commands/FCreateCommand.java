@@ -3,7 +3,7 @@ package fr.traqueur.modernfactions.commands;
 import fr.traqueur.commands.api.Arguments;
 import fr.traqueur.modernfactions.api.FactionsPlugin;
 import fr.traqueur.modernfactions.api.commands.FCommand;
-import fr.traqueur.modernfactions.api.commands.requirements.NoFactionRequirement;
+import fr.traqueur.modernfactions.api.commands.requirements.FactionRequirement;
 import fr.traqueur.modernfactions.api.configurations.Config;
 import fr.traqueur.modernfactions.api.events.FactionCreateEvent;
 import fr.traqueur.modernfactions.api.factions.Faction;
@@ -27,7 +27,7 @@ public class FCreateCommand extends FCommand {
 
         this.rolesConfiguration = Config.getConfiguration(RolesConfiguration.class);
 
-        this.addRequirements(new NoFactionRequirement(plugin));
+        this.addRequirements(FactionRequirement.HAVE_NO_FACTION);
 
         this.setGameOnly(true);
     }

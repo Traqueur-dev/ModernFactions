@@ -1,6 +1,5 @@
 package fr.traqueur.modernfactions.api.commands.requirements;
 
-import fr.traqueur.commands.api.requirements.Requirement;
 import fr.traqueur.modernfactions.api.FactionsPlugin;
 import fr.traqueur.modernfactions.api.messages.Messages;
 import fr.traqueur.modernfactions.api.users.User;
@@ -8,12 +7,10 @@ import fr.traqueur.modernfactions.api.users.UsersManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class HaveFactionRequirement implements Requirement {
-
-    private final FactionsPlugin plugin;
+public class HaveFactionRequirement extends FactionRequirement {
 
     public HaveFactionRequirement(FactionsPlugin plugin) {
-        this.plugin = plugin;
+        super(plugin);
     }
 
     @Override
