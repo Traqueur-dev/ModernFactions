@@ -33,6 +33,7 @@ kick_or_disband_message: "<red>You have been kicked or your faction has been dis
 faction_full_message: "<red>The faction is full."
 leave_faction_message: "<green>You have left the faction %faction%."
 user_leave_message: "<yellow>%user% has left the faction."
+power_user_message: "<green>Your power is <yellow>%power%/%max_power%<green>."
 
 wilderness_description: "The wilderness is a place where you can build your base."
 safezone_description: "The safezone is a place where you can't be attacked."
