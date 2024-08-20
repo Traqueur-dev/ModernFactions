@@ -43,4 +43,6 @@ public interface Faction extends Data<FactionDTO> {
     void inviteUser(User invited);
 
     void addMember(User user);
+
+    void removeMember(User user);
 }

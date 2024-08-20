@@ -137,6 +137,11 @@ public class FFaction implements Faction {
     }
 
     @Override
+    public void removeMember(User user) {
+        this.plugin.getManager(FactionsManager.class).getWilderness().addMember(user);
+    }
+
+    @Override
     public FactionDTO toDTO() {
         return new FactionDTO(this.id, this.name, this.description, this.leader);
     }

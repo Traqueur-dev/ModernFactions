@@ -31,6 +31,8 @@ faction_joined_message: "<green>You have joined the faction %faction%."
 user_join_message: "<yellow>%user% has joined the faction."
 kick_or_disband_message: "<red>You have been kicked or your faction has been disband."
 faction_full_message: "<red>The faction is full."
+leave_faction_message: "<green>You have left the faction %faction%."
+user_leave_message: "<yellow>%user% has left the faction."
 
 wilderness_description: "The wilderness is a place where you can build your base."
 safezone_description: "The safezone is a place where you can't be attacked."
