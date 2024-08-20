@@ -36,4 +36,20 @@ public interface User extends Data<UserDTO> {
     Player getPlayer();
 
     boolean hasFaction();
+
+    int getPower();
+
+    void setPower(int power);
+
+    void addPower(int power);
+
+    void removePower(int power);
+
+    default void addPower() {
+        this.addPower(1);
+    }
+
+    default void removePower() {
+        this.removePower(1);
+    }
 }

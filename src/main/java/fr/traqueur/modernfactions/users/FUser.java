@@ -7,6 +7,7 @@ import fr.traqueur.modernfactions.api.factions.Faction;
 import fr.traqueur.modernfactions.api.factions.FactionsManager;
 import fr.traqueur.modernfactions.api.factions.roles.Role;
 import fr.traqueur.modernfactions.api.users.User;
+import fr.traqueur.modernfactions.configurations.MainConfiguration;
 import fr.traqueur.modernfactions.configurations.RolesConfiguration;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -22,13 +23,15 @@ public class FUser implements User {
     private final String name;
     private String role;
     private UUID factionId;
+    private int power;
 
-    public FUser(FactionsPlugin plugin, UUID uuid, String name, UUID faction, String role) {
+    public FUser(FactionsPlugin plugin, UUID uuid, String name, UUID faction, String role, int power) {
         this.plugin = plugin;
         this.uuid = uuid;
         this.name = name;
         this.factionId = faction;
         this.role = role;
+        this.power = power;
     }
 
     @Override
@@ -64,7 +67,7 @@ public class FUser implements User {
 
     @Override
     public UserDTO toDTO() {
-        return new UserDTO(this.uuid, this.name, this.factionId, this.role);
+        return new UserDTO(this.uuid, this.name, this.factionId, this.role, this.power);
     }
 
     @Override
@@ -112,5 +115,29 @@ public class FUser implements User {
     @Override
     public boolean hasFaction() {
         return !this.getFaction().isWilderness();
+    }
+
+    @Override
+    public int getPower() {
+        return this.power;
+    }
+
+    @Override
+    public void setPower(int power) {
+        this.power = power;
+    }
+
+    @Override
+    public void addPower(int power) {
+        this.power += power;
+        int maxPower = Config.getConfiguration(MainConfiguration.class).getMaxUserPower();
+        this.power = Math.min(this.power, maxPower);
+    }
+
+    @Override
+    public void removePower(int power) {
+        this.power -= power;
+        int minPower = Config.getConfiguration(MainConfiguration.class).getMinUserPower();
+        this.power = Math.max(this.power, minPower);
     }
 }

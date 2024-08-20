@@ -10,6 +10,8 @@ import fr.traqueur.modernfactions.lands.NotificationType;
 import fr.traqueur.modernfactions.storages.StorageType;
 import fr.traqueur.modernfactions.storages.mangodb.MongoDBConfiguration;
 
+import java.io.IOException;
+
 public class MainConfiguration implements Config {
 
     private final FactionsPlugin plugin;
@@ -25,6 +27,9 @@ public class MainConfiguration implements Config {
     private int stay;
     private int fadeOut;
     private int maxUsersPerFaction;
+    private int maxUserPower;
+    private int minUserPower;
+    private int defaultUserPower;
 
     public MainConfiguration(FactionsPlugin plugin) {
         this.plugin = plugin;
@@ -70,10 +75,58 @@ public class MainConfiguration implements Config {
         this.stay = config.getInt("enter-chunk-notification.stay");
         this.fadeOut = config.getInt("enter-chunk-notification.fadeOut");
 
+        boolean saved = false;
+
         this.maxUsersPerFaction = config.getInt("max-users-per-faction");
         if(this.maxUsersPerFaction < 1) {
             this.maxUsersPerFaction = 1;
+            config.set("max-users-per-faction", this.maxUsersPerFaction);
+            saved = true;
             FactionsLogger.warning("The max users per faction must be at least 1.");
+        }
+
+        int maxUserPower = config.getInt("max-user-power");
+        int minUserPower = config.getInt("min-user-power");
+        if(maxUserPower < 1) {
+            maxUserPower = 1;
+            config.set("max-user-power", maxUserPower);
+            saved = true;
+            FactionsLogger.warning("The max user power must be at least 1.");
+        }
+
+        if(minUserPower > maxUserPower) {
+            this.minUserPower = maxUserPower;
+            this.maxUserPower = minUserPower;
+            config.set("min-user-power", this.minUserPower);
+            config.set("max-user-power", this.maxUserPower);
+            saved = true;
+            FactionsLogger.warning("The min user power must be less than the max user power.");
+        } else if(minUserPower == maxUserPower) {
+            this.minUserPower = minUserPower;
+            this.maxUserPower = maxUserPower + 1;
+            config.set("max-user-power", this.maxUserPower);
+            saved = true;
+            FactionsLogger.warning("The min user power must not be equals than the max user power.");
+        } else {
+            this.minUserPower = minUserPower;
+            this.maxUserPower = maxUserPower;
+        }
+
+        this.defaultUserPower = config.getInt("default-user-power");
+        if (this.defaultUserPower < this.minUserPower || this.defaultUserPower > this.maxUserPower) {
+            this.defaultUserPower = this.maxUserPower;
+            config.set("default-user-power", this.defaultUserPower);
+            saved = true;
+            FactionsLogger.warning("The default user power must be between the min and max user power.");
+        }
+
+        if(saved) {
+            try {
+                config.save();
+            } catch (IOException e) {
+                throw new RuntimeException("An error occurred while saving the configuration file.", e);
+            }
+            FactionsLogger.info("Some values in the configuration file were invalid and have been corrected.");
         }
     }
 
@@ -125,5 +178,17 @@ public class MainConfiguration implements Config {
 
     public int getMaxUsersPerFaction() {
         return maxUsersPerFaction;
+    }
+
+    public int getMaxUserPower() {
+        return maxUserPower;
+    }
+
+    public int getMinUserPower() {
+        return minUserPower;
+    }
+
+    public int getDefaultUserPower() {
+        return defaultUserPower;
     }
 }

@@ -27,3 +27,9 @@ enter-chunk-notification:
 
 # The max amount of users per faction
 max-users-per-faction: 10
+# The max amount of power a user can have
+max-user-power: 10
+# The min amount of power a user can have
+min-user-power: -10
+# The default power of a user on first join
+default-user-power: 5

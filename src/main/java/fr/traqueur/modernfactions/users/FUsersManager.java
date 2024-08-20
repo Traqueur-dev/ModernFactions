@@ -9,6 +9,7 @@ import fr.traqueur.modernfactions.api.factions.roles.Role;
 import fr.traqueur.modernfactions.api.storage.service.Service;
 import fr.traqueur.modernfactions.api.users.User;
 import fr.traqueur.modernfactions.api.users.UsersManager;
+import fr.traqueur.modernfactions.configurations.MainConfiguration;
 import fr.traqueur.modernfactions.configurations.RolesConfiguration;
 import org.bukkit.entity.Player;
 
@@ -33,7 +34,8 @@ public class FUsersManager implements UsersManager {
             return optional.get();
         }
         Role defaultRole = Config.getConfiguration(RolesConfiguration.class).getDefaultRole();
-        User user = new FUser(plugin, player.getUniqueId(),player.getName(), factionsManager.getWilderness().getId(), defaultRole.name());
+        int defaultPower = Config.getConfiguration(MainConfiguration.class).getDefaultUserPower();
+        User user = new FUser(plugin, player.getUniqueId(),player.getName(), factionsManager.getWilderness().getId(), defaultRole.name(), defaultPower);
         this.service.add(user);
         return user;
     }
