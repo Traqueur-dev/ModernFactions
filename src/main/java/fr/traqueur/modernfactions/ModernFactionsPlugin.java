@@ -23,6 +23,7 @@ import fr.traqueur.modernfactions.api.FactionsLogger;
 import fr.traqueur.modernfactions.commands.*;
 import fr.traqueur.modernfactions.commands.admin.FSetPowerCommand;
 import fr.traqueur.modernfactions.commands.arguments.FactionArgument;
+import fr.traqueur.modernfactions.commands.arguments.FactionMembersArgument;
 import fr.traqueur.modernfactions.commands.arguments.RoleArgument;
 import fr.traqueur.modernfactions.commands.arguments.UserArgument;
 import fr.traqueur.modernfactions.commands.lands.FClaimCommand;
@@ -82,6 +83,7 @@ public class ModernFactionsPlugin extends FactionsPlugin {
 
         this.commandManager.registerConverter(Faction.class, "faction", new FactionArgument(this));
         this.commandManager.registerConverter(User.class, "user", new UserArgument(this));
+        this.commandManager.registerConverter(User.class, "faction_member", new FactionMembersArgument(this));
         this.commandManager.registerConverter(Role.class, "role", new RoleArgument());
 
         this.commandManager.registerCommand(new FCreateCommand(this));

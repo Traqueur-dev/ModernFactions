@@ -18,7 +18,7 @@ public class FDemoteCommand extends FCommand {
         super(plugin, "demote");
 
         this.setUsage("/f demote <player>");
-        this.addArgs("user:user");
+        this.addArgs("user:faction_member");
         this.addRequirements(FactionRequirement.HAVE_FACTION);
 
         this.setGameOnly(true);

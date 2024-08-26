@@ -18,7 +18,7 @@ public class FPromoteCommand extends FCommand {
         super(plugin, "promote");
 
         this.setUsage("/f promote <player>");
-        this.addArgs("user:user");
+        this.addArgs("user:faction_member");
         this.addRequirements(FactionRequirement.HAVE_FACTION);
 
         this.setGameOnly(true);

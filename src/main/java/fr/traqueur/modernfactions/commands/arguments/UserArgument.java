@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 public class UserArgument implements ArgumentConverter<User>, TabConverter {
 
-    private final UsersManager usersManager;
+    protected final UsersManager usersManager;
 
     public UserArgument(FactionsPlugin plugin) {
         this.usersManager = plugin.getManager(UsersManager.class);
@@ -27,6 +27,6 @@ public class UserArgument implements ArgumentConverter<User>, TabConverter {
 
     @Override
     public List<String> onCompletion(CommandSender commandSender) {
-        return Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList());
+        return usersManager.getUsers().stream().map(User::getName).collect(Collectors.toList());
     }
 }

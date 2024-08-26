@@ -61,6 +61,11 @@ public class FUsersManager implements UsersManager {
     }
 
     @Override
+    public List<User> getUsers() {
+        return this.service.values();
+    }
+
+    @Override
     public FactionsPlugin getPlugin() {
         return this.plugin;
     }

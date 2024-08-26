@@ -26,4 +26,6 @@ public interface UsersManager extends Manager {
     List<User> getUsersInFaction(Faction faction);
 
     Optional<User> getUserByName(String s);
+
+    List<User> getUsers();
 }

@@ -18,7 +18,7 @@ public class FRoleCommand extends FCommand {
         super(plugin, "role");
 
         this.setUsage("/f role <player> <role>");
-        this.addArgs("user:user", "role:role");
+        this.addArgs("user:faction_member", "role:role");
         this.addRequirements(FactionRequirement.HAVE_FACTION);
 
         this.setGameOnly(true);

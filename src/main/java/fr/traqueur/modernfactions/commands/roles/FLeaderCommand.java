@@ -18,7 +18,7 @@ public class FLeaderCommand extends FCommand {
         super(plugin, "leader");
 
         this.setUsage("/f leader <player>");
-        this.addArgs("user:user");
+        this.addArgs("user:faction_member");
         this.addRequirements(FactionRequirement.HAVE_FACTION, FactionRequirement.LEADER);
 
         this.setGameOnly(true);
