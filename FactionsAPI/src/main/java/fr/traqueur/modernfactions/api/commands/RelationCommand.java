@@ -17,14 +17,11 @@ import java.util.function.Consumer;
 
 public abstract class RelationCommand extends FCommand {
 
-    protected RelationsManager relationsManager;
-
     protected User user;
     protected Faction emitter;
 
     public RelationCommand(FactionsPlugin plugin, String name) {
         super(plugin, name);
-        this.relationsManager = plugin.getManager(RelationsManager.class);
 
         this.addRequirements(FactionRequirement.HAVE_FACTION);
     }

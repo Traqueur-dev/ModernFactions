@@ -28,8 +28,9 @@ public class FFaction implements Faction {
     private String name;
     private String description;
     private UUID leader;
+    private int nbLands;
 
-    public FFaction(FactionsPlugin plugin, UUID uuid, String name, String description, UUID leader) {
+    public FFaction(FactionsPlugin plugin, UUID uuid, String name, String description, UUID leader, int nbLands) {
         this.plugin = plugin;
         this.name = name;
         this.id = uuid;
@@ -37,10 +38,11 @@ public class FFaction implements Faction {
         this.leader = leader;
         this.relationWishes = new HashSet<>();
         this.pendingInvitations = new HashSet<>();
+        this.nbLands = nbLands;
     }
 
     public FFaction(FactionsPlugin plugin, String name, String description, UUID leader) {
-        this(plugin, UUID.randomUUID(), name, description, leader);
+        this(plugin, UUID.randomUUID(), name, description, leader, 0);
     }
 
     @Override
@@ -142,7 +144,31 @@ public class FFaction implements Faction {
     }
 
     @Override
+    public int getPowers() {
+        return this.plugin.getManager(UsersManager.class)
+                .getUsersInFaction(this)
+                .stream()
+                .mapToInt(User::getPower)
+                .sum();
+    }
+
+    @Override
+    public int getLands() {
+        return this.nbLands;
+    }
+
+    @Override
+    public void removeLand() {
+        this.nbLands--;
+    }
+
+    @Override
+    public void addLand() {
+        this.nbLands++;
+    }
+
+    @Override
     public FactionDTO toDTO() {
-        return new FactionDTO(this.id, this.name, this.description, this.leader);
+        return new FactionDTO(this.id, this.name, this.description, this.leader, this.nbLands);
     }
 }

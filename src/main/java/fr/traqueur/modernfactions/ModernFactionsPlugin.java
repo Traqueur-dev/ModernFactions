@@ -86,7 +86,10 @@ public class ModernFactionsPlugin extends FactionsPlugin {
         this.commandManager.registerCommand(new FJoinCommand(this));
         this.commandManager.registerCommand(new FLeaveCommand(this));
         this.commandManager.registerCommand(new FPowerCommand(this));
+        this.commandManager.registerCommand(new FClaimCommand(this));
+        this.commandManager.registerCommand(new FUnclaimCommand(this));
 
+        /* Admin Command */
         this.commandManager.registerCommand(new FSetPowerCommand(this));
 
         this.getServer().getPluginManager().registerEvents(new UsersListener(this), this);

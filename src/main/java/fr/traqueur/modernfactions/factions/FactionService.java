@@ -13,7 +13,12 @@ public class FactionService extends Service<Faction, FactionDTO> {
 
     @Override
     public Faction deserialize(FactionDTO dto) {
-        return dto == null ? null : new FFaction(plugin, dto.unique_id(), dto.name(), dto.description(), dto.leader());
+        return dto == null ? null :
+                new FFaction(plugin, dto.unique_id(),
+                        dto.name(),
+                        dto.description(),
+                        dto.leader(),
+                        dto.nbLands() == null ? 0 : dto.nbLands());
     }
 
 

@@ -45,4 +45,12 @@ public interface Faction extends Data<FactionDTO> {
     void addMember(User user);
 
     void removeMember(User user);
+
+    int getPowers();
+
+    int getLands();
+
+    void removeLand();
+
+    void addLand();
 }

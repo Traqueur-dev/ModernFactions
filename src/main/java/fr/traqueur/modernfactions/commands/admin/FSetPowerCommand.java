@@ -3,6 +3,7 @@ package fr.traqueur.modernfactions.commands.admin;
 import fr.traqueur.commands.api.Arguments;
 import fr.traqueur.modernfactions.api.FactionsPlugin;
 import fr.traqueur.modernfactions.api.commands.FCommand;
+import fr.traqueur.modernfactions.api.commands.Permissions;
 import fr.traqueur.modernfactions.api.configurations.Config;
 import fr.traqueur.modernfactions.api.messages.Formatter;
 import fr.traqueur.modernfactions.api.messages.Messages;
@@ -31,6 +32,8 @@ public class FSetPowerCommand extends FCommand {
             return Arrays.stream(powers).mapToObj(String::valueOf).collect(Collectors.toList());
         });
         this.setUsage("/f setpower <user> <power>");
+
+        this.permission(Permissions.SET_POWER);
     }
 
     @Override
