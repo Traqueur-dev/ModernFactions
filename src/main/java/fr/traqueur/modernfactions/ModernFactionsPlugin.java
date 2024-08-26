@@ -23,6 +23,8 @@ import fr.traqueur.modernfactions.commands.*;
 import fr.traqueur.modernfactions.commands.admin.FSetPowerCommand;
 import fr.traqueur.modernfactions.commands.arguments.FactionArgument;
 import fr.traqueur.modernfactions.commands.arguments.UserArgument;
+import fr.traqueur.modernfactions.commands.lands.FClaimCommand;
+import fr.traqueur.modernfactions.commands.lands.FUnclaimCommand;
 import fr.traqueur.modernfactions.commands.relations.*;
 import fr.traqueur.modernfactions.configurations.MainConfiguration;
 import fr.traqueur.modernfactions.factions.FFactionsManager;
