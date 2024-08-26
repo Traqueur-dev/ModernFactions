@@ -62,7 +62,9 @@ public class UsersListener implements Listener {
                 && event.getFrom().getBlockZ() == event.getTo().getBlockZ()) {
             return;
         }
-        this.usersManager.cancelTeleportation(user);
+        if(this.usersManager.cancelTeleportation(user)) {
+            user.sendMessage(Messages.HOME_TELEPORT_ERROR_MESSAGE.translate());
+        }
     }
 
     @EventHandler

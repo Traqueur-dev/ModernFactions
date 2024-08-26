@@ -1,6 +1,5 @@
 package fr.traqueur.modernfactions.users;
 
-import com.tcoded.folialib.util.TimeConverter;
 import com.tcoded.folialib.wrapper.task.WrappedTask;
 import fr.traqueur.modernfactions.api.FactionsPlugin;
 import fr.traqueur.modernfactions.api.configurations.Config;
@@ -52,16 +51,18 @@ public class FUsersManager implements UsersManager {
     @Override
     public void startTeleportation(User user, int seconds) {
         HomeRunnable runnable = new HomeRunnable(this, user, user.getFaction().getHome().get(), seconds);
-        WrappedTask task = this.plugin.getScheduler().runTimer(runnable, 0, 1, TimeUnit.SECONDS);
+        WrappedTask task = this.plugin.getScheduler().runTimer(runnable, 1, 1, TimeUnit.SECONDS);
         this.homeRunnables.put(user.getId(), task);
     }
 
     @Override
-    public void cancelTeleportation(User user) {
+    public boolean cancelTeleportation(User user) {
         WrappedTask runnable = this.homeRunnables.remove(user.getId());
         if(runnable != null) {
             this.plugin.getScheduler().cancelTask(runnable);
+            return true;
         }
+        return false;
     }
 
     @Override

@@ -21,7 +21,7 @@ public interface UsersManager extends Manager {
 
     void startTeleportation(User user, int seconds);
 
-    void cancelTeleportation(User user);
+    boolean cancelTeleportation(User user);
 
     User loadOrCreateUser(Player player);
 
