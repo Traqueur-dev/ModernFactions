@@ -8,4 +8,6 @@ public record FactionDTO(@Column(value = "unique_id", primary = true) UUID uniqu
                          String name,
                          String description,
                          UUID leader,
-                         Integer nbLands) {}
+                         Integer nbLands,
+                         @Column(value = "home", nullable = true)
+                         String home) {}

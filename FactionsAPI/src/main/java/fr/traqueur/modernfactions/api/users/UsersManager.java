@@ -17,6 +17,12 @@ public interface UsersManager extends Manager {
 
     String TABLE_NAME = "users";
 
+    String durationWords(int seconds);
+
+    void startTeleportation(User user, int seconds);
+
+    void cancelTeleportation(User user);
+
     User loadOrCreateUser(Player player);
 
     Optional<User> getUser(Player player);

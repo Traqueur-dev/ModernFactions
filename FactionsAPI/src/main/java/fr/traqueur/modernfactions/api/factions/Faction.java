@@ -5,6 +5,7 @@ import fr.traqueur.modernfactions.api.relations.RelationWish;
 import fr.traqueur.modernfactions.api.relations.RelationsType;
 import fr.traqueur.modernfactions.api.storage.Data;
 import fr.traqueur.modernfactions.api.users.User;
+import org.bukkit.Location;
 
 import java.util.Optional;
 import java.util.Set;
@@ -53,4 +54,8 @@ public interface Faction extends Data<FactionDTO> {
     void removeLand();
 
     void addLand();
+
+    Optional<Location> getHome();
+
+    void setHome(Location location);
 }

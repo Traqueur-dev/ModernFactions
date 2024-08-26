@@ -11,6 +11,7 @@ import fr.traqueur.modernfactions.api.relations.RelationsType;
 import fr.traqueur.modernfactions.api.users.User;
 import fr.traqueur.modernfactions.api.users.UsersManager;
 import fr.traqueur.modernfactions.configurations.RolesConfiguration;
+import org.bukkit.Location;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -29,8 +30,9 @@ public class FFaction implements Faction {
     private String description;
     private UUID leader;
     private int nbLands;
+    private Location home;
 
-    public FFaction(FactionsPlugin plugin, UUID uuid, String name, String description, UUID leader, int nbLands) {
+    public FFaction(FactionsPlugin plugin, UUID uuid, String name, String description, UUID leader, int nbLands, Location home) {
         this.plugin = plugin;
         this.name = name;
         this.id = uuid;
@@ -39,10 +41,11 @@ public class FFaction implements Faction {
         this.relationWishes = new HashSet<>();
         this.pendingInvitations = new HashSet<>();
         this.nbLands = nbLands;
+        this.home = home;
     }
 
     public FFaction(FactionsPlugin plugin, String name, String description, UUID leader) {
-        this(plugin, UUID.randomUUID(), name, description, leader, 0);
+        this(plugin, UUID.randomUUID(), name, description, leader, 0, null);
     }
 
     @Override
@@ -168,7 +171,18 @@ public class FFaction implements Faction {
     }
 
     @Override
+    public Optional<Location> getHome() {
+        return Optional.ofNullable(this.home);
+    }
+
+    @Override
+    public void setHome(Location location) {
+        this.home = location;
+    }
+
+    @Override
     public FactionDTO toDTO() {
-        return new FactionDTO(this.id, this.name, this.description, this.leader, this.nbLands);
+        String locationSerialized = this.home == null ? null : this.plugin.getManager(FactionsManager.class).serializeLocation(this.home);
+        return new FactionDTO(this.id, this.name, this.description, this.leader, this.nbLands, locationSerialized);
     }
 }

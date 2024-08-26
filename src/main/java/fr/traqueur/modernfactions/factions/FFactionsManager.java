@@ -11,6 +11,8 @@ import fr.traqueur.modernfactions.api.storage.service.Service;
 import fr.traqueur.modernfactions.api.users.User;
 import fr.traqueur.modernfactions.api.users.UsersManager;
 import fr.traqueur.modernfactions.configurations.RolesConfiguration;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -24,6 +26,33 @@ public class FFactionsManager implements FactionsManager {
        this.plugin = plugin;
        this.service = new FactionService(plugin, TABLE_NAME);
        Config.registerConfiguration(RolesConfiguration.class, new RolesConfiguration(this.plugin));
+    }
+
+    @Override
+    public String serializeLocation(Location location) {
+        String world = location.getWorld() != null ? location.getWorld().getUID() + ";" : "";
+        return world + location.getBlockX() + "," + location.getBlockY() + "," + location.getBlockZ();
+    }
+
+    @Override
+    public Location deserializeLocation(String location) {
+        if(location == null) {
+            return null;
+        }
+
+        String[] locArray = location.split(";");
+        World world = null;
+        int index = 1;
+        if(locArray.length == 1) {
+            index = 0;
+        } else {
+            world = this.plugin.getServer().getWorld(UUID.fromString(locArray[0]));
+        }
+        String[] coords = locArray[index].split(",");
+        int x = Integer.parseInt(coords[0]);
+        int y = Integer.parseInt(coords[1]);
+        int z = Integer.parseInt(coords[2]);
+        return new Location(world, x, y, z);
     }
 
     @Override

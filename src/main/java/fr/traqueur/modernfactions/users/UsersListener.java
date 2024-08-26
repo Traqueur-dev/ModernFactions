@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
@@ -51,6 +52,17 @@ public class UsersListener implements Listener {
         User user = this.usersManager.getUser(player).orElseThrow(() -> new IllegalStateException("User not found"));
         PersistentDataContainer playerContainer = player.getPersistentDataContainer();
         playerContainer.set(UsersManager.FACTION_KEY, PersistentDataType.STRING, user.getFaction().getId().toString());
+    }
+
+    @EventHandler
+    public void onMove(PlayerMoveEvent event) {
+        User user = this.usersManager.getUser(event.getPlayer()).orElseThrow(() -> new IllegalStateException("User not found"));
+        if (event.getFrom().getBlockX() == event.getTo().getBlockX()
+                && event.getFrom().getBlockY() == event.getTo().getBlockY()
+                && event.getFrom().getBlockZ() == event.getTo().getBlockZ()) {
+            return;
+        }
+        this.usersManager.cancelTeleportation(user);
     }
 
     @EventHandler

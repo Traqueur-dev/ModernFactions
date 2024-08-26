@@ -103,6 +103,8 @@ public class ModernFactionsPlugin extends FactionsPlugin {
         this.commandManager.registerCommand(new FDemoteCommand(this));
         this.commandManager.registerCommand(new FLeaderCommand(this));
         this.commandManager.registerCommand(new FRoleCommand(this));
+        this.commandManager.registerCommand(new FSetHomeCommand(this));
+        this.commandManager.registerCommand(new FHomeCommand(this));
 
         /* Admin Command */
         this.commandManager.registerCommand(new FSetPowerCommand(this));

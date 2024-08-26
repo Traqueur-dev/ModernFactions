@@ -30,6 +30,7 @@ public class MainConfiguration implements Config {
     private int maxUserPower;
     private int minUserPower;
     private int defaultUserPower;
+    private int delayTeleportHome;
 
     public MainConfiguration(FactionsPlugin plugin) {
         this.plugin = plugin;
@@ -128,6 +129,18 @@ public class MainConfiguration implements Config {
             }
             FactionsLogger.info("Some values in the configuration file were invalid and have been corrected.");
         }
+
+        this.delayTeleportHome = config.getInt("delay-teleport-home");
+        if (this.delayTeleportHome < 0) {
+            this.delayTeleportHome = 1;
+            config.set("delay-teleport-home", this.delayTeleportHome);
+            FactionsLogger.warning("The delay teleport home must be positive.");
+            try {
+                config.save();
+            } catch (IOException e) {
+                throw new RuntimeException("An error occurred while saving the configuration file.", e);
+            }
+        }
     }
 
     public StorageType getStorageType() {
@@ -190,5 +203,9 @@ public class MainConfiguration implements Config {
 
     public int getDefaultUserPower() {
         return defaultUserPower;
+    }
+
+    public int getDelayTeleportHome() {
+        return delayTeleportHome;
     }
 }

@@ -33,3 +33,6 @@ max-user-power: 10
 min-user-power: -10
 # The default power of a user on first join
 default-user-power: 5
+
+# Delay to teleport a player to the faction home in seconds
+delay-teleport-home: 5

@@ -51,6 +51,11 @@ public class FLandsManager implements LandsManager {
     }
 
     @Override
+    public boolean isInsideFactionLand(User user) {
+        return this.getLandOwner(user.getLocation().getChunk()).getId().equals(user.getFaction().getId());
+    }
+
+    @Override
     public void claimLand(Chunk chunk, Faction faction) {
         PersistentDataContainer container = chunk.getPersistentDataContainer();
         Faction landOwner = this.getLandOwner(chunk);

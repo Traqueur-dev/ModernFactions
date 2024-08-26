@@ -14,6 +14,8 @@ public interface LandsManager extends Manager {
 
     boolean canClaimLand(Chunk chunk, Faction faction);
 
+    boolean isInsideFactionLand(User user);
+
     void claimLand(Chunk chunk, Faction faction);
 
     void sendNotification(User user, Faction faction);

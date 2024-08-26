@@ -34,6 +34,12 @@ public class FUnclaimCommand extends FCommand {
             return;
         }
 
+        faction.getHome().ifPresent(home -> {
+            if(home.getChunk().equals(chunk)) {
+                faction.setHome(null);
+            }
+        });
+
         this.landsManager.claimLand(user.getPlayer().getLocation().getChunk(), this.factionsManager.getWilderness());
         user.sendMessage(Messages.LANDS_UNCLAIM_MESSAGE.translate());
     }
