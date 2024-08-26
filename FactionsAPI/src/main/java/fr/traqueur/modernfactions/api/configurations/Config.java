@@ -24,7 +24,12 @@ public interface Config {
     }
 
     static <T extends Config> T getConfiguration(Class<T> clazz) {
-        return (T) REGISTRY.get(clazz);
+        var config = REGISTRY.get(clazz);
+        if(clazz.isInstance(config)) {
+            return clazz.cast(config);
+        } else {
+            throw new IllegalArgumentException("Configuration not found for class " + clazz.getName());
+        }
     }
 
     String getFile();
