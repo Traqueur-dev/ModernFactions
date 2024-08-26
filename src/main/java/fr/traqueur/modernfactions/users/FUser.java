@@ -73,7 +73,8 @@ public class FUser implements User {
     @Override
     public void sendMessage(String message) {
         Player player = Bukkit.getPlayer(this.uuid);
-        plugin.getMessageUtils().sendMessage(player, message);
+        if(player != null)
+            plugin.getMessageUtils().sendMessage(player, message);
     }
 
     @Override

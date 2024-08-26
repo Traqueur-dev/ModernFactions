@@ -6,6 +6,7 @@ import fr.traqueur.modernfactions.api.commands.FactionsCommandsHandler;
 import fr.traqueur.modernfactions.api.configurations.Config;
 import fr.traqueur.modernfactions.api.factions.Faction;
 import fr.traqueur.modernfactions.api.factions.FactionsManager;
+import fr.traqueur.modernfactions.api.factions.roles.Role;
 import fr.traqueur.modernfactions.api.lands.LandsManager;
 import fr.traqueur.modernfactions.api.messages.LangConfiguration;
 import fr.traqueur.modernfactions.api.messages.MessageUtils;
@@ -22,10 +23,15 @@ import fr.traqueur.modernfactions.api.FactionsLogger;
 import fr.traqueur.modernfactions.commands.*;
 import fr.traqueur.modernfactions.commands.admin.FSetPowerCommand;
 import fr.traqueur.modernfactions.commands.arguments.FactionArgument;
+import fr.traqueur.modernfactions.commands.arguments.RoleArgument;
 import fr.traqueur.modernfactions.commands.arguments.UserArgument;
 import fr.traqueur.modernfactions.commands.lands.FClaimCommand;
 import fr.traqueur.modernfactions.commands.lands.FUnclaimCommand;
 import fr.traqueur.modernfactions.commands.relations.*;
+import fr.traqueur.modernfactions.commands.roles.FDemoteCommand;
+import fr.traqueur.modernfactions.commands.roles.FLeaderCommand;
+import fr.traqueur.modernfactions.commands.roles.FPromoteCommand;
+import fr.traqueur.modernfactions.commands.roles.FRoleCommand;
 import fr.traqueur.modernfactions.configurations.MainConfiguration;
 import fr.traqueur.modernfactions.factions.FFactionsManager;
 import fr.traqueur.modernfactions.lands.FLandsManager;
@@ -76,6 +82,7 @@ public class ModernFactionsPlugin extends FactionsPlugin {
 
         this.commandManager.registerConverter(Faction.class, "faction", new FactionArgument(this));
         this.commandManager.registerConverter(User.class, "user", new UserArgument(this));
+        this.commandManager.registerConverter(Role.class, "role", new RoleArgument());
 
         this.commandManager.registerCommand(new FCreateCommand(this));
         this.commandManager.registerCommand(new FDisbandCommand(this));
@@ -90,6 +97,10 @@ public class ModernFactionsPlugin extends FactionsPlugin {
         this.commandManager.registerCommand(new FPowerCommand(this));
         this.commandManager.registerCommand(new FClaimCommand(this));
         this.commandManager.registerCommand(new FUnclaimCommand(this));
+        this.commandManager.registerCommand(new FPromoteCommand(this));
+        this.commandManager.registerCommand(new FDemoteCommand(this));
+        this.commandManager.registerCommand(new FLeaderCommand(this));
+        this.commandManager.registerCommand(new FRoleCommand(this));
 
         /* Admin Command */
         this.commandManager.registerCommand(new FSetPowerCommand(this));

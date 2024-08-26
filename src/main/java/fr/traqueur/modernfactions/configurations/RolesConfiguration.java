@@ -44,6 +44,10 @@ public class RolesConfiguration implements Config {
         FactionsLogger.info("&eLoaded " + this.roles.size() + " faction role.");
     }
 
+    public List<Role> getRoles() {
+        return roles;
+    }
+
     public Role getDefaultRole() {
         return defaultRole;
     }
