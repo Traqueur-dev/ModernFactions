@@ -15,6 +15,8 @@ public class FPowerCommand extends FCommand {
     public FPowerCommand(FactionsPlugin plugin) {
         super(plugin, "power");
 
+        this.aliases("p");
+
         this.setUsage("/f power");
         this.setGameOnly(true);
     }
@@ -23,8 +25,20 @@ public class FPowerCommand extends FCommand {
     public void execute(CommandSender commandSender, Arguments arguments) {
         User user = this.getUser(commandSender);
         int maxPower = Config.getConfiguration(MainConfiguration.class).getMaxUserPower();
+        int minPower = Config.getConfiguration(MainConfiguration.class).getMinUserPower();
         user.sendMessage(Messages.POWER_USER_MESSAGE.translate(
-                Formatter.format("%power%", (plugin) -> String.valueOf(user.getPower())),
-                Formatter.format("%max_power%", (plugin) -> String.valueOf(maxPower))));
+                Formatter.format("%power%", (plugin) -> this.getCodeColorFromPower(user.getPower(), maxPower, minPower) + user.getPower() + "<gray>"),
+                Formatter.format("%max_power%", (plugin) -> "<green>" + maxPower)));
+    }
+
+    private String getCodeColorFromPower(int power, int maxPower, int minPower) {
+        int middle = (maxPower - minPower) / 2 + minPower;
+        if (power >= middle) {
+            return "<green>";
+        } else if (power > minPower) {
+            return "<yellow>";
+        } else {
+            return "<red>";
+        }
     }
 }

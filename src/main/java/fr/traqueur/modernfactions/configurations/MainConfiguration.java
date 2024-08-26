@@ -5,7 +5,7 @@ import fr.maxlego08.sarah.DatabaseConfiguration;
 import fr.maxlego08.sarah.database.DatabaseType;
 import fr.traqueur.modernfactions.api.FactionsPlugin;
 import fr.traqueur.modernfactions.api.configurations.Config;
-import fr.traqueur.modernfactions.api.utils.FactionsLogger;
+import fr.traqueur.modernfactions.api.FactionsLogger;
 import fr.traqueur.modernfactions.lands.NotificationType;
 import fr.traqueur.modernfactions.storages.StorageType;
 import fr.traqueur.modernfactions.storages.mangodb.MongoDBConfiguration;

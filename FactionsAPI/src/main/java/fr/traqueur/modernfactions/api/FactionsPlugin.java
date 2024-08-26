@@ -6,7 +6,6 @@ import fr.traqueur.modernfactions.api.configurations.Config;
 import fr.traqueur.modernfactions.api.managers.Manager;
 import fr.traqueur.modernfactions.api.messages.LangConfiguration;
 import fr.traqueur.modernfactions.api.messages.MessageUtils;
-import fr.traqueur.modernfactions.api.utils.FactionsLogger;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;

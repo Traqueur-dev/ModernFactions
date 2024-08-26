@@ -4,6 +4,7 @@ import fr.traqueur.modernfactions.api.FactionsPlugin;
 import fr.traqueur.modernfactions.api.messages.MessageUtils;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.title.Title;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.time.Duration;
@@ -19,6 +20,11 @@ public class SpigotMessageUtils implements MessageUtils {
     @Override
     public void sendMessage(Player player, String message) {
         adventure.player(player).sendMessage(MINI_MESSAGE.deserialize(message));
+    }
+
+    @Override
+    public void sendMessage(CommandSender sender, String message) {
+        adventure.sender(sender).sendMessage(MINI_MESSAGE.deserialize(message));
     }
 
     @Override

@@ -1,6 +1,6 @@
 package fr.traqueur.modernfactions.api.updater;
 
-import fr.traqueur.modernfactions.api.utils.FactionsLogger;
+import fr.traqueur.modernfactions.api.FactionsLogger;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;

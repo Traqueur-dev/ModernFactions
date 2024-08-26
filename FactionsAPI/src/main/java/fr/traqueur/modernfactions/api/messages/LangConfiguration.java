@@ -9,7 +9,7 @@ import dev.dejvokep.boostedyaml.settings.loader.LoaderSettings;
 import dev.dejvokep.boostedyaml.settings.updater.UpdaterSettings;
 import fr.traqueur.modernfactions.api.FactionsPlugin;
 import fr.traqueur.modernfactions.api.configurations.Config;
-import fr.traqueur.modernfactions.api.utils.FactionsLogger;
+import fr.traqueur.modernfactions.api.FactionsLogger;
 
 import java.io.File;
 import java.io.IOException;

@@ -18,8 +18,9 @@ import fr.traqueur.modernfactions.api.storage.Storage;
 import fr.traqueur.modernfactions.api.storage.service.Service;
 import fr.traqueur.modernfactions.api.users.User;
 import fr.traqueur.modernfactions.api.users.UsersManager;
-import fr.traqueur.modernfactions.api.utils.FactionsLogger;
+import fr.traqueur.modernfactions.api.FactionsLogger;
 import fr.traqueur.modernfactions.commands.*;
+import fr.traqueur.modernfactions.commands.admin.FSetPowerCommand;
 import fr.traqueur.modernfactions.commands.arguments.FactionArgument;
 import fr.traqueur.modernfactions.commands.arguments.UserArgument;
 import fr.traqueur.modernfactions.commands.relations.*;
@@ -85,6 +86,8 @@ public class ModernFactionsPlugin extends FactionsPlugin {
         this.commandManager.registerCommand(new FJoinCommand(this));
         this.commandManager.registerCommand(new FLeaveCommand(this));
         this.commandManager.registerCommand(new FPowerCommand(this));
+
+        this.commandManager.registerCommand(new FSetPowerCommand(this));
 
         this.getServer().getPluginManager().registerEvents(new UsersListener(this), this);
         this.getServer().getPluginManager().registerEvents(new ServerListener(this), this);

@@ -1,6 +1,5 @@
-package fr.traqueur.modernfactions.api.utils;
+package fr.traqueur.modernfactions.api;
 
-import fr.traqueur.modernfactions.api.FactionsPlugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Level;

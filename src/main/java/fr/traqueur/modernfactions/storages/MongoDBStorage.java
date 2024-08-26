@@ -15,7 +15,7 @@ import com.mongodb.client.model.ReplaceOptions;
 import fr.traqueur.modernfactions.api.FactionsPlugin;
 import fr.traqueur.modernfactions.api.configurations.Config;
 import fr.traqueur.modernfactions.api.storage.Storage;
-import fr.traqueur.modernfactions.api.utils.FactionsLogger;
+import fr.traqueur.modernfactions.api.FactionsLogger;
 import fr.traqueur.modernfactions.configurations.MainConfiguration;
 import fr.traqueur.modernfactions.storages.mangodb.MongoDBConfiguration;
 import org.bson.Document;

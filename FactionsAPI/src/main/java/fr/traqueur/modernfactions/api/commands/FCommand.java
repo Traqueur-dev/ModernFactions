@@ -8,6 +8,8 @@ import fr.traqueur.modernfactions.api.users.UsersManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.stream.Stream;
+
 public abstract class FCommand extends Command<FactionsPlugin> {
 
     protected final UsersManager usersManager;
@@ -24,5 +26,9 @@ public abstract class FCommand extends Command<FactionsPlugin> {
             throw new IllegalArgumentException("Command sender must be a player.");
         }
         return this.usersManager.getUser(player).orElseThrow(() -> new IllegalArgumentException("User not found."));
+    }
+
+    public void aliases(String... aliases) {
+        this.addAlias(Stream.of(aliases).map(alias -> "f." + alias).toArray(String[]::new));
     }
 }

@@ -4,7 +4,7 @@ import dev.dejvokep.boostedyaml.YamlDocument;
 import fr.traqueur.modernfactions.api.FactionsPlugin;
 import fr.traqueur.modernfactions.api.configurations.Config;
 import fr.traqueur.modernfactions.api.factions.roles.Role;
-import fr.traqueur.modernfactions.api.utils.FactionsLogger;
+import fr.traqueur.modernfactions.api.FactionsLogger;
 
 import java.util.ArrayList;
 import java.util.Comparator;
