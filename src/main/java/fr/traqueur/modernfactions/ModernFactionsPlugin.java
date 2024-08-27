@@ -2,6 +2,7 @@ package fr.traqueur.modernfactions;
 
 import fr.traqueur.commands.api.CommandManager;
 import fr.traqueur.modernfactions.api.FactionsPlugin;
+import fr.traqueur.modernfactions.api.commands.CommandLogger;
 import fr.traqueur.modernfactions.api.commands.FactionsCommandsHandler;
 import fr.traqueur.modernfactions.api.configurations.Config;
 import fr.traqueur.modernfactions.api.factions.Faction;
@@ -59,6 +60,7 @@ public class ModernFactionsPlugin extends FactionsPlugin {
         this.messageUtils = this.isPaperVersion() ? new PaperMessageUtils() : new SpigotMessageUtils(this);
         this.commandManager = new CommandManager(this);
         this.commandManager.setMessageHandler(new FactionsCommandsHandler());
+        this.commandManager.setLogger(new CommandLogger());
 
         Config.getConfiguration(MainConfiguration.class).loadConfig();
 

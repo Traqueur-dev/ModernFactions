@@ -1,6 +1,6 @@
 package fr.traqueur.modernfactions.api.commands;
 
-import fr.traqueur.commands.api.messages.MessageHandler;
+import fr.traqueur.commands.api.logging.MessageHandler;
 import fr.traqueur.modernfactions.api.messages.Messages;
 
 public class FactionsCommandsHandler implements MessageHandler {
