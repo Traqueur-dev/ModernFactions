@@ -16,4 +16,5 @@ public interface Cache<T extends Data> {
 
     List<T> values();
 
+    void tag(T data);
 }

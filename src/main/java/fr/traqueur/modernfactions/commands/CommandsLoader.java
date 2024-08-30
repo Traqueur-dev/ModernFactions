@@ -1,7 +1,6 @@
 package fr.traqueur.modernfactions.commands;
 
 import fr.traqueur.commands.api.CommandManager;
-import fr.traqueur.modernfactions.ModernFactionsPlugin;
 import fr.traqueur.modernfactions.api.FactionsPlugin;
 import fr.traqueur.modernfactions.api.commands.FCommand;
 import fr.traqueur.modernfactions.api.modules.Module;

@@ -50,6 +50,7 @@ home_teleport_message: "<green>You have teleported to the home of your faction."
 home_teleport_error_message: "<red>You can't teleport to the home of your faction."
 home_cooldown_message: "<red>You must wait %time% before teleporting to the home of your faction."
 start_home_teleport_message: "<green>You will be teleported to the home of your faction in %time%."
+home_not_set_message: "<red>The home of the faction is not set."
 
 wilderness_description: "The wilderness is a place where you can build your base."
 safezone_description: "The safezone is a place where you can't be attacked."

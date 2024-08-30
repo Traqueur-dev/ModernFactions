@@ -119,12 +119,13 @@ processResources {
 shadowJar {
     dependsOn(jar)
 
-    relocate 'org.slf4j', "fr.traqueur.modernfactions.api.slf4j"
-    relocate 'org.jetbrains', "fr.traqueur.modernfactions.api.jetbrains"
-    relocate 'org.intellij', "fr.traqueur.modernfactions.api.intellij"
-    relocate 'org.bson', "fr.traqueur.modernfactions.api.bson"
-    relocate 'com.zaxxer.hikari', 'fr.traqueur.modernfactions.api.hikari'
-    relocate 'net.kyori', "fr.traqueur.modernfactions.api.adventure"
+    //relocate 'net.kyori', "fr.traqueur.modernfactions.api.adventure"
+    //relocate 'org.slf4j', "fr.traqueur.modernfactions.api.slf4j"
+    //relocate 'org.jetbrains', "fr.traqueur.modernfactions.api.jetbrains"
+    //relocate 'org.intellij', "fr.traqueur.modernfactions.api.intellij"
+    //relocate 'org.bson', "fr.traqueur.modernfactions.api.bson"
+    //relocate 'com.zaxxer.hikari', 'fr.traqueur.modernfactions.api.hikari'
+
     relocate 'com.mongodb', "fr.traqueur.modernfactions.api.mongodb"
     relocate 'fr.maxlego08.sarah', "fr.traqueur.modernfactions.api.orm"
     relocate 'fr.traqueur.commands', 'fr.traqueur.modernfactions.api.commands'

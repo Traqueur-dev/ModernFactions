@@ -47,7 +47,7 @@ public abstract class Service<T extends Data<DTO>, DTO> {
     }
 
     public List<T> where(String[] key, String[] content) {
-        return this.cache.values().stream().filter(data -> {
+        var returnList = this.values().stream().filter(data -> {
             try {
                 DTO dto = data.toDTO();
                 for (int i = 0; i < key.length; i++) {
@@ -62,6 +62,10 @@ public abstract class Service<T extends Data<DTO>, DTO> {
                 throw new RuntimeException(e);
             }
         }).collect(Collectors.toList());
+
+        returnList.forEach(this.cache::tag);
+
+        return returnList;
     }
 
     public void add(T data) {
@@ -73,9 +77,7 @@ public abstract class Service<T extends Data<DTO>, DTO> {
     }
 
     public void saveAll() {
-        for (T value : this.cache.values()) {
-            this.save(value);
-        }
+        this.cache.values().forEach(this::save);
     }
 
     public void delete(T data) {

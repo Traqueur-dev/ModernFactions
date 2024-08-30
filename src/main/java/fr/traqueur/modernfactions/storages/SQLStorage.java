@@ -5,11 +5,13 @@ import fr.traqueur.modernfactions.api.FactionsLogger;
 import fr.traqueur.modernfactions.api.FactionsPlugin;
 import fr.traqueur.modernfactions.api.configurations.Config;
 import fr.traqueur.modernfactions.api.factions.FactionsManager;
+import fr.traqueur.modernfactions.api.lands.LandsManager;
 import fr.traqueur.modernfactions.api.relations.RelationsManager;
 import fr.traqueur.modernfactions.api.storage.Storage;
 import fr.traqueur.modernfactions.api.users.UsersManager;
 import fr.traqueur.modernfactions.configurations.MainConfiguration;
 import fr.traqueur.modernfactions.migrations.CreateFactionsTableMigration;
+import fr.traqueur.modernfactions.migrations.CreateLandsTableMigration;
 import fr.traqueur.modernfactions.migrations.CreateRelationsTableMigration;
 import fr.traqueur.modernfactions.migrations.CreateUsersTableMigration;
 
@@ -47,6 +49,7 @@ public class SQLStorage implements Storage {
         MigrationManager.registerMigration(new CreateUsersTableMigration(UsersManager.TABLE_NAME));
         MigrationManager.registerMigration(new CreateFactionsTableMigration(FactionsManager.TABLE_NAME));
         MigrationManager.registerMigration(new CreateRelationsTableMigration(RelationsManager.TABLE_NAME));
+        MigrationManager.registerMigration(new CreateLandsTableMigration(LandsManager.TABLE_NAME));
     }
 
     @Override

@@ -26,11 +26,6 @@ import fr.traqueur.modernfactions.commands.arguments.FactionArgument;
 import fr.traqueur.modernfactions.commands.arguments.FactionMembersArgument;
 import fr.traqueur.modernfactions.commands.arguments.RoleArgument;
 import fr.traqueur.modernfactions.commands.arguments.UserArgument;
-import fr.traqueur.modernfactions.commands.commands.*;
-import fr.traqueur.modernfactions.commands.commands.relations.*;
-import fr.traqueur.modernfactions.commands.commands.roles.*;
-import fr.traqueur.modernfactions.commands.commands.lands.*;
-import fr.traqueur.modernfactions.commands.commands.admin.*;
 import fr.traqueur.modernfactions.configurations.MainConfiguration;
 import fr.traqueur.modernfactions.factions.FFactionsManager;
 import fr.traqueur.modernfactions.lands.FLandsManager;
@@ -56,6 +51,7 @@ public class ModernFactionsPlugin extends FactionsPlugin {
         Config.registerConfiguration(MainConfiguration.class, new MainConfiguration(this));
 
         this.messageUtils = this.isPaperVersion() ? new PaperMessageUtils() : new SpigotMessageUtils(this);
+
         this.commandManager = new CommandManager(this);
         this.commandManager.setMessageHandler(new FactionsCommandsHandler());
         this.commandManager.setLogger(new CommandLogger());

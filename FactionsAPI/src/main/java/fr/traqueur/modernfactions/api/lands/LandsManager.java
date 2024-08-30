@@ -10,9 +10,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public interface LandsManager extends Manager {
 
+    String TABLE_NAME = "lands";
+
     NamespacedKey LAND_OWNER_KEY = new NamespacedKey(JavaPlugin.getProvidingPlugin(FactionsPlugin.class), "factions");
 
     boolean canClaimLand(Chunk chunk, Faction faction);
+
+    Land getLand(Chunk chunk);
 
     boolean isInsideFactionLand(User user);
 

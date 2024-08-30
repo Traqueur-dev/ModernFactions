@@ -72,10 +72,8 @@ public class UsersListener implements Listener {
         Chunk to = event.getTo();
         Chunk from = event.getFrom();
         User user = event.getUser();
-        PersistentDataContainer fromContainer = from.getPersistentDataContainer();
-        PersistentDataContainer toContainer = to.getPersistentDataContainer();
-        Faction fromFaction = fromContainer.getOrDefault(LandsManager.LAND_OWNER_KEY, FactionPersistentDataType.INSTANCE, this.factionsManager.getWilderness());
-        Faction toFaction = toContainer.getOrDefault(LandsManager.LAND_OWNER_KEY, FactionPersistentDataType.INSTANCE, this.factionsManager.getWilderness());
+        Faction fromFaction = this.landsManager.getLandOwner(from);
+        Faction toFaction = this.landsManager.getLandOwner(to);
         if(!fromFaction.getId().equals(toFaction.getId())) {
             landsManager.sendNotification(user, toFaction);
         }

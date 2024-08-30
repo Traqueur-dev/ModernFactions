@@ -2,25 +2,29 @@ package fr.traqueur.modernfactions.lands;
 
 import fr.traqueur.modernfactions.api.FactionsPlugin;
 import fr.traqueur.modernfactions.api.configurations.Config;
+import fr.traqueur.modernfactions.api.dto.LandDTO;
 import fr.traqueur.modernfactions.api.factions.Faction;
 import fr.traqueur.modernfactions.api.factions.FactionPersistentDataType;
 import fr.traqueur.modernfactions.api.factions.FactionsManager;
+import fr.traqueur.modernfactions.api.lands.Land;
 import fr.traqueur.modernfactions.api.lands.LandsManager;
 import fr.traqueur.modernfactions.api.messages.Formatter;
 import fr.traqueur.modernfactions.api.relations.RelationsManager;
 import fr.traqueur.modernfactions.api.relations.RelationsType;
+import fr.traqueur.modernfactions.api.storage.service.Service;
 import fr.traqueur.modernfactions.api.users.User;
 import fr.traqueur.modernfactions.configurations.MainConfiguration;
 import org.bukkit.Chunk;
-import org.bukkit.persistence.PersistentDataContainer;
 
 public class FLandsManager implements LandsManager {
 
     private final FactionsPlugin plugin;
+    private final Service<Land, LandDTO> service;
     private final MainConfiguration landsConfiguration;
 
     public FLandsManager(FactionsPlugin plugin) {
         this.plugin = plugin;
+        this.service = new LandService(plugin, LandsManager.TABLE_NAME);
         this.landsConfiguration = Config.getConfiguration(MainConfiguration.class);
     }
 
@@ -45,9 +49,18 @@ public class FLandsManager implements LandsManager {
 
     @Override
     public Faction getLandOwner(Chunk chunk) {
-        PersistentDataContainer container = chunk.getPersistentDataContainer();
-        FactionsManager factionsManager = this.plugin.getManager(FactionsManager.class);
-        return container.getOrDefault(LAND_OWNER_KEY, FactionPersistentDataType.INSTANCE, factionsManager.getWilderness());
+        return this.getLand(chunk).getFaction();
+    }
+
+    @Override
+    public Land getLand(Chunk chunk) {
+        var list = service.where(new String[] {"x", "z"}, new String[] {String.valueOf(chunk.getX()), String.valueOf(chunk.getZ())});
+        if (list.isEmpty()) {
+            Land land = new FLand(chunk.getWorld(), chunk.getX(), chunk.getZ(), this.plugin.getManager(FactionsManager.class).getWilderness());
+            service.add(land);
+            return land;
+        }
+        return list.getFirst();
     }
 
     @Override
@@ -57,13 +70,12 @@ public class FLandsManager implements LandsManager {
 
     @Override
     public void claimLand(Chunk chunk, Faction faction) {
-        PersistentDataContainer container = chunk.getPersistentDataContainer();
-        Faction landOwner = this.getLandOwner(chunk);
+        Land land = this.getLand(chunk);
+        Faction landOwner = land.getFaction();
         if(!landOwner.isWilderness()) {
             landOwner.removeLand();
         }
-
-        container.set(LAND_OWNER_KEY, FactionPersistentDataType.INSTANCE, faction);
+        land.setFaction(faction);
         if(!faction.isWilderness()) {
             faction.addLand();
         }

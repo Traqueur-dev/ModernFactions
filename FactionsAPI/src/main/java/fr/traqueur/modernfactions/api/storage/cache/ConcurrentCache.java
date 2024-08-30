@@ -55,4 +55,9 @@ public class ConcurrentCache<T extends Data<?>> implements Cache<T> {
     public List<T> values() {
         return new ArrayList<>(this.elements.values());
     }
+
+    @Override
+    public void tag(T data) {
+        this.modifiedKeys.add(data.getId());
+    }
 }
