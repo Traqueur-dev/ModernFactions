@@ -1,6 +1,7 @@
 package fr.traqueur.modernfactions;
 
 import fr.traqueur.commands.api.CommandManager;
+import fr.traqueur.modernfactions.api.FactionsLogger;
 import fr.traqueur.modernfactions.api.FactionsPlugin;
 import fr.traqueur.modernfactions.api.commands.CommandLogger;
 import fr.traqueur.modernfactions.api.commands.FactionsCommandsHandler;
@@ -20,20 +21,16 @@ import fr.traqueur.modernfactions.api.storage.Storage;
 import fr.traqueur.modernfactions.api.storage.service.Service;
 import fr.traqueur.modernfactions.api.users.User;
 import fr.traqueur.modernfactions.api.users.UsersManager;
-import fr.traqueur.modernfactions.api.FactionsLogger;
-import fr.traqueur.modernfactions.commands.*;
-import fr.traqueur.modernfactions.commands.admin.FSetPowerCommand;
+import fr.traqueur.modernfactions.commands.CommandsLoader;
 import fr.traqueur.modernfactions.commands.arguments.FactionArgument;
 import fr.traqueur.modernfactions.commands.arguments.FactionMembersArgument;
 import fr.traqueur.modernfactions.commands.arguments.RoleArgument;
 import fr.traqueur.modernfactions.commands.arguments.UserArgument;
-import fr.traqueur.modernfactions.commands.lands.FClaimCommand;
-import fr.traqueur.modernfactions.commands.lands.FUnclaimCommand;
-import fr.traqueur.modernfactions.commands.relations.*;
-import fr.traqueur.modernfactions.commands.roles.FDemoteCommand;
-import fr.traqueur.modernfactions.commands.roles.FLeaderCommand;
-import fr.traqueur.modernfactions.commands.roles.FPromoteCommand;
-import fr.traqueur.modernfactions.commands.roles.FRoleCommand;
+import fr.traqueur.modernfactions.commands.commands.*;
+import fr.traqueur.modernfactions.commands.commands.relations.*;
+import fr.traqueur.modernfactions.commands.commands.roles.*;
+import fr.traqueur.modernfactions.commands.commands.lands.*;
+import fr.traqueur.modernfactions.commands.commands.admin.*;
 import fr.traqueur.modernfactions.configurations.MainConfiguration;
 import fr.traqueur.modernfactions.factions.FFactionsManager;
 import fr.traqueur.modernfactions.lands.FLandsManager;
@@ -51,6 +48,7 @@ public class ModernFactionsPlugin extends FactionsPlugin {
 
     private MessageUtils messageUtils;
     private CommandManager commandManager;
+    private CommandsLoader commandsLoader;
     private Storage storage;
 
     @Override
@@ -88,29 +86,6 @@ public class ModernFactionsPlugin extends FactionsPlugin {
         this.commandManager.registerConverter(User.class, "faction_member", new FactionMembersArgument(this));
         this.commandManager.registerConverter(Role.class, "role", new RoleArgument());
 
-        this.commandManager.registerCommand(new FCreateCommand(this));
-        this.commandManager.registerCommand(new FDisbandCommand(this));
-        this.commandManager.registerCommand(new FNeutralCommand(this));
-        this.commandManager.registerCommand(new FEnemyAllCommand(this));
-        this.commandManager.registerCommand(new FEnemyCommand(this));
-        this.commandManager.registerCommand(new FTruceCommand(this));
-        this.commandManager.registerCommand(new FAllyCommand(this));
-        this.commandManager.registerCommand(new FInviteCommand(this));
-        this.commandManager.registerCommand(new FJoinCommand(this));
-        this.commandManager.registerCommand(new FLeaveCommand(this));
-        this.commandManager.registerCommand(new FPowerCommand(this));
-        this.commandManager.registerCommand(new FClaimCommand(this));
-        this.commandManager.registerCommand(new FUnclaimCommand(this));
-        this.commandManager.registerCommand(new FPromoteCommand(this));
-        this.commandManager.registerCommand(new FDemoteCommand(this));
-        this.commandManager.registerCommand(new FLeaderCommand(this));
-        this.commandManager.registerCommand(new FRoleCommand(this));
-        this.commandManager.registerCommand(new FSetHomeCommand(this));
-        this.commandManager.registerCommand(new FHomeCommand(this));
-
-        /* Admin Command */
-        this.commandManager.registerCommand(new FSetPowerCommand(this));
-
         this.getServer().getPluginManager().registerEvents(new UsersListener(this), this);
         this.getServer().getPluginManager().registerEvents(new ServerListener(this), this);
         this.getServer().getPluginManager().registerEvents(new MoveListener(this), this);
@@ -120,6 +95,9 @@ public class ModernFactionsPlugin extends FactionsPlugin {
         } else {
             this.getServer().getPluginManager().registerEvents(new SpigotChatListener(this), this);
         }
+
+        this.commandsLoader = new CommandsLoader(this, this.commandManager);
+        this.commandsLoader.loadCommands();
 
         Config.getConfiguration(LangConfiguration.class).loadConfig();
 
@@ -160,5 +138,10 @@ public class ModernFactionsPlugin extends FactionsPlugin {
     @Override
     public MessageUtils getMessageUtils() {
         return messageUtils;
+    }
+
+    @Override
+    public boolean isEnable() {
+        return true;
     }
 }

@@ -1,4 +1,6 @@
 name: ModernFactions
+author: Traqueur_
 version: '${version}'
 main: fr.traqueur.modernfactions.ModernFactionsPlugin
 api-version: '1.20'
+folia-supported: true

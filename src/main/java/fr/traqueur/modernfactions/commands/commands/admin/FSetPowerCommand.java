@@ -1,4 +1,4 @@
-package fr.traqueur.modernfactions.commands.admin;
+package fr.traqueur.modernfactions.commands.commands.admin;
 
 import fr.traqueur.commands.api.Arguments;
 import fr.traqueur.modernfactions.api.FactionsPlugin;

@@ -1,13 +1,9 @@
 package fr.traqueur.modernfactions.commands.arguments;
 
-import fr.traqueur.commands.api.arguments.ArgumentConverter;
-import fr.traqueur.commands.api.arguments.TabConverter;
 import fr.traqueur.modernfactions.api.FactionsPlugin;
 import fr.traqueur.modernfactions.api.factions.Faction;
 import fr.traqueur.modernfactions.api.factions.FactionsManager;
 import fr.traqueur.modernfactions.api.users.User;
-import fr.traqueur.modernfactions.api.users.UsersManager;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

@@ -1,4 +1,4 @@
-package fr.traqueur.modernfactions.commands.roles;
+package fr.traqueur.modernfactions.commands.commands.roles;
 
 import fr.traqueur.commands.api.Arguments;
 import fr.traqueur.modernfactions.api.FactionsPlugin;
@@ -12,13 +12,13 @@ import fr.traqueur.modernfactions.api.users.User;
 import fr.traqueur.modernfactions.configurations.RolesConfiguration;
 import org.bukkit.command.CommandSender;
 
-public class FRoleCommand extends FCommand {
+public class FPromoteCommand extends FCommand {
 
-    public FRoleCommand(FactionsPlugin plugin) {
-        super(plugin, "role");
+    public FPromoteCommand(FactionsPlugin plugin) {
+        super(plugin, "promote");
 
-        this.setUsage("/f role <player> <role>");
-        this.addArgs("user:faction_member", "role:role");
+        this.setUsage("/f promote <player>");
+        this.addArgs("user:faction_member");
         this.addRequirements(FactionRequirement.HAVE_FACTION);
 
         this.setGameOnly(true);
@@ -27,10 +27,9 @@ public class FRoleCommand extends FCommand {
     @Override
     public void execute(CommandSender commandSender, Arguments arguments) {
         RolesConfiguration config = Config.getConfiguration(RolesConfiguration.class);
-
         User user = arguments.get("user");
-        Role role = arguments.get("role");
         User sender = this.getUser(commandSender);
+        Role role = config.getNextPriorityRole(user.getRole());
 
         if (!user.getFaction().getId().equals(sender.getFaction().getId())) {
             sender.sendMessage(Messages.NOT_IN_THE_FACTION_MESSAGE.translate());

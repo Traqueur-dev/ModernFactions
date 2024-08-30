@@ -3,9 +3,9 @@ package fr.traqueur.modernfactions.storages;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import fr.traqueur.modernfactions.api.FactionsLogger;
 import fr.traqueur.modernfactions.api.FactionsPlugin;
 import fr.traqueur.modernfactions.api.storage.Storage;
-import fr.traqueur.modernfactions.api.FactionsLogger;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package fr.traqueur.modernfactions.commands.roles;
+package fr.traqueur.modernfactions.commands.commands.roles;
 
 import fr.traqueur.commands.api.Arguments;
 import fr.traqueur.modernfactions.api.FactionsPlugin;
@@ -12,14 +12,14 @@ import fr.traqueur.modernfactions.api.users.User;
 import fr.traqueur.modernfactions.configurations.RolesConfiguration;
 import org.bukkit.command.CommandSender;
 
-public class FLeaderCommand extends FCommand {
+public class FDemoteCommand extends FCommand {
 
-    public FLeaderCommand(FactionsPlugin plugin) {
-        super(plugin, "leader");
+    public FDemoteCommand(FactionsPlugin plugin) {
+        super(plugin, "demote");
 
-        this.setUsage("/f leader <player>");
+        this.setUsage("/f demote <player>");
         this.addArgs("user:faction_member");
-        this.addRequirements(FactionRequirement.HAVE_FACTION, FactionRequirement.LEADER);
+        this.addRequirements(FactionRequirement.HAVE_FACTION);
 
         this.setGameOnly(true);
     }
@@ -29,15 +29,14 @@ public class FLeaderCommand extends FCommand {
         RolesConfiguration config = Config.getConfiguration(RolesConfiguration.class);
         User user = arguments.get("user");
         User sender = this.getUser(commandSender);
-        Role role = config.getMaxPriorityRole();
+        Role role = config.getPreviousPriorityRole(user.getRole());
+
         if (!user.getFaction().getId().equals(sender.getFaction().getId())) {
             sender.sendMessage(Messages.NOT_IN_THE_FACTION_MESSAGE.translate());
             return;
         }
 
         user.setRole(role);
-        sender.getFaction().setLeader(user.getId());
-        sender.setRole(config.getPreviousPriorityRole(role));
         sender.sendMessage(Messages.ROLE_COMMAND_MESSAGE.translate(Formatter.user(user), Formatter.format("%role%", role.name())));
         user.sendMessage(Messages.RECEIVER_ROLE_COMMAND_MESSAGE.translate(Formatter.format("%role%", role.name())));
     }

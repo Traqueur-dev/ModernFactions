@@ -1,13 +1,13 @@
 package fr.traqueur.modernfactions.storages;
 
 import fr.maxlego08.sarah.*;
+import fr.traqueur.modernfactions.api.FactionsLogger;
 import fr.traqueur.modernfactions.api.FactionsPlugin;
 import fr.traqueur.modernfactions.api.configurations.Config;
 import fr.traqueur.modernfactions.api.factions.FactionsManager;
 import fr.traqueur.modernfactions.api.relations.RelationsManager;
 import fr.traqueur.modernfactions.api.storage.Storage;
 import fr.traqueur.modernfactions.api.users.UsersManager;
-import fr.traqueur.modernfactions.api.FactionsLogger;
 import fr.traqueur.modernfactions.configurations.MainConfiguration;
 import fr.traqueur.modernfactions.migrations.CreateFactionsTableMigration;
 import fr.traqueur.modernfactions.migrations.CreateRelationsTableMigration;

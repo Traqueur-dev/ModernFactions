@@ -6,6 +6,7 @@ import fr.traqueur.modernfactions.api.configurations.Config;
 import fr.traqueur.modernfactions.api.managers.Manager;
 import fr.traqueur.modernfactions.api.messages.LangConfiguration;
 import fr.traqueur.modernfactions.api.messages.MessageUtils;
+import fr.traqueur.modernfactions.api.modules.Module;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -13,7 +14,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
-public abstract class FactionsPlugin extends JavaPlugin implements FactionsAPI {
+public abstract class FactionsPlugin extends JavaPlugin implements FactionsAPI, Module {
 
     public static UUID CONSOLE_UUID = UUID.fromString("00000000-0000-0000-0000-000000000000");
 

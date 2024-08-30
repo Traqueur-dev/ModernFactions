@@ -8,7 +8,6 @@ import fr.traqueur.modernfactions.api.messages.Formatter;
 import fr.traqueur.modernfactions.api.messages.Messages;
 import fr.traqueur.modernfactions.api.relations.Relation;
 import fr.traqueur.modernfactions.api.relations.RelationWish;
-import fr.traqueur.modernfactions.api.relations.RelationsManager;
 import fr.traqueur.modernfactions.api.relations.RelationsType;
 import fr.traqueur.modernfactions.api.users.User;
 import org.bukkit.command.CommandSender;
