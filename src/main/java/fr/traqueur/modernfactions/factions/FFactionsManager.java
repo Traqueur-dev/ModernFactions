@@ -105,8 +105,13 @@ public class FFactionsManager implements FactionsManager {
     }
 
     @Override
-    public Set<Faction> getFactions() {
-        return new HashSet<>(this.service.values());
+    public void joinFaction(User user, Faction faction) {
+        faction.addMember(user);
+    }
+
+    @Override
+    public void setDescription(Faction faction, String desc) {
+        faction.setDescription(desc);
     }
 
     @Override
@@ -125,9 +130,10 @@ public class FFactionsManager implements FactionsManager {
     }
 
     @Override
-    public void joinFaction(User user, Faction faction) {
-        faction.addMember(user);
+    public Set<Faction> getFactions() {
+        return new HashSet<>(this.service.values());
     }
+
 
     @Override
     public FactionsPlugin getPlugin() {

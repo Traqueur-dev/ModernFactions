@@ -1,4 +1,4 @@
-package fr.traqueur.modernfactions.lands;
+package fr.traqueur.modernfactions.api.messages;
 
 public enum NotificationType {
 

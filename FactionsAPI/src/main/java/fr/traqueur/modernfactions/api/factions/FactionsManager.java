@@ -44,4 +44,6 @@ public interface FactionsManager extends Manager {
         Faction getWarZone();
 
         void joinFaction(User user, Faction faction);
+
+        void setDescription(Faction faction, String desc);
 }

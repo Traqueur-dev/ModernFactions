@@ -27,18 +27,18 @@ public abstract class FCommand extends Command<FactionsPlugin> {
         this.landsManager = plugin.getManager(LandsManager.class);
     }
 
-    public User getUser(CommandSender sender) {
+    protected User getUser(CommandSender sender) {
         if(!(sender instanceof Player player)) {
             throw new IllegalArgumentException("Command sender must be a player.");
         }
         return this.usersManager.getUser(player).orElseThrow(() -> new IllegalArgumentException("User not found."));
     }
 
-    public void aliases(String... aliases) {
+    protected void aliases(String... aliases) {
         this.addAlias(Stream.of(aliases).map(alias -> "f." + alias).toArray(String[]::new));
     }
 
-    public void permission(Permissions permissions) {
+    protected void permission(Permissions permissions) {
         this.setPermission(permissions.getPermission());
     }
 }
