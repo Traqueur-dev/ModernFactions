@@ -2,6 +2,7 @@ package fr.traqueur.modernfactions.users;
 
 import com.tcoded.folialib.wrapper.task.WrappedTask;
 import fr.traqueur.modernfactions.api.FactionsPlugin;
+import fr.traqueur.modernfactions.api.chatmode.ChatMode;
 import fr.traqueur.modernfactions.api.configurations.Config;
 import fr.traqueur.modernfactions.api.dto.UserDTO;
 import fr.traqueur.modernfactions.api.factions.Faction;
@@ -74,7 +75,7 @@ public class FUsersManager implements UsersManager {
         }
         Role defaultRole = Config.getConfiguration(RolesConfiguration.class).getDefaultRole();
         int defaultPower = Config.getConfiguration(MainConfiguration.class).getDefaultUserPower();
-        User user = new FUser(plugin, player.getUniqueId(),player.getName(), factionsManager.getWilderness().getId(), defaultRole.name(), defaultPower);
+        User user = new FUser(plugin, player.getUniqueId(),player.getName(), factionsManager.getWilderness().getId(), defaultRole.name(), defaultPower, ChatMode.PUBLIC);
         this.service.add(user);
         return user;
     }
@@ -102,6 +103,11 @@ public class FUsersManager implements UsersManager {
     @Override
     public List<User> getUsers() {
         return this.service.values();
+    }
+
+    @Override
+    public void setChatMode(User user, ChatMode chatMode) {
+        user.setChatMode(chatMode);
     }
 
     @Override

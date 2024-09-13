@@ -1,5 +1,6 @@
 package fr.traqueur.modernfactions.api.users;
 
+import fr.traqueur.modernfactions.api.chatmode.ChatMode;
 import fr.traqueur.modernfactions.api.dto.UserDTO;
 import fr.traqueur.modernfactions.api.factions.Faction;
 import fr.traqueur.modernfactions.api.factions.roles.Role;
@@ -44,6 +45,10 @@ public interface User extends Data<UserDTO> {
     void addPower(int power);
 
     void removePower(int power);
+
+    ChatMode getChatMode();
+
+    void setChatMode(ChatMode chatMode);
 
     default void addPower() {
         this.addPower(1);

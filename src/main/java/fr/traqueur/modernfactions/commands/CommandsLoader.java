@@ -58,6 +58,7 @@ public class CommandsLoader {
         this.registerCommand(new FSetHomeCommand(plugin), plugin);
         this.registerCommand(new FHomeCommand(plugin), plugin);
         this.registerCommand(new FDescCommand(plugin), plugin);
+        this.registerCommand(new FChatCommand(plugin), plugin);
 
         this.registerCommand(new FSetPowerCommand(plugin), plugin);
     }

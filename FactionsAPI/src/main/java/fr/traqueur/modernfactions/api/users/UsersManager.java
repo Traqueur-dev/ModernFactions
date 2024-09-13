@@ -1,9 +1,11 @@
 package fr.traqueur.modernfactions.api.users;
 
 import fr.traqueur.modernfactions.api.FactionsPlugin;
+import fr.traqueur.modernfactions.api.chatmode.ChatMode;
 import fr.traqueur.modernfactions.api.factions.Faction;
 import fr.traqueur.modernfactions.api.managers.Manager;
 import org.bukkit.NamespacedKey;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -34,4 +36,6 @@ public interface UsersManager extends Manager {
     Optional<User> getUserByName(String s);
 
     List<User> getUsers();
+
+    void setChatMode(User user, ChatMode chatMode);
 }

@@ -51,8 +51,8 @@ home_teleport_error_message: "<red>Vous ne pouvez pas téléporter au home de vo
 home_cooldown_message: "<red>Vous devez attendre %time% avant de vous téléporter au home de votre faction."
 start_home_teleport_message: "<green>Vous serez téléporté au home de votre faction dans %time%."
 home_not_set_message: "<red>Le home de la faction n'est pas défini."
-description_changed_message: "<yellow>%user% <green>a changé la description de la faction.\n <yellow>%description%"
-
+description_changed_message: "<yellow>%user% <green>a changé la description de la faction. <gray>Nouvelle description : <yellow>%description%"
+chat_mode_set_message: "<yellow>Vous <green>avez défini le mode de chat à %chatmode%<green>."
 
 wilderness_description: "La nature est un endroit où vous pouvez construire votre base."
 safezone_description: "La zone sûre est un endroit où vous ne pouvez pas être attaqué."

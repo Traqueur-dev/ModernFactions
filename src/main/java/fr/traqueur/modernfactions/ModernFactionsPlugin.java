@@ -3,6 +3,7 @@ package fr.traqueur.modernfactions;
 import fr.traqueur.commands.api.CommandManager;
 import fr.traqueur.modernfactions.api.FactionsLogger;
 import fr.traqueur.modernfactions.api.FactionsPlugin;
+import fr.traqueur.modernfactions.api.chatmode.ChatMode;
 import fr.traqueur.modernfactions.api.commands.CommandLogger;
 import fr.traqueur.modernfactions.api.commands.FactionsCommandsHandler;
 import fr.traqueur.modernfactions.api.configurations.Config;
@@ -22,10 +23,7 @@ import fr.traqueur.modernfactions.api.storage.service.Service;
 import fr.traqueur.modernfactions.api.users.User;
 import fr.traqueur.modernfactions.api.users.UsersManager;
 import fr.traqueur.modernfactions.commands.CommandsLoader;
-import fr.traqueur.modernfactions.commands.arguments.FactionArgument;
-import fr.traqueur.modernfactions.commands.arguments.FactionMembersArgument;
-import fr.traqueur.modernfactions.commands.arguments.RoleArgument;
-import fr.traqueur.modernfactions.commands.arguments.UserArgument;
+import fr.traqueur.modernfactions.commands.arguments.*;
 import fr.traqueur.modernfactions.configurations.MainConfiguration;
 import fr.traqueur.modernfactions.factions.FFactionsManager;
 import fr.traqueur.modernfactions.lands.FLandsManager;
@@ -77,6 +75,7 @@ public class ModernFactionsPlugin extends FactionsPlugin {
             service.loadAll();
         }
 
+        this.commandManager.registerConverter(ChatMode.class, "chatmode", new ChatModeArgument());
         this.commandManager.registerConverter(Faction.class, "faction", new FactionArgument(this));
         this.commandManager.registerConverter(User.class, "user", new UserArgument(this));
         this.commandManager.registerConverter(User.class, "faction_member", new FactionMembersArgument(this));

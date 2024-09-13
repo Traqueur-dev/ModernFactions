@@ -1,6 +1,7 @@
 package fr.traqueur.modernfactions.api.messages;
 
 import fr.traqueur.modernfactions.api.FactionsPlugin;
+import fr.traqueur.modernfactions.api.chatmode.ChatMode;
 import fr.traqueur.modernfactions.api.factions.Faction;
 import fr.traqueur.modernfactions.api.relations.RelationsType;
 import fr.traqueur.modernfactions.api.users.User;
@@ -61,6 +62,11 @@ public class Formatter {
 
     public static Formatter warzoneDescription() {
         return format("%warzone_description%", ressourcefulBeesLikeAPI -> Messages.WARZONE_DESCRIPTION.translate());
+    }
+
+    public static Formatter chatMode(ChatMode chatMode) {
+        return format("%chatmode%", ressourcefulBeesLikeAPI ->
+                chatMode.getColor() + chatMode.name());
     }
 
     public String handle(FactionsPlugin api, String message) {

@@ -8,4 +8,6 @@ public record UserDTO(@Column(value = "unique_id", primary = true) UUID unique_i
                       String name,
                       UUID faction,
                       String role,
-                      Integer power) {}
+                      Integer power,
+                      String chatmode) {}
+

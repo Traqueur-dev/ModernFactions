@@ -1,6 +1,7 @@
 package fr.traqueur.modernfactions.users;
 
 import fr.traqueur.modernfactions.api.FactionsPlugin;
+import fr.traqueur.modernfactions.api.chatmode.ChatMode;
 import fr.traqueur.modernfactions.api.configurations.Config;
 import fr.traqueur.modernfactions.api.dto.UserDTO;
 import fr.traqueur.modernfactions.api.factions.Faction;
@@ -21,17 +22,19 @@ public class FUser implements User {
     private final FactionsPlugin plugin;
     private final UUID uuid;
     private final String name;
+    private ChatMode chatMode;
     private String role;
     private UUID factionId;
     private int power;
 
-    public FUser(FactionsPlugin plugin, UUID uuid, String name, UUID faction, String role, int power) {
+    public FUser(FactionsPlugin plugin, UUID uuid, String name, UUID faction, String role, int power, ChatMode chatMode) {
         this.plugin = plugin;
         this.uuid = uuid;
         this.name = name;
         this.factionId = faction;
         this.role = role;
         this.power = power;
+        this.chatMode = chatMode;
     }
 
     @Override
@@ -67,7 +70,7 @@ public class FUser implements User {
 
     @Override
     public UserDTO toDTO() {
-        return new UserDTO(this.uuid, this.name, this.factionId, this.role, this.power);
+        return new UserDTO(this.uuid, this.name, this.factionId, this.role, this.power, this.chatMode.name());
     }
 
     @Override
@@ -140,5 +143,15 @@ public class FUser implements User {
         this.power -= power;
         int minPower = Config.getConfiguration(MainConfiguration.class).getMinUserPower();
         this.power = Math.max(this.power, minPower);
+    }
+
+    @Override
+    public ChatMode getChatMode() {
+        return this.chatMode;
+    }
+
+    @Override
+    public void setChatMode(ChatMode chatMode) {
+        this.chatMode = chatMode;
     }
 }
