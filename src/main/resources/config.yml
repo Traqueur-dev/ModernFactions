@@ -36,3 +36,8 @@ default-user-power: 5
 
 # Delay to teleport a player to the faction home in seconds
 delay-teleport-home: 5
+
+public-chat-format: "%role%%faction% <white>%player% : %message%"
+ally-chat-format: "%color%%faction% %player% <white>: %message%"
+truce-chat-format: "%color%%faction% %player% <white>: %message%"
+faction-chat-format: "%role%%faction% %player% <white>: %message%"

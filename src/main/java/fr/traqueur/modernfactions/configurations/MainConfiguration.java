@@ -31,6 +31,10 @@ public class MainConfiguration implements Config {
     private int minUserPower;
     private int defaultUserPower;
     private int delayTeleportHome;
+    private String publicChatFormat;
+    private String truceChatFormat;
+    private String allyChatFormat;
+    private String factionChatFormat;
 
     public MainConfiguration(FactionsPlugin plugin) {
         this.plugin = plugin;
@@ -141,6 +145,23 @@ public class MainConfiguration implements Config {
                 throw new RuntimeException("An error occurred while saving the configuration file.", e);
             }
         }
+
+        this.publicChatFormat = config.getString("chat-public-format");
+        this.truceChatFormat = config.getString("chat-truce-format");
+        this.allyChatFormat = config.getString("chat-ally-format");
+        this.factionChatFormat = config.getString("chat-faction-format");
+    }
+
+    public String getPublicChatFormat() {
+        return this.publicChatFormat;
+    }
+
+    public String getTruceChatFormat() {
+        return this.truceChatFormat;
+    }
+
+    public String getAllyChatFormat() {
+        return this.allyChatFormat;
     }
 
     public StorageType getStorageType() {
@@ -207,5 +228,9 @@ public class MainConfiguration implements Config {
 
     public int getDelayTeleportHome() {
         return delayTeleportHome;
+    }
+
+    public String getFactionChatFormat() {
+        return this.factionChatFormat;
     }
 }

@@ -38,4 +38,6 @@ public interface UsersManager extends Manager {
     List<User> getUsers();
 
     void setChatMode(User user, ChatMode chatMode);
+
+    String getFormat(ChatMode chatMode);
 }
