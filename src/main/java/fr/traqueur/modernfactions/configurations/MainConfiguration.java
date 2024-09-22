@@ -35,9 +35,11 @@ public class MainConfiguration implements Config {
     private String truceChatFormat;
     private String allyChatFormat;
     private String factionChatFormat;
+    private boolean load;
 
     public MainConfiguration(FactionsPlugin plugin) {
         this.plugin = plugin;
+        this.load = false;
     }
 
     @Override
@@ -150,6 +152,13 @@ public class MainConfiguration implements Config {
         this.truceChatFormat = config.getString("chat.truce-format");
         this.allyChatFormat = config.getString("chat.ally-format");
         this.factionChatFormat = config.getString("chat.faction-format");
+
+        this.load = true;
+    }
+
+    @Override
+    public boolean isLoad() {
+        return this.load;
     }
 
     public String getPublicChatFormat() {

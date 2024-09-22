@@ -23,10 +23,12 @@ public class LangConfiguration implements Config {
     private final FactionsPlugin plugin;
     private final Map<String, YamlDocument> langs;
     private YamlDocument lang;
+    private boolean load;
 
     public LangConfiguration(FactionsPlugin plugin) {
         this.plugin = plugin;
         this.langs = new HashMap<>();
+        this.load = false;
     }
 
     @Override
@@ -72,6 +74,11 @@ public class LangConfiguration implements Config {
         if(missing.get()) {
             this.plugin.getServer().getPluginManager().disablePlugin(this.plugin);
         }
+        this.load = true;
+    }
 
+    @Override
+    public boolean isLoad() {
+        return this.load;
     }
 }

@@ -67,7 +67,7 @@ public class ModernFactionsPlugin extends FactionsPlugin {
         this.registerManager(new FRelationsManager(this), RelationsManager.class);
 
         for (Config configuration : Config.REGISTRY.values()) {
-            if(configuration instanceof MainConfiguration || configuration instanceof LangConfiguration) {
+            if(configuration.isLoad() || configuration instanceof LangConfiguration) {
                 continue;
             }
             configuration.loadConfig();

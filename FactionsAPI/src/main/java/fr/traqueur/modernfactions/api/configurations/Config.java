@@ -44,4 +44,6 @@ public interface Config {
 
     void loadConfig();
 
+    boolean isLoad();
+
 }

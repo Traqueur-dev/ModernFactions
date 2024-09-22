@@ -16,11 +16,12 @@ public class RolesConfiguration implements Config {
     private final FactionsPlugin plugin;
     private final List<Role> roles;
     private Role defaultRole;
+    private boolean load;
 
     public RolesConfiguration(FactionsPlugin plugin) {
         this.plugin = plugin;
         this.roles = new ArrayList<>();
-
+        this.load = false;
     }
 
     @Override
@@ -42,6 +43,7 @@ public class RolesConfiguration implements Config {
 
         this.defaultRole = this.getRoleByName(config.getString("default-role"));
         FactionsLogger.info("&eLoaded " + this.roles.size() + " faction role.");
+        this.load = true;
     }
 
     public List<Role> getRoles() {
@@ -70,5 +72,10 @@ public class RolesConfiguration implements Config {
 
     public Role getPreviousPriorityRole(Role role) {
         return this.roles.stream().filter(r -> r.power() < role.power()).max(Comparator.comparingInt(Role::power)).orElse(this.getMinProrityRole());
+    }
+
+    @Override
+    public boolean isLoad() {
+        return load;
     }
 }
