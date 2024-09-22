@@ -26,7 +26,7 @@ public class FAllyCommand extends RelationCommand {
 
         RelationsType oldRelation = this.relationsManager.getRelationBetween(emitter, receiver);
         if (oldRelation == RelationsType.ALLY) {
-            user.sendMessage(Messages.ALREADY_RELATION_MESSAGE.translate(Formatter.relation(oldRelation)));
+            user.sendMessage(Messages.ALREADY_RELATION_MESSAGE.translate(Formatter.relation(oldRelation), Formatter.faction(receiver)));
             return;
         }
         emitter.getRelationWish(receiver, RelationsType.ALLY).ifPresentOrElse(acceptRelation(emitter, receiver, RelationsType.ALLY), wishRelation(emitter, receiver, user, RelationsType.ALLY));

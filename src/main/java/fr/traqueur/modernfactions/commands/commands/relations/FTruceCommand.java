@@ -26,7 +26,7 @@ public class FTruceCommand extends RelationCommand {
 
         RelationsType oldRelation = this.relationsManager.getRelationBetween(emitter, receiver);
         if (oldRelation == RelationsType.TRUCE) {
-            user.sendMessage(Messages.ALREADY_RELATION_MESSAGE.translate(Formatter.relation(oldRelation)));
+            user.sendMessage(Messages.ALREADY_RELATION_MESSAGE.translate(Formatter.relation(oldRelation), Formatter.faction(receiver)));
             return;
         }
 

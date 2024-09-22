@@ -37,9 +37,7 @@ public abstract class RelationCommand extends FCommand {
     public abstract void executeCommand(CommandSender commandSender, Arguments arguments);
 
     protected void relation(Faction emitter, Faction receiver, RelationsType type, boolean all) {
-        this.relationsManager.getRelation(emitter, receiver).ifPresent(relation -> {
-            this.relationsManager.removeRelation(relation);
-        });
+        this.relationsManager.getRelation(emitter, receiver).ifPresent(this.relationsManager::removeRelation);
 
         Relation relation = this.relationsManager.createRelation(emitter, receiver, type);
         this.relationsManager.addRelation(relation);
@@ -52,9 +50,7 @@ public abstract class RelationCommand extends FCommand {
 
     protected Consumer<RelationWish> acceptRelation(Faction emitter, Faction receiver, RelationsType type) {
         return relationWish -> {
-            this.relationsManager.getRelation(emitter, receiver).ifPresent(relation -> {
-                this.relationsManager.removeRelation(relation);
-            });
+            this.relationsManager.getRelation(emitter, receiver).ifPresent(this.relationsManager::removeRelation);
             Relation relation = relationWish.conclude(emitter);
             receiver.removeRelationWish(emitter, type);
             emitter.removeRelationWish(receiver, type);
