@@ -56,6 +56,8 @@ public class ModernFactionsPlugin extends FactionsPlugin {
 
         Config.getConfiguration(MainConfiguration.class).loadConfig();
 
+        this.commandManager.setDebug(Config.getConfiguration(MainConfiguration.class).isDebug());
+
         this.storage = this.registerStorage();
         this.storage.onEnable();
 

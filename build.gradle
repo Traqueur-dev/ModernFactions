@@ -44,7 +44,7 @@ allprojects {
         implementation "net.kyori:adventure-text-minimessage:4.17.0"
         implementation "net.kyori:adventure-api:4.17.0"
         implementation "net.kyori:adventure-platform-bukkit:4.3.4"
-        implementation "com.github.Traqueur-dev:CommandsAPI:1.5.0"
+        implementation "com.github.Traqueur-dev:CommandsAPI:1.5.1"
         //implementation "fr.traqueur:CommandsAPI:1.4.2"
     }
 
