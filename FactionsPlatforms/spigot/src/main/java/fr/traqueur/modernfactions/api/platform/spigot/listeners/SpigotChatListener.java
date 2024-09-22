@@ -1,28 +1,24 @@
-package fr.traqueur.modernfactions.chatmode;
+package fr.traqueur.modernfactions.api.platform.spigot.listeners;
 
 import fr.traqueur.modernfactions.api.FactionsPlugin;
 import fr.traqueur.modernfactions.api.chatmode.ChatMode;
 import fr.traqueur.modernfactions.api.chatmode.UserScopeMessageException;
-import fr.traqueur.modernfactions.api.relations.RelationsManager;
 import fr.traqueur.modernfactions.api.users.User;
 import fr.traqueur.modernfactions.api.users.UsersManager;
-import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-public class ChatListener implements Listener {
+public class SpigotChatListener implements Listener {
 
     private final FactionsPlugin plugin;
     private final UsersManager usersManager;
-    private final RelationsManager relationsManager;
 
-    public ChatListener(FactionsPlugin plugin) {
+    public SpigotChatListener(FactionsPlugin plugin) {
         this.plugin = plugin;
         this.usersManager = plugin.getManager(UsersManager.class);
-        this.relationsManager = plugin.getManager(RelationsManager.class);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
