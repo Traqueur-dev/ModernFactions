@@ -3,7 +3,6 @@ package fr.traqueur.modernfactions.users;
 import fr.traqueur.modernfactions.api.FactionsPlugin;
 import fr.traqueur.modernfactions.api.events.UserChunkMoveEvent;
 import fr.traqueur.modernfactions.api.factions.Faction;
-import fr.traqueur.modernfactions.api.factions.FactionPersistentDataType;
 import fr.traqueur.modernfactions.api.factions.FactionsManager;
 import fr.traqueur.modernfactions.api.lands.LandsManager;
 import fr.traqueur.modernfactions.api.messages.Messages;

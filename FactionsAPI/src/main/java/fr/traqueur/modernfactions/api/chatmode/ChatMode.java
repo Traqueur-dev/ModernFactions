@@ -1,27 +1,25 @@
 package fr.traqueur.modernfactions.api.chatmode;
 
 import fr.traqueur.modernfactions.api.FactionsPlugin;
-import fr.traqueur.modernfactions.api.configurations.Config;
 import fr.traqueur.modernfactions.api.factions.Faction;
-import fr.traqueur.modernfactions.api.messages.Formatter;
 import fr.traqueur.modernfactions.api.relations.RelationsManager;
 import fr.traqueur.modernfactions.api.relations.RelationsType;
 import fr.traqueur.modernfactions.api.users.User;
 import fr.traqueur.modernfactions.api.users.UsersManager;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
+
+import java.util.List;
 
 public enum ChatMode {
 
-    PUBLIC(RelationsType.NEUTRAL,"p", "pub"),
-    FACTION(RelationsType.OWN,"f", "fac") ,
-    ALLY(RelationsType.ALLY,"a"),
-    TRUCE(RelationsType.TRUCE,"t"),;
+    PUBLIC(List.of(RelationsType.NEUTRAL),"p", "pub"),
+    FACTION(List.of(RelationsType.OWN),"f", "fac") ,
+    ALLY(List.of(RelationsType.ALLY),"a"),
+    TRUCE(List.of(RelationsType.TRUCE, RelationsType.ALLY),"t"),;
 
-    private RelationsType type;
+    private final List<RelationsType> type;
     private final String[] aliases;
 
-    ChatMode(RelationsType type, String... aliases) {
+    ChatMode(List<RelationsType> type, String... aliases) {
         this.aliases = aliases;
         this.type = type;
     }
@@ -30,7 +28,7 @@ public enum ChatMode {
         return aliases;
     }
 
-    public RelationsType getType() {
+    public List<RelationsType> getType() {
         return type;
     }
 
@@ -39,7 +37,7 @@ public enum ChatMode {
         RelationsManager relationsManager = plugin.getManager(RelationsManager.class);
         String prefix = source.getRole().prefix();
         var type = relationsManager.getRelationBetween(faction, target.getFaction());
-        if (this != ChatMode.PUBLIC && type != this.getType() && type != RelationsType.OWN) {
+        if (this != ChatMode.PUBLIC && !this.getType().contains(type) && type != RelationsType.OWN) {
             throw new UserScopeMessageException();
         }
         return plugin.getManager(UsersManager.class).getFormat(this)
@@ -47,7 +45,7 @@ public enum ChatMode {
                 .replace("%relation_color%", type.getColor())
                 .replace("%role%", prefix)
                 .replace("%faction%", faction.getName())
-                .replace("%color_format%", this.getType().getColor())
+                .replace("%color_format%", this.getType().getFirst().getColor())
                 .replace("%message%", message);
     }
 

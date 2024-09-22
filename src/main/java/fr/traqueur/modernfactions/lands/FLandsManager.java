@@ -4,7 +4,6 @@ import fr.traqueur.modernfactions.api.FactionsPlugin;
 import fr.traqueur.modernfactions.api.configurations.Config;
 import fr.traqueur.modernfactions.api.dto.LandDTO;
 import fr.traqueur.modernfactions.api.factions.Faction;
-import fr.traqueur.modernfactions.api.factions.FactionPersistentDataType;
 import fr.traqueur.modernfactions.api.factions.FactionsManager;
 import fr.traqueur.modernfactions.api.lands.Land;
 import fr.traqueur.modernfactions.api.lands.LandsManager;

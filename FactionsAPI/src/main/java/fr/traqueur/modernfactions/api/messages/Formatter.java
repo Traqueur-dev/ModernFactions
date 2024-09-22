@@ -66,7 +66,7 @@ public class Formatter {
 
     public static Formatter chatMode(ChatMode chatMode) {
         return format("%chatmode%", ressourcefulBeesLikeAPI ->
-                chatMode.getType().getColor() + chatMode.name());
+                chatMode.getType().getFirst().getColor() + chatMode.name());
     }
 
     public String handle(FactionsPlugin api, String message) {
