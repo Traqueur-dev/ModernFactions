@@ -44,9 +44,10 @@ public enum ChatMode {
         }
         return plugin.getManager(UsersManager.class).getFormat(this)
                 .replace("%player%", source.getPlayer().getDisplayName())
-                .replace("%role%", type.getColor() + prefix)
+                .replace("%relation_color%", type.getColor())
+                .replace("%role%", prefix)
                 .replace("%faction%", faction.getName())
-                .replace("%color%", type.getColor())
+                .replace("%color_format%", this.getType().getColor())
                 .replace("%message%", message);
     }
 

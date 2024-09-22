@@ -146,10 +146,10 @@ public class MainConfiguration implements Config {
             }
         }
 
-        this.publicChatFormat = config.getString("chat-public-format");
-        this.truceChatFormat = config.getString("chat-truce-format");
-        this.allyChatFormat = config.getString("chat-ally-format");
-        this.factionChatFormat = config.getString("chat-faction-format");
+        this.publicChatFormat = config.getString("chat.public-format");
+        this.truceChatFormat = config.getString("chat.truce-format");
+        this.allyChatFormat = config.getString("chat.ally-format");
+        this.factionChatFormat = config.getString("chat.faction-format");
     }
 
     public String getPublicChatFormat() {

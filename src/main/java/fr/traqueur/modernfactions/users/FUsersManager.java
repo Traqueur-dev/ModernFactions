@@ -112,15 +112,12 @@ public class FUsersManager implements UsersManager {
 
     @Override
     public String getFormat(ChatMode chatMode) {
+        var config = Config.getConfiguration(MainConfiguration.class);
         return switch (chatMode) {
-            case PUBLIC:
-                yield Config.getConfiguration(MainConfiguration.class).getPublicChatFormat();
-            case FACTION:
-                yield Config.getConfiguration(MainConfiguration.class).getFactionChatFormat();
-            case ALLY:
-                yield Config.getConfiguration(MainConfiguration.class).getAllyChatFormat();
-            case TRUCE:
-                yield Config.getConfiguration(MainConfiguration.class).getTruceChatFormat();
+            case PUBLIC -> config.getPublicChatFormat();
+            case FACTION -> config.getFactionChatFormat();
+            case ALLY -> config.getAllyChatFormat();
+            case TRUCE -> config.getTruceChatFormat();
         };
     }
 
